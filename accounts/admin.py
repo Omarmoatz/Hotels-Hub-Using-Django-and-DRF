@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import User,Profile
 
-# Register your models here.
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'gender', 'verified', 'created_at']
+    list_filter = ['country', 'verified', 'created_at']
+
+admin.site.register(User)
+admin.site.register(Profile, ProfileAdmin)
