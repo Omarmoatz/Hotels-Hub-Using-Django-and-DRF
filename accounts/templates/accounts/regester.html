@@ -1,5 +1,8 @@
-<h1>sign up page</h1>
-<form action="post">
+
+<h1 class="bg-danger">sign up page</h1>
+<form method="post">
+    {% csrf_token %}
+    
     {{ form.full_name }}
     {{ form.username }}
     {{ form.email }}
@@ -7,3 +10,4 @@
     {{ form.password2 }}
     <button type="submit">sign up</button>
 </form>
+<h1>{{ form.errors }}</h1>
