@@ -35,3 +35,11 @@ class ProfileForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter The Code',
                                                          'class':'form-control-lg w-100 border border-1'}))
     
+class LogInForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = [
+            'email',
+            'password'
+        ]

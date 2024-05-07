@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 
 from .models import User,Profile
-from .forms import UserForm,ProfileForm
+from .forms import UserForm,ProfileForm,LogInForm
 
 
 def sign_up(request):
@@ -53,3 +53,9 @@ def activate(request,username):
     else:
         form = ProfileForm()
     return render(request, 'accounts/activation.html', {'form':form})
+
+
+def login(request):
+    form = LogInForm
+
+    return render(request, 'accounts/login.html', {'form':form})
