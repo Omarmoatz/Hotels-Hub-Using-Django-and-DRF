@@ -3,14 +3,26 @@
 {% block body %}  
     <div class="container my-5">
         <div class="row text-center">
-            <h4>sign up</h4>
+            <h3>sign up</h3>
             <p>hey there create a free account today and very easy </p>
             <div class="col-lg-6 mt-5">
                 
-                <form class="form-control my-5 bg-white shadow-lg rounded-3 "  method="post">
-                    <p>{{ form.errors }}</p>
+                <form class="form-control my-5 bg-white shadow-lg rounded-3"  method="post">
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger my-2">
+                        <ul type="none">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
                     {% csrf_token %}
-                    <div class="my-3">
+                    <div class="my-4">
                         {{ form.full_name }}
                     </div>
                     

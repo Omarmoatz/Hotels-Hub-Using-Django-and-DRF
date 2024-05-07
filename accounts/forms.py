@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import User
+from .models import User,Profile
 
 class UserForm(UserCreationForm):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your Full Name',
@@ -28,3 +28,12 @@ class UserForm(UserCreationForm):
                 'email',
                 'password1',
                 'password2']
+        
+        
+class ProfileForm(forms.ModelForm):
+    code = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter The Code',
+                                                         'class':'form-control-lg w-100 border border-1'}))
+    
+    class Meta:
+        model = Profile
+        fields = ['code']

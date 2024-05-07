@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}  
+    <div class="container my-5 ">
+        <div class="row text-center justify-content-center">
+            <h4>Activation Form</h4>
+            <p>we had send you the activation code use it to activate your acount </p>
+            <div class="col-lg-5 mt-5">
+                
+                <form class="form-control my-5 bg-white shadow-lg rounded-3 "  method="post">
+                    {% csrf_token %}
+                    <div class="my-3">
+                        {{ form }}
+                    </div>
+                     
+                    <button class="btn btn-warning w-100 my-2" type="submit">sign up</button>
+                </form>
+                <p>already have an account <a href="">login</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

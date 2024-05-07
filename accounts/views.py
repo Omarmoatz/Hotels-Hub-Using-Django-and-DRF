@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 
 from .models import User,Profile
-from .forms import UserForm
+from .forms import UserForm,ProfileForm
 
 
 def sign_up(request):
@@ -27,8 +27,26 @@ def sign_up(request):
                 [settings.EMAIL_BACKEND]
             )
 
-            return redirect(f'accounts/activate/{username}')
+            return redirect(f'/accounts/activate/{username}')
              
     else:
         form =UserForm()
     return render(request, 'accounts/regester.html', {'form':form})
+
+
+def activate(request,username):
+    profile = Profile.objects.get(user__username=username)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            code = profile.code
+            input_Code = form.cleaned_data['code']
+            if input_Code == code: 
+                code = ''
+                profile.user.is_active = True
+                profile.save()
+                profile.user.save()
+                return redirect('/')
+    else:
+        form = ProfileForm()
+    return render(request, 'accounts/activation.html', {'form':form})
