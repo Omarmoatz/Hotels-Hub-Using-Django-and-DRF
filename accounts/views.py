@@ -47,6 +47,9 @@ def activate(request,username):
                 profile.save()
                 profile.user.save()
                 return redirect('/')
+            else:
+                error = 'Invalid activation code'
+                return render(request, 'accounts/activation.html', {'form': form, 'error': error})
     else:
         form = ProfileForm()
     return render(request, 'accounts/activation.html', {'form':form})

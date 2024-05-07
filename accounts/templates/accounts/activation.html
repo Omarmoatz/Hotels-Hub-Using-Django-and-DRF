@@ -11,9 +11,14 @@
                     {% csrf_token %}
                     <div class="my-3">
                         {{ form }}
+
+                        <div class="alert alert-danger my-2">
+                            {{ error}}
+                        </div>
+                        
                     </div>
                      
-                    <button class="btn btn-warning w-100 my-2" type="submit">sign up</button>
+                    <button class="btn btn-warning w-100 my-2" type="submit">activate</button>
                 </form>
                 <p>already have an account <a href="">login</a></p>
             </div>

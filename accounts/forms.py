@@ -29,11 +29,9 @@ class UserForm(UserCreationForm):
                 'password1',
                 'password2']
         
+
         
-class ProfileForm(forms.ModelForm):
+class ProfileForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter The Code',
                                                          'class':'form-control-lg w-100 border border-1'}))
     
-    class Meta:
-        model = Profile
-        fields = ['code']
