@@ -36,7 +36,11 @@ class ProfileForm(forms.Form):
                                                          'class':'form-control-lg w-100 border border-1'}))
     
 class LogInForm(forms.ModelForm):
-
+    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your Username or Email',
+                                                              'class':'form-control-lg w-100 border border-1'}))
+    
+    password = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your Password',
+                                                              'class':'form-control-lg w-100 border border-1'}))
     class Meta:
         model = User
         fields = [

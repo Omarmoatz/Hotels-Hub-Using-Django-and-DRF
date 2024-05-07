@@ -1,10 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block body %}  
+    <div class="container my-5">
+        <div class="row text-center">
+            <h1 class="text-warning bg-dark w-auto mx-auto mb-5 py-1 px-3">HOTELIER</h1>
+            <h3>Welcome!</h3>
+            <p>Use Your Email or Username and Password to Access</p>
+            <div class="col-lg-6 mt-5">
+                
+                <form class="form-control my-5 bg-white shadow-lg rounded-3"  method="post">
 
-{% block body %}
-    <div>
-        <form method="post">
-            {{ form }}
-        </form>
+                    {% if form.errors %}
+                    <div class="alert alert-danger my-2">
+                        <ul type="none">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% csrf_token %}
+                    <div class="my-4">
+                        {{ form.email }}
+                    </div>
+                    <div class="my-4">
+                        {{ form.password }}
+                    </div> 
+                    <button class="btn btn-warning w-100 my-2" type="submit">Login</button>
+                </form>
+                <p>Don't Have any Accounts ? <a href="{% url 'accounts:sign_up' %}">Regester Now</a></p>
+            </div>
+
+            <div class="col-lg-6">
+                <img src="{% static 'img/Login.png' %}" class="img-fluid w-75"
+                data-wow-delay="0.4s" alt="img">
+            </div>
+        </div>
     </div>
 {% endblock body %}
-    
