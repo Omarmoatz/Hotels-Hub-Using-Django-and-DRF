@@ -9,7 +9,7 @@
             <div class="col-lg-6 mt-5">
                 
                 <form class="form-control my-5 bg-white shadow-lg rounded-3"  method="post">
-
+                    <h3 class="text-center text-warning py-2">Regester</h3>
                     {% if form.errors %}
                     <div class="alert alert-danger my-2">
                         <ul type="none">
@@ -39,7 +39,7 @@
                     <div class="mb-3">
                         {{ form.password2 }}
                     </div> 
-                    <button class="btn btn-warning w-100 my-2" type="submit">Sign Up</button>
+                    <button class="btn btn-warning w-100 my-2" type="submit">Regester</button>
                 </form>
                 <p>Already Have An Account <a href="{% url 'accounts:login' %}">Login</a></p>
             </div>

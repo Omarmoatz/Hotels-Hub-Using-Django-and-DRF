@@ -35,15 +35,10 @@ class ProfileForm(forms.Form):
     code = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter The Code',
                                                          'class':'form-control-lg w-100 border border-1'}))
     
-class LogInForm(forms.ModelForm):
-    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your Username or Email',
+    
+class LoginForm(forms.Form):
+    email = forms.CharField(label='Username', widget=forms.TextInput(attrs={'placeholder':'Enter Your Username or Email',
                                                               'class':'form-control-lg w-100 border border-1'}))
     
-    password = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your Password',
-                                                              'class':'form-control-lg w-100 border border-1'}))
-    class Meta:
-        model = User
-        fields = [
-            'email',
-            'password'
-        ]
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder':'Enter Your Password',
+                                                                            'class':'form-control-lg w-100 border border-1'}))

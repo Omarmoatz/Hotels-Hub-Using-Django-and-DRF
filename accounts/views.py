@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from django.core.exceptions import ValidationError
-
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 from .models import User,Profile
-from .forms import UserForm,ProfileForm,LogInForm
+from .forms import UserForm,ProfileForm,LoginForm
 
 
 def sign_up(request):
@@ -55,7 +55,33 @@ def activate(request,username):
     return render(request, 'accounts/activation.html', {'form':form})
 
 
-def login(request):
-    form = LogInForm
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, 'Invalid Password.')
+                    
+                 
+                else:
+                    messages.error(request, 'Invalid Email.')
+                    
+                #     # Check if the username is incorrect
+                # user_by_username = authenticate(username=username, password='')
+                # if user_by_username is None:
+                #     messages.error(request, 'Invalid username.')
+                # else:
+                #     # Check if the password is incorrect
+                #     messages.error(request, 'Invalid password.')
+
+    else:
+        form =LoginForm()
 
     return render(request, 'accounts/login.html', {'form':form})

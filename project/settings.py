@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'accounts',
 
     # 3rd party Apps
-    "django_bootstrap5",
 
 ]
 
@@ -317,3 +316,6 @@ JAZZMIN_UI_TWEAKS = {
 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+LOGOUT_REDIRECT_URL = '/login/'

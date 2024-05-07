@@ -11,16 +11,17 @@ GENDER = (
 )
 
 class User(AbstractUser):
-    full_name = models.CharField( max_length=200 ,blank=True, null=True)
-    username = models.CharField( max_length=200 ,unique=True)
-    email = models.EmailField( max_length=300 , unique=True)
-    gender = models.CharField( max_length=200, choices=GENDER, blank=True, null=True)
-    phone = models.CharField( max_length=200 ,blank=True, null=True)
+    full_name = models.CharField(max_length=200, blank=True, null=True)
+    username = models.CharField(max_length=200, unique=True)
+    email = models.EmailField(max_length=300, unique=True)
+    gender = models.CharField(max_length=200, choices=GENDER, blank=True, null=True)
+    phone = models.CharField(max_length=200, blank=True, null=True)
 
     # USERNAME_FIELD : to make the user login with what i want 
-    USERNAME_FIELD = "email" or "username"
-    REQUIRED_FIELDS = ["username"]
-    
+    USERNAME_FIELD = "email"  # Change this line to specify the field for authentication
+    EMAIL_FIELD = "email"  # Add this line to specify the email field for authentication
+    REQUIRED_FIELDS = ['username']  # Add this line to specify the required fields for user creation
+
     def __str__(self):
         return self.username
 
