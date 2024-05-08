@@ -26,7 +26,7 @@ def sign_up(request):
                 'omar@gmail.com',
                 [settings.EMAIL_BACKEND]
             )
-
+            
             return redirect(f'/accounts/activate/{username}')
              
     else:
@@ -46,6 +46,7 @@ def activate(request,username):
                 profile.user.is_active = True
                 profile.save()
                 profile.user.save()
+                messages.success(request, 'Your Account is Activated')
                 return redirect('/')
             else:
                 error = 'Invalid activation code'
@@ -64,6 +65,7 @@ def login_view(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
+                messages.success(request, f'Hey {user}, Welcome Back')
                 return redirect('/')
             else:
                 if User.objects.filter(email=email).exists():
