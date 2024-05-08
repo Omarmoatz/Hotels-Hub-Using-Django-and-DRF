@@ -94,7 +94,8 @@
                                 </div>
                                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                             </div>
-                            <a href="https://htmlcodex.com/hotel-html-template-pro" class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Premium Version<i class="fa fa-arrow-right ms-3"></i></a>
+                            <a href="{% url 'accounts:login' %}" class="btn btn-primary rounded-2 py-2 px-md-3 d-lg-block ">login<i class="fa fa-arrow-right ms-3"></i></a>
+                            <a href="/admin/" class="btn btn-primary rounded-2 py-2 px-md-3  d-lg-block me-3">dashboard<i class="fa fa-arrow-right ms-3"></i></a>
                         </div>
                     </nav>
                 </div>
@@ -194,6 +195,9 @@
             </div>
         </div>
         <!-- Footer End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <script>
         {% for message in messages %}
