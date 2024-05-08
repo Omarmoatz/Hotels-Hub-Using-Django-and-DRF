@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # my apps
     'accounts',
+    'home',
 
     # 3rd party Apps
 
