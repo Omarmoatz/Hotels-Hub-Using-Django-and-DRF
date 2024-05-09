@@ -37,7 +37,7 @@ class ProfileForm(forms.Form):
     
     
 class LoginForm(forms.Form):
-    email = forms.CharField(label='Username', widget=forms.TextInput(attrs={'placeholder':'Enter Your Username or Email',
+    email = forms.CharField(label='Username', widget=forms.TextInput(attrs={'placeholder':'Enter Your Email',
                                                               'class':'form-control-lg w-100 border border-1'}))
     
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'placeholder':'Enter Your Password',

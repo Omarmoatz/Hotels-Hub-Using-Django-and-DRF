@@ -46,7 +46,7 @@ def activate(request,username):
                 profile.user.is_active = True
                 profile.save()
                 profile.user.save()
-                messages.success(request, 'Your Account is Activated')
+                messages.success(request, 'Your Account is Activated You Can Now Login')
                 return redirect('accounts:login')
             else:
                 error = 'Invalid activation code'

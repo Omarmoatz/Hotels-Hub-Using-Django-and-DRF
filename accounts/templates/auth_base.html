@@ -65,6 +65,15 @@
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        {% for message in messages %}
+            Swal.fire({
+                icon: "{{ message.tags }}",
+                title: "{{ message}}",
+                timer: 2000,
+            });
+        {% endfor %}
+    </script>
 </body>
 
 </html>
