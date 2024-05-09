@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 
 from .models import User,Profile
@@ -47,7 +47,7 @@ def activate(request,username):
                 profile.save()
                 profile.user.save()
                 messages.success(request, 'Your Account is Activated')
-                return redirect('/')
+                return redirect('accounts:login')
             else:
                 error = 'Invalid activation code'
                 return render(request, 'accounts/activation.html', {'form': form, 'error': error})
@@ -87,3 +87,8 @@ def login_view(request):
         form =LoginForm()
 
     return render(request, 'accounts/login.html', {'form':form})
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'You have been logged out')
+    return redirect('/')
