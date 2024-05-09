@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import MainSettings
+
+class MainSettingsAdmin(admin.ModelAdmin):
+    list_display = ('logo_tag', 'name', 'email', 'phone')
+
+admin.site.register(MainSettings, MainSettingsAdmin)
