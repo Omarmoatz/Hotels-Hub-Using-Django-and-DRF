@@ -20,4 +20,4 @@ class MainSettings(models.Model):
         verbose_name_plural = 'MainSettings'
 
     def logo_tag(self):
-        return mark_safe(f'<img src="{self.logo.url}" width="150" height="70" />')
+        return mark_safe(f'<img src="{self.logo.url}" width="150" height="70"/>')
