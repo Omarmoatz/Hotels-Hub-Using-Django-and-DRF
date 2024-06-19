@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Hotel(models.Model):
+    user = ''
     name = ''
     img = ''
     description = ''
@@ -9,11 +10,11 @@ class Hotel(models.Model):
     address = ''
     email = ''
     rating = ''
-    slug = ''
-    created_at = ''
     tag = ''' sale - new - hot - top - featured - special - popular - 
-            best - offer - discount - cheap - luxury - deal - budget - unique 
-            - trend - exclusive - amazing - great - super'''
+        best - offer - discount - cheap - luxury - deal - budget - unique 
+        - trend - exclusive - amazing - great - super'''
+    created_at = ''
+    slug = ''
 
     
 
@@ -34,8 +35,51 @@ class RoomType(models.Model):
     img = ''
     beds_num = ''
     room_size = ''
-    slug = ''
     created_at = ''
+    slug = ''
+
+
+class Room(models.Model):
+    hotel = ''
+    room_type = ''
+    room_num = ''
+    is_available = ''
+    created_at = ''
+    slug = ''
+
+    def price():
+        ''
+    def beds_num():
+        ''
+
+
+class Booking(models.Model):
+    user = ''
+    payment_status = ''
+
+    full_name = ''
+    phone = ''
+    email = ''
+
+    hotel = ''
+    room_type = ''
+    room = ''
+    before_discount = ''
+    total = ''
+    money_saved = ''
+    
+    check_in_date = ''
+    check_out_date = ''
+    total_days = ''
+    num_adults = ''
+    num_children = ''
+
+    check_in = ''
+    check_out = ''
+    
+    created_at = ''
+    
+
 
 
 

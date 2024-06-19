@@ -24,6 +24,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    def save(self, *args, **kwargs):
+        if self.full_name == "" or self.full_name == None:
+            self.full_name = f'{self.first_name} {self.last_name}' 
+    
+        super(User, self).save(*args, **kwargs)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE)
