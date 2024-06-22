@@ -45,38 +45,61 @@ class Hotel(models.Model):
     
 
 class HotelGallery(models.Model):
-    Hotel = models.ForeignKey( Hotel, related_name='hotel_gallery', on_delete=models.CASCADE)
+    hotel = models.ForeignKey( Hotel, related_name='hotel_gallery', on_delete=models.CASCADE)
     img = models.ImageField( upload_to='hotel gallery/' )
 
+    def __str__(self):
+        return str(self.Hotel)
+    
 class HotelFeatures(models.Model):
-    Hotel = models.ForeignKey( Hotel, related_name='hotel_gallery', on_delete=models.CASCADE)
+    hotel = models.ForeignKey( Hotel, related_name='hotel_features', on_delete=models.CASCADE)
     icon = models.CharField( max_length=100, choices=ICON_FEATURES, blank=True, null=True)
     feature = models.CharField( max_length=500, default='defaul_name', blank=True, null=True)
 
+    def __str__(self):
+        return self.feature
+    
 class RoomType(models.Model):
-    hotel = ''
-    title = ''
-    price = ''
-    img = ''
-    beds_num = ''
-    room_size = ''
-    created_at = ''
-    slug = ''
+    hotel = models.ForeignKey( Hotel, related_name='hotel_room_type', on_delete=models.CASCADE)
+    title = models.CharField( max_length=500, default='defaul_name', blank=True, null=True)
+    price_start = models.DecimalField( max_digits=7, decimal_places=2)
+    price_end = models.DecimalField( max_digits=7, decimal_places=2)
+    img = models.ImageField( upload_to='room type/' )
+    beds_num = models.PositiveIntegerField()    
+    room_size = models.PositiveIntegerField()
+    created_at = models.DateTimeField( default=timezone.now)
+    slug = models.SlugField( blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Hotel, self).save(*args, **kwargs) 
+
 
 
 class Room(models.Model):
-    hotel = ''
-    room_type = ''
-    room_num = ''
-    is_available = ''
-    created_at = ''
-    slug = ''
+    hotel = models.ForeignKey( Hotel, related_name='hotel_room', on_delete=models.CASCADE)
+    room_type = models.ForeignKey( RoomType, related_name='room_type', on_delete=models.CASCADE)
+    room_num = models.PositiveIntegerField()
+    view = models.CharField( max_length=500, default='defaul_view', blank=True, null=True)
+    is_available = models.BooleanField(default=True)
+    created_at = models.DateTimeField( default=timezone.now)
+    slug = models.SlugField( blank=True, null=True)
 
-    def price():
-        ''
-    def beds_num():
-        ''
+    def price(self):
+        self.room_type.price
 
+    def beds_num(self):
+        self.room_type.beds_num
+
+    def __str__(self):
+        return self.room_num
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.room_num)
+        super(Hotel, self).save(*args, **kwargs) 
 
 class Booking(models.Model):
     user = ''
@@ -103,8 +126,7 @@ class Booking(models.Model):
     check_out = ''
     
     created_at = ''
-
-
+    booking_code = ''
 
 
 
