@@ -141,6 +141,8 @@ class Booking(models.Model):
     created_at = models.DateTimeField( default=timezone.now, blank=True, null=True)
     booking_code = models.CharField( max_length=500, default=get_random_string(10), blank=True, null=True)
 
+    def __str__(self):
+        return f'{str(self.user)}----{self.hotel}'
 
 
 class Review(models.Model):
@@ -149,3 +151,6 @@ class Review(models.Model):
     content = models.TextField( max_length=1000, blank=True, null=True)
     rate = models.CharField( max_length=50, choices=RATE)
     created_at = models.DateTimeField(default=timezone.now, blank=True, null=True)
+
+    def __str__(self):
+        return f'{str(self.user)}----{self.hotel}'
