@@ -1,3 +1,7 @@
+from django.views import generic
 from django.shortcuts import render
 
-# Create your views here.
+from . import models
+
+class HotelList(generic.ListView):
+    model = models.Hotel
