@@ -64,7 +64,7 @@ class HotelGallery(models.Model):
     img = models.ImageField( upload_to='hotel gallery/' )
 
     def __str__(self):
-        return str(self.Hotel)
+        return str(self.hotel)
     
 class HotelFeatures(models.Model):
     hotel = models.ForeignKey( Hotel, related_name='hotel_features', on_delete=models.CASCADE)
