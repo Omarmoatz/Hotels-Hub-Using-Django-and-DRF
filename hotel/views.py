@@ -16,5 +16,6 @@ class HotelDetail(generic.DetailView):
         context['hotel_gallery'] =  models.HotelGallery.objects.filter(hotel=self.get_object())
         context['hotel_features'] =  models.HotelFeatures.objects.filter(hotel=self.get_object())
         context['room_type'] = models.RoomType.objects.filter(hotel=self.get_object())  
+        context['review'] = models.Review.objects.filter(hotel=self.get_object())  
         return context
         

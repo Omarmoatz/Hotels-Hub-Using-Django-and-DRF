@@ -30,11 +30,11 @@ PAYMENT_METHOD = (
     ("paypal","paypal")
 )
 RATE = (
-    (1,1),
-    (2,2),
-    (3,3),
-    (4,4),
-    (5,5)
+    ('1',"1"),
+    ('2','2'),
+    ('3',"3"),
+    ('4','4'),
+    ('5','5')
 )
 class Hotel(models.Model):
     user = models.ForeignKey(User, related_name='user_hotel', on_delete=models.CASCADE)
@@ -79,7 +79,6 @@ class RoomType(models.Model):
     title = models.CharField( max_length=500, default='defaul_name', blank=True, null=True)
     price_start = models.DecimalField( max_digits=7, decimal_places=2)
     price_end = models.DecimalField( max_digits=7, decimal_places=2)
-    img = models.ImageField( upload_to='room type/' )
     beds_num = models.PositiveIntegerField()    
     room_size = models.PositiveIntegerField()
     created_at = models.DateTimeField( default=timezone.now)
@@ -90,7 +89,7 @@ class RoomType(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(Hotel, self).save(*args, **kwargs) 
+        super(RoomType, self).save(*args, **kwargs) 
 
 
 
