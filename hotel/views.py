@@ -4,7 +4,7 @@ from django.views import generic
 from django.shortcuts import render
 
 from . import models
-
+from utils import random_numbers
 class HotelList(generic.ListView):
     model = models.Hotel
 
@@ -17,5 +17,6 @@ class HotelDetail(generic.DetailView):
         context['hotel_features'] =  models.HotelFeatures.objects.filter(hotel=self.get_object())
         context['room_type'] = models.RoomType.objects.filter(hotel=self.get_object())  
         context['review'] = models.Review.objects.filter(hotel=self.get_object())  
+        context['related_hotels'] = models.Hotel.objects.all()[:2]  
         return context
         
