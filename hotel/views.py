@@ -17,6 +17,7 @@ class HotelDetail(generic.DetailView):
         context['hotel_features'] =  models.HotelFeatures.objects.filter(hotel=self.get_object())
         context['room_type'] = models.RoomType.objects.filter(hotel=self.get_object())  
         context['review'] = models.Review.objects.filter(hotel=self.get_object())  
-        context['related_hotels'] = models.Hotel.objects.all()[:2]  
+        context['related_hotels'] = models.Hotel.objects.all()[:3]  
+        # context['related_hotels'] = models.Hotel.objects.all()[:random_numbers]  
         return context
         

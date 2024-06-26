@@ -38,9 +38,9 @@ RATE = (
 )
 class Hotel(models.Model):
     user = models.ForeignKey(User, related_name='user_hotel', on_delete=models.CASCADE)
-    name = models.CharField(max_length=500, default='defaul_name', blank=True, null=True)
+    name = models.CharField(max_length=200, default='defaul_name', blank=True, null=True)
     img = models.ImageField( upload_to='hotel/')
-    subtitle = models.TextField(max_length=900, blank=True, null=True)
+    subtitle = models.TextField(max_length=400, blank=True, null=True)
     description = models.TextField(max_length=5000, blank=True, null=True)
     min_price = models.DecimalField( max_digits=7, decimal_places=2, blank=True, null=True)
     phone = models.CharField(max_length=500, default='defaul_phone', blank=True, null=True)
