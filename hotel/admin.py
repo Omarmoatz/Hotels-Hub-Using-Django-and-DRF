@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 
 from . import models
 
@@ -13,11 +14,12 @@ class RoomsInline(admin.TabularInline):
     model = models.Room
 class RivewInline(admin.TabularInline):
     model = models.Review
-class HotelAdmin(admin.ModelAdmin):
+class HotelAdmin(SummernoteModelAdmin):
     inlines = [HotelGalleryTabular, HotelFeaturesInline, RoomTypeInline, RoomsInline, RivewInline]
-    list_display = ['name', 'min_price', 'address', 'user']
-    list_filter = ['name', 'min_price']
-    search_fields = ['name', 'min_price']
+    list_display = ('name', 'min_price', 'address', 'user')
+    list_filter = ('name', 'min_price')
+    search_fields = ('name', 'min_price')
+    summernote_fields = ('description', )
 
 
 admin.site.register(models.Hotel, HotelAdmin)

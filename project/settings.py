@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'hotel',
 
     # 3rd party Apps
+    'django_summernote',
 
 ]
 

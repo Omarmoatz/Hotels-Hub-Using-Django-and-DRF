@@ -43,6 +43,7 @@ class Hotel(models.Model):
     subtitle = models.TextField(max_length=400, blank=True, null=True)
     description = models.TextField(max_length=5000, blank=True, null=True)
     min_price = models.DecimalField( max_digits=7, decimal_places=2, blank=True, null=True)
+    max_price = models.DecimalField( max_digits=7, decimal_places=2, blank=True, null=True)
     phone = models.CharField(max_length=500, default='defaul_phone', blank=True, null=True)
     address = models.CharField(max_length=500, default='defaul_address', blank=True, null=True)
     email = models.EmailField(max_length=500, default='defaul_email', blank=True, null=True)
@@ -117,7 +118,7 @@ class Room(models.Model):
 
 class Booking(models.Model):
     user = models.ForeignKey(User, related_name='booked_user', on_delete=models.CASCADE)
-    payment_status = models.CharField( max_length=50, choices=PAYMENT_METHOD)
+    payment_method = models.CharField( max_length=50, choices=PAYMENT_METHOD, blank=True, null=True)
 
     full_name = models.CharField( max_length=500, blank=True, null=True)
     phone = models.CharField( max_length=500, blank=True, null=True)

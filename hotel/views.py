@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from . import models
 from utils import random_numbers
+
 class HotelList(generic.ListView):
     model = models.Hotel
 
@@ -20,4 +21,10 @@ class HotelDetail(generic.DetailView):
         context['related_hotels'] = models.Hotel.objects.all()[:3]  
         # context['related_hotels'] = models.Hotel.objects.all()[:random_numbers]  
         return context
+    
+class BookingHotel(generic.CreateView):
+    model = models.Booking
+    fields = ['full_name', 'email', 'room_type']
+    success_url = ''
+    
         
