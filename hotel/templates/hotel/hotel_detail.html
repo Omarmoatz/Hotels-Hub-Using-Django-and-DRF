@@ -210,8 +210,9 @@
                                 <span class="align-bottom fs-6 lh-lg">Now</span>
                             </div>
                                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-                                    <form>
+                                    <form action="{% url 'hotel:check_avilabilty' object.slug %}">
                                         <div class="row g-3">
+                                            {{form}}
                                             <div class="col-md-12">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="name" placeholder="Your Name">
@@ -235,7 +236,8 @@
                                                   </div>
                                             </div>
                                             <div class="col-12">
-                                                <a href="check_availability.html" class="btn btn-primary w-100 py-3" type="submit">Check Avilability</a>
+                                                <button 
+                                                class="btn btn-primary w-100 py-3" type="submit">Check Avilability</button>
                                             </div>
                                         </div>
                                     </form>

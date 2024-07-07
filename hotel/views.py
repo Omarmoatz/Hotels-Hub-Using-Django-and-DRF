@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.views import generic
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from . import models
 from utils import random_numbers
@@ -22,9 +22,17 @@ class HotelDetail(generic.DetailView):
         # context['related_hotels'] = models.Hotel.objects.all()[:random_numbers]  
         return context
     
-class BookingHotel(generic.CreateView):
+class CheckAvilability(generic.CreateView):
     model = models.Booking
-    fields = ['full_name', 'email', 'room_type']
-    success_url = ''
+    fields = '__all__'
+    template_name = 'hotel/check_availability.html'
+    success_url = 'hotel/'
+
+    def form_valid(self, form):
+        slug = self.kwargs['slug']
+        hotel = get_object_or_404(models.hotel, slug=slug)
+        form.instance.hotel = hotel
+        # self.success_url = f'/hotels/{slug}/ckeck_avilability/'
+        return super().form_valid(form)  
     
         
