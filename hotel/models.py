@@ -126,7 +126,7 @@ class Booking(models.Model):
 
     hotel = models.ForeignKey( Hotel, related_name='hotel_booked', on_delete=models.CASCADE)
     room_type = models.ForeignKey( RoomType, related_name='booked_room_type', on_delete=models.CASCADE)
-    room =  models.ForeignKey( Room, related_name='booked_room', on_delete=models.CASCADE)
+    room =  models.ForeignKey( Room, related_name='booked_room', on_delete=models.CASCADE, blank=True, null=True)
     before_discount = models.DecimalField( max_digits=9, decimal_places=2, blank=True, null=True)
     total = models.DecimalField( max_digits=9, decimal_places=2, blank=True, null=True)
     money_saved = models.DecimalField( max_digits=7, decimal_places=2, blank=True, null=True)

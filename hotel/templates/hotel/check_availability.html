@@ -152,55 +152,56 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form>
+                            <form method="post">
+                                {% csrf_token %}
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                            <label for="name">Your Name</label>
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
+                                            <label for="name">Your Full Name</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
                                             <label for="email">Your Email</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating date" id="date3" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
+                                            <input type="text" class="form-control datetimepicker-input" id="checkin" name="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
                                             <label for="checkin">Check In</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating date" id="date4" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input" id="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
+                                            <input type="text" class="form-control datetimepicker-input" id="checkout" name="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
                                             <label for="checkout">Check Out</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select class="form-select" id="select1">
+                                            <select class="form-select" id="select1" name="adults">
                                                 <option value="1">Adult 1</option>
                                                 <option value="2">Adult 2</option>
                                                 <option value="3">Adult 3</option>
                                             </select>
                                             <label for="select1">Select Adult</label>
-                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <select class="form-select" id="select2">
+                                            <select class="form-select" id="select2" name="children">
                                                 <option value="1">Child 1</option>
                                                 <option value="2">Child 2</option>
                                                 <option value="3">Child 3</option>
                                             </select>
                                             <label for="select2">Select Child</label>
-                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
+                                            <textarea class="form-control" placeholder="Special Request" id="message" name="special_request" style="height: 100px"></textarea>
                                             <label for="message">Special Request</label>
                                         </div>
                                     </div>
@@ -209,13 +210,15 @@
                                     </div>
                                 </div>
                             </form>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div>
-            <a href="hotel_detail.html" class="btn btn-primary w-25 align-items-center">Go Back To Hotel Details </a>
+            <a href="" class="btn btn-primary w-25 align-items-center">Go Back To Hotel Details </a>
         </div>
+        {% comment %} {% url 'hotel:check_avilabilty' object.slug %} {% endcomment %}
 
 {% endblock body %}
