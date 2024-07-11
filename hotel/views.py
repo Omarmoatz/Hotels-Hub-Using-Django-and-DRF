@@ -31,26 +31,31 @@ class CheckAvilability(generic.CreateView):
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
-    #     context["room_type"] = models.RoomType.objects.filter(hotel =self.get_object().hotel)
+    #     context["room_type"] = models.RoomType.objects.filter(hotel =self.get_object())
     #     return context
     
 
     def form_valid(self, form):
         slug = self.kwargs['slug']
+        room_type = self.kwargs['room_type']
         user = self.request.user
 
         hotel = get_object_or_404(models.Hotel, slug=slug)
-        room = models.Room.objects.filter(hotel=hotel)
-        room_type = models.RoomType.objects.filter(hotel=hotel)
+        # room_type = models.RoomType.objects.filter(hotel=hotel)
+        room = models.Room.objects.filter(hotel=hotel, room_type=room_type)
+
+        print( hotel, room, room_type,'-------------------')
 
         form.instance.hotel = hotel
         form.instance.room = room
         form.instance.room_type = room_type
+
 
         if user.is_authenticated:
             form.instance.user = user
 
         # self.success_url = f'/hotels/{slug}/ckeck_avilability/'
         return super().form_valid(form)  
+    
     
         

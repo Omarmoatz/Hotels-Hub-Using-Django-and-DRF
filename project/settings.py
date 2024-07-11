@@ -41,14 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 3rd party Apps
+    'django_summernote',
+
     # my apps
     'accounts',
     'home',
     'hotel',
-
-    # 3rd party Apps
-    'django_summernote',
-
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
+from django.db.models.aggregates import  Avg
 
 from accounts.models import User
 
@@ -47,10 +48,17 @@ class Hotel(models.Model):
     phone = models.CharField(max_length=500, default='defaul_phone', blank=True, null=True)
     address = models.CharField(max_length=500, default='defaul_address', blank=True, null=True)
     email = models.EmailField(max_length=500, default='defaul_email', blank=True, null=True)
-    rating = models.PositiveIntegerField( blank=True, null=True)
+    # rating = models.PositiveIntegerField( blank=True, null=True)
     tag = models.CharField( max_length=500, default='defaul_name', choices=TAG_CHOICES, blank=True, null=True)
     created_at = models.DateTimeField( default=timezone.now)
     slug = models.SlugField( blank=True, null=True)
+
+    def avg_rating(self):
+        avg = self.hotel_review.aggregate(avg_rate=Avg('rate'))
+        if not avg['avg_rate']:
+            result = 0
+            return result
+        return round(avg['avg_rate'],2) 
 
     def __str__(self):
         return self.name
@@ -110,11 +118,11 @@ class Room(models.Model):
         self.room_type.beds_num
 
     def __str__(self):
-        return self.room_num
+        return str(self.room_type)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.room_num)
-        super(Hotel, self).save(*args, **kwargs) 
+        super(Room, self).save(*args, **kwargs) 
 
 class Booking(models.Model):
     user = models.ForeignKey(User, related_name='booked_user', on_delete=models.CASCADE)

@@ -210,7 +210,7 @@
                                 <span class="align-bottom fs-6 lh-lg">Now</span>
                             </div>
                                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-                                    <form action="{% url 'hotel:check_avilabilty' object.slug %}">
+                                    <form action="{% url 'hotel:check_avilabilty' object.slug  %}">
                                         <div class="row g-3">
                                             {{form}}
                                             <div class="col-md-12">
@@ -229,7 +229,7 @@
                                                 <div class="form-floating">
                                                     <select class="form-select" id="select3">
                                                     {% for item in room_type %}
-                                                      <option value="1">{{item}}</option>
+                                                      <option value="1" name='room_type'>{{item}}</option>
                                                     {% endfor %}
                                                     </select>
                                                     <label for="select3">Select A Room Type</label>

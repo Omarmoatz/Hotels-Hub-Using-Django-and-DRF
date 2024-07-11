@@ -80,11 +80,12 @@
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                             <small class="bg-primary text-white rounded py-1 px-3">${{ item.min_price }} /Night</small>
                                             <div class="ps-2">
-                                                <i class="fa fa-star text-primary"></i>
-                                                <i class="fa fa-star text-primary"></i>
-                                                <i class="fa fa-star text-primary"></i>
-                                                <i class="fa fa-star text-primary"></i>
-                                                <i class="fa fa-star text-primary"></i>
+                                                <i>({{item.hotel_review.all|length}}) </i>
+                                                <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+                                                <i class="{% if item.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+                                                <i class="{% if item.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+                                                <i class="{% if item.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+                                                <i class="{% if item.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
                                             </div>
                                         </div>
                                         <h5 class="mb-3">{{ item.name}}  </h5>

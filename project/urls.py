@@ -25,7 +25,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('hotels/', include('hotel.urls')),
 
-    # path('summernote/', include('django_summernote.urls')),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:
