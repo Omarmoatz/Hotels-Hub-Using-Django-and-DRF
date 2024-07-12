@@ -120,6 +120,7 @@
                                                     <p>  {{item.price_start}} $ -> {{item.price_end}} $</p>
                                                 </div>
                                             </div>
+                                            <a href="{% url 'hotel:room_type_detail' object.slug item.id  %}">view more</a>
                                             
                                         </li>
                                     {% endfor %}
@@ -210,7 +211,7 @@
                                 <span class="align-bottom fs-6 lh-lg">Now</span>
                             </div>
                                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-                                    <form action="{% url 'hotel:check_avilabilty' object.slug  %}">
+                                    <form action="{% url 'booking:check_avilabilty' object.slug  %}">
                                         <div class="row g-3">
                                             {{form}}
                                             <div class="col-md-12">

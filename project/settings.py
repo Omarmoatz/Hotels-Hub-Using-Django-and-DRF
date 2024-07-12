@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'home',
     'hotel',
+    'booking',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

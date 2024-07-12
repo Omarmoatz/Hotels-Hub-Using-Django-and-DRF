@@ -8,4 +8,5 @@ app_name = 'hotel'
 urlpatterns = [
     path('', views.HotelList.as_view(), name='hotel_list' ),
     path('<slug:slug>/', views.HotelDetail.as_view(), name='hotel_detail' ),
+    path('<slug:slug>/<int:pk>/', views.RoomTypeDetail.as_view(), name='room_type_detail' ),
 ]

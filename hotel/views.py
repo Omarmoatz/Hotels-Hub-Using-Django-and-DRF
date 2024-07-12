@@ -21,6 +21,11 @@ class HotelDetail(generic.DetailView):
         # context['related_hotels'] = models.Hotel.objects.all()[:random_numbers]  
         return context
     
+
+
+class RoomTypeDetail(generic.DetailView):
+    model = models.RoomType
+    
     
     
         
