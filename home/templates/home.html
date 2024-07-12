@@ -11,7 +11,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
                                     <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
-                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Hotels</a>
+                                    <a href="{% url 'hotel:hotel_list' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Hotels</a>
                                     <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Hotel</a>
                                 </div>
                             </div>
@@ -22,7 +22,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
                                     <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
-                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Hotels</a>
+                                    <a href="{% url 'hotel:hotel_list' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Hotels</a>
                                     <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Hotel</a>
                                 </div>
                             </div>
@@ -181,16 +181,16 @@
                                         </div>
                                         <div class='d-flex mb-1'>
                                             <small class=" "><i
-                                                 class="fa fa-map-marker-alt text-primary me-2"></i>Address: {{ item.address}}</small>
+                                                 class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address}}</small>
                                         </div>
 
                                         <div class='d-flex mb-1'>
                                             <small class=" "><i
-                                                    class="fa fa-phone text-primary me-2"></i>Phone: {{ item.phone }}</small>
+                                                    class="fa fa-phone text-primary me-2"></i><b>Phone:</b> {{ item.phone }}</small>
                                         </div>
 
                                         <div class='d-flex mb-4'>
-                                            <small><i class="fa fa-envelope text-primary me-2"></i>Email: {{ item.email }}</small>
+                                            <small><i class="fa fa-envelope text-primary me-2"></i><b>Email:</b> {{ item.email }}</small>
                                         </div>
                                         
                                         <p class="text-body mb-3">{{ item.subtitle }}</p>
@@ -217,7 +217,7 @@
                             <h6 class="section-title text-start text-white text-uppercase mb-3">Luxury Living</h6>
                             <h1 class="text-white mb-4">Discover A Brand Luxurious Hotel</h1>
                             <p class="text-white mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Our Hotels</a>
+                            <a href="{% url 'hotel:hotel_list' %}" class="btn btn-primary py-md-3 px-md-5 me-3">Our Hotels</a>
                             <a href="" class="btn btn-light py-md-3 px-md-5">Book A Hotel</a>
                         </div>
                     </div>

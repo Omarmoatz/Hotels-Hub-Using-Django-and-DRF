@@ -58,7 +58,7 @@ class Hotel(models.Model):
         if not avg['avg_rate']:
             result = 0
             return result
-        return round(avg['avg_rate'],2) 
+        return round(avg['avg_rate'],1) 
 
     def __str__(self):
         return self.name
