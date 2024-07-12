@@ -23,4 +23,3 @@ class HotelAdmin(SummernoteModelAdmin):
 
 
 admin.site.register(models.Hotel, HotelAdmin)
-admin.site.register(models.Booking)
