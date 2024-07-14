@@ -26,6 +26,10 @@ class HotelDetail(generic.DetailView):
 class RoomTypeDetail(generic.DetailView):
     model = models.RoomType
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["rooms"] = models.Room.objects.filter(room_type=self.get_object(), is_available=True)
+        return context
     
     
         

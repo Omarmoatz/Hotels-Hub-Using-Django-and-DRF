@@ -100,15 +100,16 @@ class Room(models.Model):
     room_type = models.ForeignKey( RoomType, related_name='room_type', on_delete=models.CASCADE)
     room_num = models.PositiveIntegerField()
     view = models.CharField( max_length=500, default='defaul_view', blank=True, null=True)
+    price = models.DecimalField( max_digits=7, decimal_places=2, blank=True, null=True)
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField( default=timezone.now)
     slug = models.SlugField( blank=True, null=True)
 
-    def price(self):
-        self.room_type.price
-
     def beds_num(self):
         self.room_type.beds_num
+
+    def room_size(self):
+        self.room_type.room_size
 
     def __str__(self):
         return str(self.room_type)
