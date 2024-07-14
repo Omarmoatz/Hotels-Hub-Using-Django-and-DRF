@@ -120,7 +120,7 @@
                                                     <p>  {{item.price_start}} $ -> {{item.price_end}} $</p>
                                                 </div>
                                             </div>
-                                            <a href="{% url 'hotel:room_type_detail' object.slug item.id  %}">view more</a>
+                                            <a href="{% url 'hotel:room_type_detail' object.slug item.slug  %}">view more</a>
                                             
                                         </li>
                                     {% endfor %}
