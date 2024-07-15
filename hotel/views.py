@@ -25,18 +25,12 @@ class HotelDetail(generic.DetailView):
 
 class RoomTypeDetail(generic.DetailView):
     model = models.RoomType
-    # queryset = models.RoomType.objects.filter(slug=self.kwargs['rslug'])
+    context_object_name = 'room_type'
 
-    def get_queryset(self):
-        queryset = super().get_queryset().filter(slug=self.kwargs['room_type_slug'])
-        return queryset
-    
-    def get_object(self, queryset=None):
-        if queryset is None:
-            queryset = self.get_queryset()
-        # Return the single item from the filtered queryset
-        obj = get_object_or_404(queryset)
-        return obj
+    def get_object(self):
+        hotel_slug = self.kwargs.get('slug')
+        room_type_slug = self.kwargs.get('room_type_slug')
+        return get_object_or_404(models.RoomType, hotel__slug=hotel_slug, slug=room_type_slug)
     
     
     def get_context_data(self, **kwargs):
