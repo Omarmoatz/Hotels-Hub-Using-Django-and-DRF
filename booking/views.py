@@ -6,20 +6,21 @@ from .models import Booking,Hotel,Room,RoomType
 
 
 def check_avilability(request,slug):
-    name = request.POST.get('name','')
-    email = request.POST.get('email','')
-    checkin = request.POST.get('checkin','')
-    checkout = request.POST.get('checkout','')
-    adults = request.POST.get('adults','')
-    children = request.POST.get('children','')
-    room_type = request.POST.get('room_type','')
+    if request.method == 'POST': 
+        name = request.POST.get('name','')
+        email = request.POST.get('email','')
+        checkin = request.POST.get('checkin','')
+        checkout = request.POST.get('checkout','')
+        adults = request.POST.get('adults','')
+        children = request.POST.get('children','')
+        room_type = request.POST.get('room_type','')
 
-    hotel = get_object_or_404(Hotel,slug=slug)
-    room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
-    
-    url = reverse('hotel:room_type_detail', args=(slug, room_type.slug))
-    url_with_params = f'{url}?id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}'
-    return HttpResponseRedirect(url_with_params)
+        hotel = get_object_or_404(Hotel,slug=slug)
+        room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
+        
+        url = reverse('hotel:room_type_detail', args=(slug, room_type.slug))
+        url_with_params = f'{url}?id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}'
+        return HttpResponseRedirect(url_with_params)
 
 
 
