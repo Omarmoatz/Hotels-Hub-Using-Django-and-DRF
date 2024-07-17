@@ -134,7 +134,7 @@
                             </a>
                         </li>
                     </ul>
-                    <div id="tab-4" class="tab-pane fade show p-0">
+                    <div id="tab-4" class="tab-pane fade show bg-white p-5">
                         <div class="mb-4">
                             <h4 class="mb-4">{{ review|length }} Reviews</h4>
                             {% if not review %}
@@ -146,20 +146,21 @@
                             {% endif %}
 
                             {% for item in review %}
-                            <div class="d-flex mb-4">
+                            <div class="d-flex mb-4 border border-1 p-3 rounded rounded-3 bg-light">
+
                                 {% if item.user.user_profile.image %}
-                                <img src="{{ item.user.user_profile.image.url }}" class="img-fluid rounded"
-                                    style="width: 45px; height: 45px;">
+                                    <img src="{{ item.user.user_profile.image.url }}" class="img-fluid rounded rounded-3"
+                                        style="width: 60px; height: 60px;">
                                 {% else %}
-                                <img src="{% static 'img/user.png' %}" class="img-fluid rounded"
-                                    style="width: 45px; height: 45px;">
+                                    <img src="{% static 'img/user.png' %}" class="img-fluid rounded rounded-3"
+                                        style="width: 60px; height: 60px;">
                                 {% endif %}
 
                                 <div class="ps-3">
                                     <h6>{{ item.user.username }} <small class="text-body fw-normal fst-italic">{{item.created_at }}</small></h6>
                                     <div class="mb-2">
                                         <small
-                                            class="{% if item.rate > '0' %} fa fa-star text-primary {% else %} fa fa-star {% endif %} "></small>
+                                            class="{% if item.rate > '0' %} fa fa-star text-primary {% endif %} "></small>
                                         <small
                                             class="{% if item.rate > '1' %} fa fa-star text-primary {% endif %} "></small>
                                         <small
@@ -176,27 +177,30 @@
                             {% endfor %}
 
                         </div>
-                        <div class="bg-light p-4 p-md-5">
-                            <h4 class="mb-4">Leave A Review</h4>
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-12 d-flex align-items-center">
-                                        <h6 class="mb-0 me-2">Rate Me:</h6>
-                                        <div id="halfstarsReview" class="fs-3 me-2"></div>
-                                        <input type="text" value readonly id="halfstarsInput" class="border-0 bg-white"
-                                            style="width: 30px;">
-                                    </div>
-                                    <div class="col-12">
-                                        <textarea class="form-control bg-white border-0" rows="5"
-                                            placeholder="Review"></textarea>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Leave Your
-                                            Review</button>
-                                    </div>
+                        
+                    </div>
+
+                    <div class="bg-white p-4 p-md-5 rounded rounded-1 mt-5">
+                        <h4 class="mb-4">Leave A Review</h4>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-12 d-flex align-items-center">
+                                    <h6 class="mb-0 me-2">Rate Me:</h6>
+                                    <div id="halfstarsReview" class="fs-3 me-2"></div>
+                                    <input type="number"  id="halfstarsInput" class="border-0 bg-light"
+                                        style="width: 50px;">
+                                        
                                 </div>
-                            </form>
-                        </div>
+                                <div class="col-12">
+                                    <textarea class="form-control bg-light border-0" rows="5"
+                                        placeholder="Review"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Leave Your
+                                        Review</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
