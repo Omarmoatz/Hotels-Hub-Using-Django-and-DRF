@@ -206,7 +206,7 @@
 
         <div class="col-lg-4">
             <!-- booking -->
-            <div class="bg-light my-5 p-3 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="bg-light my-5 p-4 border border-2 shadow wow fadeInUp"  data-wow-delay="0.1s">
                 <div class="border-bottom text-center text-dark p-3 pt-4 mb-3">
                     <span class="align-top fs-4 lh-base">Start</span>
                     <span class="align-middle fs-1 lh-sm fw-bold">Booking</span>
@@ -216,35 +216,74 @@
 
                     <form method="post" action="{% url 'booking:check_avilabilty' object.slug  %}">
                         {% csrf_token %}
-                        <div class="row g-3">
-                            {{form}}
+                        <div class="row g-3 ">      
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Your Name">
+                                        placeholder="Your Name" required>
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Your Email">
+                                        placeholder="Your Email" required>
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
-                            <div class="col-12">
+
+                            <div class="col-md-12">
+                                <div class="form-floating date" id="date3" name='checkin' data-target-input="nearest">
+                                    <input type="date" class="form-control datetimepicker-input" id="checkin" name="checkin" 
+                                    placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" required/>
+                                    <label for="checkin">Check In</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating date" id="date4" name='checkout' data-target-input="nearest">
+                                    <input type="date" class="form-control datetimepicker-input" id="checkout" name="checkout" 
+                                    placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" required/>
+                                    <label for="checkout">Check Out</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select class="form-select" name="room_type" id="select3">
-                                        {% for item in room_type %}
+                                    <input type="text" class="form-control" name="adults" 
+                                        placeholder="Adult Num" required>
+                                    <label for="select1">Adult Num</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" name="children" 
+                                            placeholder="Children Num" required>
+                                        <label for="select2">Children Num</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 my-3">
+                                <div class="form-floating">
+                                    <select class="form-select w-100 d-block" name="room_type" id="select3" required>
+                                        <option value="">...</option>
+                                        {% for item in room_type %} 
                                             <option value="{{item.slug}}">{{item}}</option>
                                         {% endfor %}
                                     </select>
                                     <label for="select3">Select A Room Type</label>
                                 </div>
                             </div>
+                            
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Check Avilability</button>
                             </div>
+
+                            
+
                         </div>
 
                     </form>

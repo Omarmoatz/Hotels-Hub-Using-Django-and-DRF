@@ -19,7 +19,7 @@ def check_avilability(request,slug):
         room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
         
         url = reverse('hotel:room_type_detail', args=(slug, room_type.slug))
-        url_with_params = f'{url}?id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}'
+        url_with_params = f'{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}'
         return HttpResponseRedirect(url_with_params)
 
 
@@ -55,7 +55,6 @@ def room_selection_view(request):
             old_data = room_selection_session
             old_data.update(room_selection)
             room_selection_session = old_data
-
     else:
         room_selection_session = room_selection
 
