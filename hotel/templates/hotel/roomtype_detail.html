@@ -53,15 +53,22 @@
                                                 </p>
                                             </div>
                                             <div class="card-body text-center">
-                                                <p class="card-title">{{r.price}} $ /per night</p>
-                                                <p class="card-title"><b>Beds</b> : {{object.beds_num}}</p>
-                                                <p class="card-title"><b>Room Size</b> : {{object.room_size}}</p>
-                                                <a href="#" class="btn btn-outline-warning w-100">Add to Selection</a>
+                                                <p class="card-title " >{{r.price}} $ /per night</p>
+                                                <p class="card-title  "><b>Beds</b> : {{object.beds_num}} beds</p>
+                                                <p class="card-title"><b>Room Size</b> : {{object.room_size}} m</p>
+                                                <a data-index="{{r.id}}" class="btn btn-outline-warning w-100 add-to-selection">Add to Selection</a>
                                             </div>
-                                            </div>
+                                        </div>
                                             
                                     </div>
                                 </div>
+                                <input type="hidden" value="{{object.hotel.id}}" class="hotel-id">
+                                <input type="hidden" value="{{object.hotel.name}}" class="hotel-name">
+                                <input type="hidden" value="{{object}}" class="room-type">
+                                <input type="hidden" value="{{r.price}}" class="room-price">
+                                <input type="hidden" value="{{object.beds_num}}" class="beds-num">
+                                <input type="hidden" value="{{r.view}}" class="room-view">
+                                <input type="hidden" value="{{r.room_num}}" class="room-num">
 
                             {% endfor %}
 
@@ -71,6 +78,7 @@
                     </div>
                 </div>
                 {% if rooms %}
+                <!-- booking form -->
                     <div class="row g-5 my-5">
                         <div class="col-lg-6">
                             <div class="row g-3">
@@ -107,19 +115,19 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating date" id="date3" name='checkin' data-target-input="nearest">
-                                                <input type="date" class="form-control datetimepicker-input" value="{{checkin}}" id="checkin" name="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
+                                                <input type="date" class="form-control datetimepicker-input checkin" value="{{checkin}}" id="checkin" name="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
                                                 <label for="checkin">Check In</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating date" id="date4" name='checkout' data-target-input="nearest">
-                                                <input type="date" class="form-control datetimepicker-input" value="{{checkout}}" id="checkout" name="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
+                                                <input type="date" class="form-control datetimepicker-input checkout" value="{{checkout}}" id="checkout" name="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
                                                 <label for="checkout">Check Out</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" name="adults" value='{{adults}}'
+                                                <input type="text" class="form-control adults" name="adults" value='{{adults}}'
                                                     placeholder="Adult Num" required>
                                                 <label for="select1">Adult Num</label>
                                             </div>
@@ -127,7 +135,7 @@
                                         <div class="col-md-6">
                                             <div class="form-floating">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" name="children" value='{{children}}'
+                                                    <input type="text" class="form-control children" name="children" value='{{children}}'
                                                         placeholder="Children Num" required>
                                                     <label for="select2">Children Num</label>
                                                 </div>
