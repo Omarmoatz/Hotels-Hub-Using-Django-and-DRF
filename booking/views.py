@@ -28,7 +28,7 @@ def room_selection_view(request):
     data = request.GET
     room_selection = {}
 
-    room_selection[str(data['id'])] = {
+    room_selection['room-selection' + str(data['room_id'])] = {
         'hotel_id' : data['hotel_id'],
         'hotel_name' : data['hotel_name'],
         'room_id' : data['room_id'],
@@ -43,25 +43,25 @@ def room_selection_view(request):
         'children' : data['children'],
     }
 
-    room_selection_session = request.session['room_selection_obj']
+    
     if 'room_selection_obj' in request.session:
-        current_id = data['id']
-        if current_id in room_selection_session:
-            old_data = room_selection_session
+        current_id = data['room_id']
+        if current_id in request.session['room_selection_obj']:
+            old_data = request.session['room_selection_obj']
             old_data[current_id]['adults'] = int(room_selection[current_id]['adults'])
             old_data[current_id]['children'] = int(room_selection[current_id]['children'])
-            room_selection_session = old_data
+            request.session['room_selection_obj'] = old_data
         else:
-            old_data = room_selection_session
+            old_data = request.session['room_selection_obj']
             old_data.update(room_selection)
-            room_selection_session = old_data
+            request.session['room_selection_obj'] = old_data
     else:
-        room_selection_session = room_selection
+        request.session['room_selection_obj'] = room_selection
 
     json_data = {
-        'data': room_selection_session,
+        'data': request.session['room_selection_obj'],
         'name' : 'omar moataz',
-        'data_count' : room_selection_session
+        'data_count' : len(request.session['room_selection_obj'])
     }
 
     return JsonResponse(json_data)
