@@ -45,4 +45,6 @@ class RoomTypeDetail(generic.DetailView):
         return context
     
     
-        
+def selected_rooms(request):
+
+    return render(request, 'hotel/rooms_selected.html', {})

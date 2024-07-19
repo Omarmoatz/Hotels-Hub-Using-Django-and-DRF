@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+        <!-- Page Header Start -->
+        <div class="container-fluid page-header mb-5 p-0" style="background-image: url({% static 'img/carousel-1.jpg' %});">
+            <div class="container-fluid page-header-inner py-5">
+                <div class="container text-center pb-5">
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">Selected Rooms</h1>
+                    <!-- <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center text-uppercase">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Booking</li>
+                        </ol>
+                    </nav> -->
+                </div>
+            </div>
+        </div>
+        <!-- Page Header End -->
+
+        <div class="container-xxl py-5">
+
+            <div class="row mx-5 g-2">
+                <div class="col-lg-8">
+
+
+                    <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
+
+                        <!-- Pricing -->
+                        <div class="my-5 ">
+                            <ul class="list-group w-100 ">
+                                <li class="list-group-item py-3 ">
+                                    <i class="fa-solid fa-bed fa-2xl text-primary me-2"></i>
+                                    <span class="fs-5 fw-light">Selected Rooms</span>
+                                </li>
+
+                                {% comment %} {% for item in room_type %} {% endcomment %}
+                                <li class="list-group-item   border-bottom">
+                                    <h6 class="ps-2">Room: luxery</h6>
+                                    <div class="row">
+                                        <div class="col-5 d-flex">
+                                            <p class="py-1 mx-2 ">beds : 1{{item.beds_num}}</p> _
+                                            <p class="py-1 mx-2"> room size : 200{{item.room_size}} m </p>
+                                        </div>
+                                        <div class="col-5"></div>
+                                        <div class="col-2 fs-6 ">
+                                            <p class='btn btn-outline-primary'>100 {{item.price_start}} $</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% comment %} {% endfor %} {% endcomment %}
+
+                                <li class="list-group-item py-2  border-bottom">
+                                    <h6 class="ps-2">Room: luxery</h6>
+                                    <div class="row">
+                                        <div class="col-5 d-flex">
+                                            <p class="py-1 mx-2 ">beds : 1{{item.beds_num}}</p> _
+                                            <p class="py-1 mx-2"> room size : 200{{item.room_size}} m </p>
+                                        </div>
+                                        <div class="col-5"></div>
+                                        <div class="col-2 fs-6 ">
+                                            <p class='btn btn-outline-primary'>100 {{item.price_start}} $</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <!-- Payment Start -->
+                    
+                    <div class="bg-white p-4 border border-1 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="my-3 mb-4">
+                            <i class=""></i>
+                            <i class="fa-solid fa-file-invoice-dollar fa-2xl text-primary me-3"></i>
+                            <span class="my-3 fw-light fs-5 ">Billing Information</span>
+                        </div>
+
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control bg-light" id="name" placeholder="Your Name">
+                                        <label for="name">Your Full Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control bg-light" id="email" placeholder="Your Email">
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="text" class="form-control bg-light datetimepicker-input" id="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
+                                        <label for="checkin">Your Phone</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <button class="btn btn-primary p-2 my-2" type="submit">Continue To Checkout</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div> 
+                    <!-- Payment End -->
+                </div>
+
+
+                <div class="col-lg-4">
+                    <!-- booking Summery -->
+                    <div class="container">
+                        <div class="bg-white my-5 mx-1 border border-1 rounded rounded-3  wow fadeInUp"  data-wow-delay="0.1s">
+                            <div class="card ">
+                                <img src="{% static 'img/room-1.jpg' %}" class="card-img " width="370px" height="320px"  alt="...">
+
+                                <div class="card-img-overlay text-white page-header-inner" style="padding-top: 200px;">
+                                    <h5 class="text-white">Hotel name</h5>
+                                    <div class="d-flex ms-2 fw-bold ">
+                                        <p class="me-3 "><i class="fa fa-map-marker-alt text-primary me-2"></i> mconaocin </p>
+                                        <p class=""><i class="fa fa-phone text-primary me-2"></i> 01011093980</p>
+                                    </div>
+                                    <div class="d-flex ms-2">
+                                            <i class="fa fa-star text-primary me-1"></i>
+                                            <i class="fa fa-star text-primary me-1"></i>
+                                            <i class="fa fa-star text-primary me-1"></i>
+                                            <i class="fa fa-star text-primary me-1"></i>
+                                            <i class="fa fa-star text-primary me-1"></i>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- <div class="p-5 text-body" style="background-image: url({% static 'img/room-1.jpg' %}); background-repeat: no-repeat; width: 367px; height: 320px;">
+                                    <div class="mt-5">
+                                        <h6>primum hotel</h6>
+                                        <div class="d-flex">
+                                            <p>addres: asdscdsv</p>
+                                            <p>phone: 01011093980</p>
+                                        </div>
+                                    </div> 
+                                    
+                                </div>-->
+                            
+                            <div class="border-bottom  text-start text-dark p-3  mb-3">
+                                <i class="fa-regular fa-calendar-check fa-2xl text-primary me-3"></i>
+                                <span class=" fs-5 fw-light">Booking Summery</span>
+                            </div>
+                            <div class="wow fadeInUp pt-1" data-wow-delay="0.2s">
+
+                                <div class="px-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p class="py-1 mx-2 ">Checkin </p>
+                                        </div>
+                                        <div class="col-3"></div>
+                                        <div class="col-4 fs-6 ">
+                                            <p>25/5/2002 </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p class="py-1 mx-2 ">Checkout </p>
+                                        </div>
+                                        <div class="col-3"></div>
+                                        <div class="col-4 fs-6 ">
+                                            <p>25/5/2002</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p class="mx-2 ">Total Days </p>
+                                        </div>
+                                        <div class="col-5"></div>
+                                        <div class="col-2 text-start fs-6 ">
+                                            <p class="">15 </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="px-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p class="py-1 mx-2 ">Adults </p>
+                                        </div>
+                                        <div class="col-5"></div>
+                                        <div class="col-2 fs-6 ">
+                                            <p>2 </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-3">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p class="py-1 mx-2 ">Chilern </p>
+                                        </div>
+                                        <div class="col-5"></div>
+                                        <div class="col-2 fs-6 ">
+                                            <p>4 </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-3 border-bottom">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <p class="py-1 mx-2 ">V.A.T </p>
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-3 fs-6 ">
+                                            <p>$ 0.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="px-3 py-1">
+                                    <div class="row">
+                                        <div class="col-5 fs-5">
+                                            <p class="py-1">Total Cost</p>
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-3 py-1 fs-5 text-primary">
+                                            <p>$ 0.00 </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+{% endblock body %}
