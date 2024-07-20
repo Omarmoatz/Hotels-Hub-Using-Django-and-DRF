@@ -6,7 +6,7 @@
         <div class="container-fluid page-header mb-5 p-0" style="background-image: url({% static 'img/carousel-1.jpg' %});">
             <div class="container-fluid page-header-inner py-5">
                 <div class="container text-center pb-5">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">Selected Rooms</h1>
+                    <h4 class="display-3 text-white mb-3 animated slideInDown">Selected Rooms</h4>
                     <!-- <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -25,52 +25,40 @@
                 <div class="col-lg-8">
 
 
+                    <!-- Pricing Start-->
                     <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
 
-                        <!-- Pricing -->
                         <div class="my-5 ">
                             <ul class="list-group w-100 ">
                                 <li class="list-group-item py-3 ">
-                                    <i class="fa-solid fa-bed fa-2xl text-primary me-2"></i>
-                                    <span class="fs-5 fw-light">Selected Rooms</span>
+                                    <i class="fa-solid fa-bed fa-xl text-primary me-2"></i>
+                                    <span class="fs-5 fw-light">Selected Rooms ({{selected_rooms|length}})</span>
                                 </li>
 
-                                {% comment %} {% for item in room_type %} {% endcomment %}
-                                <li class="list-group-item   border-bottom">
-                                    <h6 class="ps-2">Room: luxery</h6>
-                                    <div class="row">
-                                        <div class="col-5 d-flex">
-                                            <p class="py-1 mx-2 ">beds : 1{{item.beds_num}}</p> _
-                                            <p class="py-1 mx-2"> room size : 200{{item.room_size}} m </p>
+                                {% for item in rooms_list %} 
+                                    <li class="list-group-item  border-bottom">
+                                        <h6 class="ps-2">Room: {{item.room_room_type}}</h6>
+                                        <div class="row">
+                                            <div class="col-5 d-flex">
+                                                <p class="py-1 mx-2 ">beds :{{item.room_beds_num}}</p> _
+                                                <p class="py-1 mx-2"> view : {{item.room_view}}</p>
+                                            </div>
+                                            <div class="col-5"></div>
+                                            <div class="col-2 fs-6 ">
+                                                <p class='btn btn-outline-primary'>{{item.room_price}} $</p>
+                                            </div>
                                         </div>
-                                        <div class="col-5"></div>
-                                        <div class="col-2 fs-6 ">
-                                            <p class='btn btn-outline-primary'>100 {{item.price_start}} $</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                {% comment %} {% endfor %} {% endcomment %}
+                                    </li>
+                                {% endfor %} 
 
-                                <li class="list-group-item py-2  border-bottom">
-                                    <h6 class="ps-2">Room: luxery</h6>
-                                    <div class="row">
-                                        <div class="col-5 d-flex">
-                                            <p class="py-1 mx-2 ">beds : 1{{item.beds_num}}</p> _
-                                            <p class="py-1 mx-2"> room size : 200{{item.room_size}} m </p>
-                                        </div>
-                                        <div class="col-5"></div>
-                                        <div class="col-2 fs-6 ">
-                                            <p class='btn btn-outline-primary'>100 {{item.price_start}} $</p>
-                                        </div>
-                                    </div>
-                                </li>
                             </ul>
                         </div>
 
                     </div>
+                     <!-- Pricing End-->
+
 
                     <!-- Payment Start -->
-                    
                     <div class="bg-white p-4 border border-1 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="my-3 mb-4">
                             <i class=""></i>
@@ -115,20 +103,20 @@
                     <div class="container">
                         <div class="bg-white my-5 mx-1 border border-1 rounded rounded-3  wow fadeInUp"  data-wow-delay="0.1s">
                             <div class="card ">
-                                <img src="{% static 'img/room-1.jpg' %}" class="card-img " width="370px" height="320px"  alt="...">
+                                <img src="{{hotel.img.url}}" class="card-img " width="370px" height="320px"  alt="...">
 
                                 <div class="card-img-overlay text-white page-header-inner" style="padding-top: 200px;">
-                                    <h5 class="text-white">Hotel name</h5>
+                                    <h5 class="text-white">{{hotel.name}}</h5>
                                     <div class="d-flex ms-2 fw-bold ">
-                                        <p class="me-3 "><i class="fa fa-map-marker-alt text-primary me-2"></i> mconaocin </p>
-                                        <p class=""><i class="fa fa-phone text-primary me-2"></i> 01011093980</p>
+                                        <p class="me-3 "><i class="fa fa-map-marker-alt text-primary me-2"></i> {{hotel.address}} </p>
+                                        <p class=""><i class="fa fa-phone text-primary me-2"></i> {{hotel.phone}}</p>
                                     </div>
                                     <div class="d-flex ms-2">
-                                            <i class="fa fa-star text-primary me-1"></i>
-                                            <i class="fa fa-star text-primary me-1"></i>
-                                            <i class="fa fa-star text-primary me-1"></i>
-                                            <i class="fa fa-star text-primary me-1"></i>
-                                            <i class="fa fa-star text-primary me-1"></i>
+                                        <i class="{% if hotel.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if hotel.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if hotel.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if hotel.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if hotel.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
                                         
                                     </div>
                                     
@@ -158,7 +146,7 @@
                                         </div>
                                         <div class="col-3"></div>
                                         <div class="col-4 fs-6 ">
-                                            <p>25/5/2002 </p>
+                                            <p>{{checkin}} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +158,7 @@
                                         </div>
                                         <div class="col-3"></div>
                                         <div class="col-4 fs-6 ">
-                                            <p>25/5/2002</p>
+                                            <p>{{checkout}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -182,11 +170,10 @@
                                         </div>
                                         <div class="col-5"></div>
                                         <div class="col-2 text-start fs-6 ">
-                                            <p class="">15 </p>
+                                            <p class="">{{total_days}} </p>
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="px-3">
                                     <div class="row">
@@ -195,7 +182,7 @@
                                         </div>
                                         <div class="col-5"></div>
                                         <div class="col-2 fs-6 ">
-                                            <p>2 </p>
+                                            <p>{{adults}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -203,11 +190,11 @@
                                 <div class="px-3">
                                     <div class="row">
                                         <div class="col-5">
-                                            <p class="py-1 mx-2 ">Chilern </p>
+                                            <p class="py-1 mx-2 ">Childern </p>
                                         </div>
                                         <div class="col-5"></div>
                                         <div class="col-2 fs-6 ">
-                                            <p>4 </p>
+                                            <p>{{children}} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -229,9 +216,9 @@
                                         <div class="col-5 fs-5">
                                             <p class="py-1">Total Cost</p>
                                         </div>
-                                        <div class="col-4"></div>
-                                        <div class="col-3 py-1 fs-5 text-primary">
-                                            <p>$ 0.00 </p>
+                                        <div class="col-3"></div>
+                                        <div class="col-4 py-1 fs-5 text-primary">
+                                            <p>$ {{total_cost}}</p>
                                         </div>
                                     </div>
                                 </div>

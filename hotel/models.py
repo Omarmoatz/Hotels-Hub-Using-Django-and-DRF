@@ -106,10 +106,10 @@ class Room(models.Model):
     slug = models.SlugField( blank=True, null=True)
 
     def beds_num(self):
-        self.room_type.beds_num
+        return self.room_type.beds_num
 
     def room_size(self):
-        self.room_type.room_size
+        return self.room_type.room_size
 
     def __str__(self):
         return str(self.room_type)

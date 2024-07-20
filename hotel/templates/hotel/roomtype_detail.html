@@ -56,19 +56,20 @@
                                                 <p class="card-title " >{{r.price}} $ /per night</p>
                                                 <p class="card-title  "><b>Beds</b> : {{object.beds_num}} beds</p>
                                                 <p class="card-title"><b>Room Size</b> : {{object.room_size}} m</p>
-                                                <a data-index="{{r.id}}" class="btn btn-outline-warning w-100 add-to-selection">Add to Selection</a>
+                                                <a data-index="{{r.id}}" value='{{r.id}}' class="btn btn-outline-warning w-100 add-to-selection">Add to Selection</a>
                                             </div>
                                         </div>
                                             
                                     </div>
+                                    <input type="hidden" value="{{r.price}}" class="room-price">
+                                    <input type="hidden" value="{{r.view}}" class="room-view">
+                                    <input type="hidden" value="{{r.hotel.id}}" class="hotel-id">
+                                    <input type="hidden" value="{{r.hotel.name}}" class="hotel-name">
+                                    <input type="hidden" value="{{r.room_type}}" class="room-type">
+                                    <input type="hidden" value="{{r.beds_num}}" class="beds-num">
+                                    <input type="hidden" value="{{r.room_num}}" class="room-num">
                                 </div>
-                                <input type="hidden" value="{{object.hotel.id}}" class="hotel-id">
-                                <input type="hidden" value="{{object.hotel.name}}" class="hotel-name">
-                                <input type="hidden" value="{{object}}" class="room-type">
-                                <input type="hidden" value="{{r.price}}" class="room-price">
-                                <input type="hidden" value="{{object.beds_num}}" class="beds-num">
-                                <input type="hidden" value="{{r.view}}" class="room-view">
-                                <input type="hidden" value="{{r.room_num}}" class="room-num">
+                                
 
                             {% endfor %}
 
