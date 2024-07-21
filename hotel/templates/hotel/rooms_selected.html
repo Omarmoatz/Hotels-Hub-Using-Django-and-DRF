@@ -66,23 +66,24 @@
                             <span class="my-3 fw-light fs-5 ">Billing Information</span>
                         </div>
 
-                        <form>
+                        <form method='post' action='{% url "booking:create_booking" %}'>
+                            {% csrf_token %}
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-light" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control bg-light" name="full_name" id="name" placeholder="Your Name">
                                         <label for="name">Your Full Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control bg-light" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control bg-light" name="email" id="email" placeholder="Your Email">
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating date" id="date3" data-target-input="nearest">
-                                        <input type="text" class="form-control bg-light datetimepicker-input" id="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
+                                        <input type="number" class="form-control bg-light" name="phone" placeholder="Your Phone" />
                                         <label for="checkin">Your Phone</label>
                                     </div>
                                 </div>

@@ -4,6 +4,7 @@ from datetime import datetime
 from django.views import generic
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
+
 from .models import Booking,Hotel,Room,RoomType
 
 
@@ -23,6 +24,7 @@ def check_avilability(request,slug):
         url = reverse('hotel:room_type_detail', args=(slug, room_type.slug))
         url_with_params = f'{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}'
         return HttpResponseRedirect(url_with_params)
+
 
 
 # it tooks its data from jQuery, AJAX
@@ -69,6 +71,8 @@ def room_selection_view(request):
     return JsonResponse(json_data)
 
 
+
+
 def selected_rooms(request):
     rooms_price = 0
     rooms_list = []
@@ -90,7 +94,6 @@ def selected_rooms(request):
             })
             rooms_price += float(room.price ) 
             
-        print(rooms_list)
         hotel = Hotel.objects.get(id=hotel_id)
 
         date_format = '%Y-%m-%d'
@@ -118,6 +121,68 @@ def selected_rooms(request):
     else:
         messages.warning(request, 'You dont have any Rooms Booked Yet!')
         return redirect('/')
+
+
+def create_booking(request):
+    total_rooms_price = 0
+    rooms_obj = []
+    if 'room_selection_obj' in request.session:
+        if request.method == 'POST':
+            for id, item in request.session['room_selection_obj'].items():
+                hotel_id = item['hotel_id']
+                room_id = item['room_id']
+                checkin = item['checkin']
+                checkout = item['checkout']
+                adults = item['adults']
+                children = item['children']
+
+                room = Room.objects.get(id=room_id)
+                total_rooms_price += room.price
+                rooms_obj.append(room)
+
+            hotel = Hotel.objects.get(id=hotel_id)
+            
+            date_format = '%Y-%m-%d'
+            checkin_date = datetime.strptime(checkin, date_format)
+            checkout_date = datetime.strptime(checkout, date_format)
+            total_days = (checkout_date - checkin_date).days
+
+            total_price = total_rooms_price * total_days
+            user = request.user
+
+            full_name = request.POST['full_name']
+            email = request.POST['email']
+            phone = request.POST['phone']
+
+            booking = Booking.objects.create(
+                user=user,
+                full_name=full_name,
+                phone=phone,
+                email=email,
+                hotel=hotel,
+                total=total_price,
+                before_discount=total_price,
+                check_in_date=checkin,
+                check_out_date=checkout,
+                total_days=total_days,
+                num_adults=adults,
+                num_children=children
+            )
+
+            for item in rooms_obj:
+                room_type = item.room_type
+
+                booking.room.add(item)
+                booking.room_type.add(room_type)
+
+            messages.success(request, 'You Booked Sucesfully')
+    return redirect('booking:checkout', booking.booking_code)
+
+
+
+
+def checkout(request,booking_code):
+    return render(request, 'booking/checkout.html')
 
 
 # class CheckAvilability(generic.CreateView):

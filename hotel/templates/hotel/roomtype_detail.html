@@ -99,7 +99,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="wow fadeInUp pt-5" data-wow-delay="0.2s">
-                                <form method="post">
+                                <form method="post" action="{% url 'booking:selected_rooms' %}">
                                     {% csrf_token %}
                                     <div class="row g-3">
                                         <div class="col-md-6">
