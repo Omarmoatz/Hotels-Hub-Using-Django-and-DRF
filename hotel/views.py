@@ -1,7 +1,5 @@
 from django.views import generic
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from datetime import datetime
+from django.shortcuts import render, get_object_or_404
 
 from . import models
 from utils import random_numbers

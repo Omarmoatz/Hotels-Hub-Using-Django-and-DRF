@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from datetime import datetime
 from django.views import generic
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
@@ -79,7 +81,7 @@ def selected_rooms(request):
             adults = int(item['adults'])
             children = int(item['children'])
 
-            room = models.Room.objects.get(id=room_id)
+            room = Room.objects.get(id=room_id)
             rooms_list.append({
                 'room_price': room.price, 
                 'room_view': room.view, 
@@ -89,7 +91,7 @@ def selected_rooms(request):
             rooms_price += float(room.price ) 
             
         print(rooms_list)
-        hotel = models.Hotel.objects.get(id=hotel_id)
+        hotel = Hotel.objects.get(id=hotel_id)
 
         date_format = '%Y-%m-%d'
         chickin_date = datetime.strptime( checkin, date_format)
