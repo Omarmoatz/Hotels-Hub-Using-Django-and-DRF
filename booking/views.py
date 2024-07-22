@@ -4,6 +4,7 @@ from datetime import datetime
 from django.views import generic
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
+from django.template.loader import render_to_string
 
 from .models import Booking,Hotel,Room,RoomType
 
@@ -177,6 +178,25 @@ def create_booking(request):
 
             messages.success(request, 'You Booked Sucesfully')
     return redirect('booking:checkout', booking.booking_code)
+
+
+
+def delete_room_from_session(request):
+    room_id = request.GET['id']
+    if 'room_selection_obj' in request.session:
+        if room_id in request.session['room_selection_obj']:
+            existing_data = request.session['room_selection_obj']
+            del existing_data[room_id]
+            request.session['room_selection_obj'] = existing_data
+
+    selected_rooms(request)
+
+    context = selected_rooms(request).context
+
+    rendered_data = render_to_string('includes/rooms.html', context)
+    return JsonResponse(rendered_data)
+
+
 
 
 
