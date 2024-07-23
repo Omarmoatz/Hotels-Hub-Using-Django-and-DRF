@@ -6,7 +6,7 @@
         <div class="container-fluid page-header mb-5 p-0" style="background-image: url({% static 'img/carousel-1.jpg' %});">
             <div class="container-fluid page-header-inner py-5">
                 <div class="container text-center pb-5">
-                    <h4 class="display-3 text-white mb-3 animated slideInDown">Selected Rooms</h4>
+                    <h6 class="display-3 text-white mb-3 animated slideInDown">Selected Rooms</h6>
                     <!-- <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -107,7 +107,7 @@
                 <div class="col-lg-4">
                     <!-- booking Summery -->
                     <div class="container">
-                        <div class="bg-white my-5 mx-1 border border-1 rounded rounded-3  wow fadeInUp"  data-wow-delay="0.1s">
+                        <div class="bg-white my-5 mx-3 border border-1 rounded rounded-3  wow fadeInUp"  data-wow-delay="0.1s">
                             <div class="card ">
                                 <img src="{{hotel.img.url}}" class="card-img " width="370px" height="320px"  alt="...">
 
@@ -143,91 +143,36 @@
                                 <i class="fa-regular fa-calendar-check fa-2xl text-primary me-3"></i>
                                 <span class=" fs-5 fw-light">Booking Summery</span>
                             </div>
-                            <div class="wow fadeInUp pt-1" data-wow-delay="0.2s">
+                            <div class=" pe-4 wow fadeInUp pt-1" data-wow-delay="0.2s">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <ul type="none" class="text-start">
+                                            <li class="mb-3">Checkin</li>
+                                            <li class="mb-3">Checkout</li>
+                                            <li class="mb-3">Total Days</li>
+                                            <li class="mb-3">Adults</li>
+                                            <li class="mb-3">Childern</li>
+                                            <li class="mb-3">V.A.T </li>
+                                            <hr>
+                                            <li class="mb-4 fs-5 text-primary">Total Cost</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-1"></div>
 
-                                <div class="px-3">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="py-1 mx-2 ">Checkin </p>
-                                        </div>
-                                        <div class="col-3"></div>
-                                        <div class="col-4 fs-6 ">
-                                            <p>{{checkin}} </p>
-                                        </div>
+                                    <div class="col-5 fs-6 text-end ">
+                                        <ul type="none">
+                                            <li class="mb-3">{{checkin}}</li>
+                                            <li class="mb-3">{{checkout}}</li>
+                                            <li class="mb-3">{{total_days}} Days</li>
+                                            <li class="mb-3">{{adults}} Adults</li>
+                                            <li class="mb-3">{{children}} Childern</li>
+                                            <li class="mb-3">$ 0.00</li>
+                                            <hr>
+                                            <li class="mb-4 fs-5 text-primary">$ {{total_cost}}</li>
+                                        </ul>
                                     </div>
                                 </div>
 
-                                <div class="px-3">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="py-1 mx-2 ">Checkout </p>
-                                        </div>
-                                        <div class="col-3"></div>
-                                        <div class="col-4 fs-6 ">
-                                            <p>{{checkout}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-3">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="mx-2 ">Total Days </p>
-                                        </div>
-                                        <div class="col-5"></div>
-                                        <div class="col-2 text-start fs-6 ">
-                                            <p class="">{{total_days}} </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-3">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="py-1 mx-2 ">Adults </p>
-                                        </div>
-                                        <div class="col-5"></div>
-                                        <div class="col-2 fs-6 ">
-                                            <p>{{adults}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-3">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="py-1 mx-2 ">Childern </p>
-                                        </div>
-                                        <div class="col-5"></div>
-                                        <div class="col-2 fs-6 ">
-                                            <p>{{children}} </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-3 border-bottom">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="py-1 mx-2 ">V.A.T </p>
-                                        </div>
-                                        <div class="col-4"></div>
-                                        <div class="col-3 fs-6 ">
-                                            <p>$ 0.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-3 py-1">
-                                    <div class="row">
-                                        <div class="col-5 fs-5">
-                                            <p class="py-1">Total Cost</p>
-                                        </div>
-                                        <div class="col-3"></div>
-                                        <div class="col-4 py-1 fs-5 text-primary">
-                                            <p>$ {{total_cost}}</p>
-                                        </div>
-                                    </div>
-                                </div>
                                 
                             </div>
 

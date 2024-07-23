@@ -1,7 +1,8 @@
 $(document).ready(function(){
 
     $('.add-to-selection').on('click', function(){
-        let room_id = $(this).attr("data-index");
+        let button = $(this)
+        let room_id = button.attr("data-index");
         
         let hotel_id = $('.hotel-id').val()
         let hotel_name= $('.hotel-name').val()
@@ -36,9 +37,9 @@ $(document).ready(function(){
             dataType : 'json',
             beforeSend : function() {
 
-                $('.add-to-selection').html('<i class="fas fa-spinner fa-spin"></i> Processing')
+               button.html('<i class="fas fa-spinner fa-spin"></i> Processing')
                 setTimeout(function() {
-                    $('.add-to-selection').html('<i class="fa fa-check "></i> Added'); 
+                   button.html('<i class="fa fa-check "></i> Added'); 
                 }, 1000);
                 
             },
@@ -85,4 +86,3 @@ $(document).on('click', '.delete-room', function(){
         }
     })
 })
-

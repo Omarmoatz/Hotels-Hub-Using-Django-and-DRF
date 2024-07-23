@@ -238,10 +238,6 @@ def delete_room_from_session(request):
         return redirect('/')
 
 
-
-
-
-
 def checkout(request,booking_code):
     return render(request, 'booking/checkout.html')
 
