@@ -17,21 +17,6 @@ $(document).ready(function(){
         let adults = $('.adults').val()
         let children = $('.children').val() 
 
-        console.log(room_id);
-        console.log(hotel_id);
-        console.log(hotel_name);
-        console.log(room_type);
-
-        console.log(room_price);
-        console.log(room_num);
-        console.log(room_view);
-        console.log(num_of_beds);
-
-        console.log(checkin);
-        console.log(checkout);
-        console.log(adults);
-        console.log(children);
-
         $.ajax({
             url: '/booking/room_selection/',
             data : {
@@ -56,5 +41,26 @@ $(document).ready(function(){
                 console.log(responce);
             }
         })
+    })
+})
+
+$(document).on('click', '.delete-room', function(){
+    let room_id = $(this).attr('data-item')
+    let button = $(this)
+
+    $.ajax({
+        url: '/booking/delete_room_from_session/',
+        data:{
+            'room_id':room_id
+        },
+        dataType: 'json',
+        beforeSend: function(){
+            console.log('deleted..');
+            button.html('<i class="fas fa-spinner fa-spin"></i>')
+        },
+        success: function(res){
+            console.log(res.rendered_data);
+            $('.rooms-booked').html(res.rendered_data)
+        }
     })
 })
