@@ -78,6 +78,10 @@ def selected_rooms(request):
     rooms_price = 0
     rooms_list = []
     if 'room_selection_obj' in request.session:
+        if len(request.session['room_selection_obj']) == 0:
+            messages.warning(request, 'You deleted all your booked rooms!')
+            return redirect('/')
+        
         for id, item in request.session['room_selection_obj'].items():
             hotel_id = int(item['hotel_id'])
             room_id = int(item['room_id'])
@@ -183,61 +187,51 @@ def delete_room_from_session(request):
     if 'room_selection_obj' in request.session:
 
         if room_id in request.session['room_selection_obj']:
-            print('---------in 2if')
             existing_data = request.session['room_selection_obj']
             del request.session['room_selection_obj'][room_id]
             request.session['room_selection_obj'] = existing_data
-
-            print(len(request.session['room_selection_obj']))
-
-        if 'room_selection_obj' in request.session:
-            print('done----------')
-            if len(request.session['room_selection_obj']) == 0:
-                print('no-----------')
-                messages.warning(request, 'You deleted all your booked rooms!')
-                return redirect('/')
             
-            for id, item in request.session['room_selection_obj'].items():
-                hotel_id = int(item['hotel_id'])
-                room_id = int(item['room_id'])
-                checkin = item['checkin']
-                checkout = item['checkout']
-                adults = int(item['adults'])
-                children = int(item['children'])
 
-                room = Room.objects.get(id=room_id)
-                rooms_list.append(room)
-                rooms_price += float(room.price ) 
-                
-            hotel = Hotel.objects.get(id=hotel_id)
-
-            date_format = '%Y-%m-%d'
-            chickin_date = datetime.strptime( checkin, date_format)
-            chickout_date = datetime.strptime( checkout, date_format)
-            total_days = (chickout_date - chickin_date).days 
-
-
-            total_cost = float(rooms_price * total_days) 
-
-            rendered_data = render_to_string(
-                        'includes/rooms.html', 
-                        {
-                            'selected_rooms': request.session['room_selection_obj'],
-                            'hotel': hotel,
-                            'rooms_list': rooms_list,
-                            'checkin': checkin ,
-                            'checkout': checkout ,
-                            'total_days': total_days,
-                            'adults' : adults,
-                            'children': children,
-                            'total_cost': round(total_cost,2) 
-                        }
-                    )
-            return JsonResponse( {'rendered_data': rendered_data})
+        if len(request.session['room_selection_obj']) == 0:
+            return JsonResponse({'rooms_len': len(request.session['room_selection_obj'])})
         
-        else:
-            messages.warning(request, 'You deleted all your booked rooms!')
-            return redirect('/')
+        for id, item in request.session['room_selection_obj'].items():
+            hotel_id = int(item['hotel_id'])
+            room_id = int(item['room_id'])
+            checkin = item['checkin']
+            checkout = item['checkout']
+            adults = int(item['adults'])
+            children = int(item['children'])
+
+            room = Room.objects.get(id=room_id)
+            rooms_list.append(room)
+            rooms_price += float(room.price ) 
+            
+        hotel = Hotel.objects.get(id=hotel_id)
+
+        date_format = '%Y-%m-%d'
+        chickin_date = datetime.strptime( checkin, date_format)
+        chickout_date = datetime.strptime( checkout, date_format)
+        total_days = (chickout_date - chickin_date).days 
+
+
+        total_cost = float(rooms_price * total_days) 
+
+        rendered_data = render_to_string(
+                    'includes/rooms.html', 
+                    {
+                        'selected_rooms': request.session['room_selection_obj'],
+                        'hotel': hotel,
+                        'rooms_list': rooms_list,
+                        'checkin': checkin ,
+                        'checkout': checkout ,
+                        'total_days': total_days,
+                        'adults' : adults,
+                        'children': children,
+                        'total_cost': round(total_cost,2) 
+                    }
+                )
+        return JsonResponse( {'rendered_data': rendered_data , 'rooms_len': len(request.session['room_selection_obj'])})
     
     else:
         messages.warning(request, 'You deleted all your booked rooms!')

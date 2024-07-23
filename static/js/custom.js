@@ -55,12 +55,23 @@ $(document).on('click', '.delete-room', function(){
         },
         dataType: 'json',
         beforeSend: function(){
-            console.log('deleted..');
+            console.log('deleteing...');
             button.html('<i class="fas fa-spinner fa-spin"></i>')
         },
         success: function(res){
-            console.log(res.rendered_data);
-            $('.rooms-booked').html(res.rendered_data)
+            if (res.rooms_len == 0) {
+                console.log('in ajax if');
+                $('.rooms-booked').html('<h1>You have deleted all your booked rooms</h1>');
+                setTimeout(function() {
+                    window.location.href = '/booking/selected_rooms/'; // Redirect to another page
+                }, 3000); // Wait for 3 seconds (3000 milliseconds)
+            } else {
+                $('.rooms-booked').html(res.rendered_data);
+            }
+                
+        },
+        erorr: function(res){
+            console.log('server error');
         }
     })
 })
