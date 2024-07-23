@@ -66,7 +66,7 @@ def room_selection_view(request):
     json_data = {
         'data': request.session['room_selection_obj'],
         'name' : 'omar moataz',
-        'data_count' : len(request.session['room_selection_obj'])
+        'rooms_len' : len(request.session['room_selection_obj'])
     }
 
     return JsonResponse(json_data)
@@ -119,7 +119,7 @@ def selected_rooms(request):
         return render(request, 'hotel/rooms_selected.html', context)
     
     else:
-        messages.warning(request, 'You dont have any Rooms Booked Yet!')
+        messages.warning(request, 'Rebook your Suitable  Room!')
         return redirect('/')
 
 

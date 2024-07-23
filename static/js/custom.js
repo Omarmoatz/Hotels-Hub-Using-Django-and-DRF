@@ -35,10 +35,17 @@ $(document).ready(function(){
             },
             dataType : 'json',
             beforeSend : function() {
-                console.log('sending data ......');
+
+                $('.add-to-selection').html('<i class="fas fa-spinner fa-spin"></i> Processing')
+                setTimeout(function() {
+                    $('.add-to-selection').html('<i class="fa fa-check "></i> Added'); 
+                }, 1000);
+                
             },
-            success : function(responce){
-                console.log(responce);
+            success : function(res){
+
+                console.log(res.rooms_len);
+                $('.rooms-len').html(res.rooms_len)
             }
         })
     })
@@ -60,14 +67,17 @@ $(document).on('click', '.delete-room', function(){
         },
         success: function(res){
             if (res.rooms_len == 0) {
-                console.log('in ajax if');
-                $('.rooms-booked').html('<h1>You have deleted all your booked rooms</h1>');
+                $('.rooms-booked').html(`<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                                            <h1 class="my-5 fs-3">you deleted all your booked rooms 
+                                            <span class="text-primary text-uppercase"> you will be redirected to home page </span></h1>
+                                        </div>`);
                 setTimeout(function() {
                     window.location.href = '/booking/selected_rooms/'; // Redirect to another page
-                }, 3000); // Wait for 3 seconds (3000 milliseconds)
+                }, 3000); // Wait for 3 seconds 
             } else {
                 $('.rooms-booked').html(res.rendered_data);
             }
+            $('.rooms-len').html(res.rooms_len)
                 
         },
         erorr: function(res){
@@ -75,3 +85,4 @@ $(document).on('click', '.delete-room', function(){
         }
     })
 })
+
