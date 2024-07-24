@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
 
-from .models import Booking,Hotel,Room,RoomType
+from .models import Booking,Hotel,Room,RoomType,Coupon
 
 
 def check_avilability(request,slug):
@@ -179,7 +179,7 @@ def create_booking(request):
     return redirect('booking:checkout', booking.booking_code)
 
 
-
+# it tooks its data from jQuery, AJAX
 def delete_room_from_session(request):
     room_id = 'room-selection'+str(request.GET['room_id'])
     rooms_price = 0
@@ -241,6 +241,49 @@ def delete_room_from_session(request):
 def checkout(request,booking_code):
     booking = Booking.objects.get(booking_code=booking_code)
     return render(request, 'booking/checkout.html', {'booking':booking})
+
+
+def check_coupun(request):
+    booking_id = request.GET['booking-id']
+    if request.method == 'POST':
+        code = request.POst['code'] 
+        coupun = Coupon.objects.get(code=code)
+
+        if coupun and coupun.quantity > 0 :
+            today = datetime.today().date()
+            start_date = coupun.start_date.date()
+            expire_date = coupun.end_date.date()
+
+            if today >= start_date and today <= expire_date:
+                booking = Booking.objects.get(id=booking_id)
+                
+                total_after_discount = booking.total * (coupun.discount /100)
+                booking.money_saved = booking.total - total_after_discount 
+                booking.total = total_after_discount
+
+                coupun.quantity -= 1
+
+                booking.save()
+                coupun.save()
+
+                html = render_to_string('includes/total_after_desount.html',{'booking':booking})
+                return JsonResponse({'html':html})
+
+            else:
+                messages.warning(request, 'Expired coupon')
+                return 
+                
+
+        else:
+            messages.warning(request, 'Invalid coupon')
+            return 
+
+
+
+
+
+
+
 
 
 # class CheckAvilability(generic.CreateView):

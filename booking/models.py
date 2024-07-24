@@ -44,12 +44,12 @@ class Booking(models.Model):
         return f'{str(self.user)}----{self.hotel}----{self.full_name}'
     
 
-    class Coupon(models.Model):
-        code = models.CharField( max_length=100, blank=True, null=True)
-        discount = models.PositiveIntegerField( blank=True, null=True)
-        quantity = models.PositiveIntegerField( blank=True, null=True)
-        start_date = models.DateTimeField(default=timezone.now)
-        end_date = models.DateTimeField( blank=True, null=True)
+class Coupon(models.Model):
+    code = models.CharField( max_length=100, blank=True, null=True)
+    discount = models.PositiveIntegerField( blank=True, null=True)
+    quantity = models.PositiveIntegerField( blank=True, null=True)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField( blank=True, null=True)
 
-        def __str__(self):
-            return self.code
+    def __str__(self):
+        return self.code
