@@ -27,29 +27,33 @@
 
                     <!-- Pricing Start-->
                     <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
-
+                        
                         <div class="my-5 ">
+                            <div class="bg-warning py-1 pt-3 px-2">
+                                <p> 
+                                    <b class="ms-4 me-3">NOTE!</b>
+                                    Review Your Rooms Before Payment 
+                                    <i class="fa fa-close" style="margin-left: 400px;"></i>
+                                </p>
+                            </div>
                             <ul class="list-group w-100 ">
                                 <li class="list-group-item py-3 ">
                                     <i class="fa-solid fa-bed fa-xl text-primary me-2"></i>
-                                    <span class="fs-5 fw-light">Selected Rooms ({{selected_rooms|length}})</span>
+                                    <span class="fs-5 fw-light">Selected Rooms ({{booking.room.all|length}})</span>
                                 </li>
                         
-                                {% for item in rooms_list %} 
+                                {% for item in booking.room.all %} 
                                     <li class="list-group-item  border-bottom">
-                                        <h5>
-                                            Room: {{item.room_type}}
-                                            <a class="ps-2 fs-5 delete-room" style="cursor: pointer;" data-item="{{item.id}}">
-                                                <i class="fa fa-trash text-danger ms-2"></i>
-                                            </a>
-                                        </h5>                                       
+                                        <h5 class="py-2"> {{item.room_type}} Room</h5>                                       
                                         <div class="row">
-                                            <div class="col-5 d-flex">
-                                                <p class="py-1 mx-2 ">beds :{{item.beds_num}}</p> _
-                                                <p class="py-1 mx-2"> view : {{item.view}}</p>
+                                            <div class="col-9 d-flex">
+                                                <p class="ms-3"><b>beds</b> : {{item.beds_num}}</p>
+                                                <p class="ms-3"> <b>view</b> : {{item.view}}</p>
+                                                <p class="ms-3"> <b>room size</b> : {{item.room_size}} m</p>
+                                                <p class="ms-3"> <b>room no.</b> : {{item.room_num}}</p>
                                             </div>
-                                            <div class="col-5"></div>
-                                            <div class="col-2 fs-6 ">
+                                            <div class="col-1"></div>
+                                            <div class="col-2 pt-3 fs-6 ">
                                                 <p class='btn btn-outline-primary'>{{item.price}} $</p>
                                             </div>
                                         </div>
@@ -76,19 +80,22 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-light" name="full_name" id="name" placeholder="Your Name">
+                                        <input type="text" value='{{booking.full_name}}' class="form-control bg-gradient" 
+                                        name="full_name" id="name" placeholder="Your Full Name" readonly>
                                         <label for="name">Your Full Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control bg-light" name="email" id="email" placeholder="Your Email">
+                                        <input type="email" value='{{booking.email}}' class="form-control bg-gradient" 
+                                        name="email" id="email" placeholder="Your Email" readonly>
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating date" id="date3" data-target-input="nearest">
-                                        <input type="number" class="form-control bg-light" name="phone" placeholder="Your Phone" />
+                                        <input type="text" value='{{booking.phone}}' class="form-control bg-gradient" 
+                                        name="phone" placeholder="Your Phone" readonly>
                                         <label for="checkin">Your Phone</label>
                                     </div>
                                 </div>
@@ -109,20 +116,20 @@
                     <div class="container">
                         <div class="bg-white my-5 mx-3 border border-1 rounded rounded-3  wow fadeInUp"  data-wow-delay="0.1s">
                             <div class="card ">
-                                <img src="{{hotel.img.url}}" class="card-img " width="370px" height="320px"  alt="...">
+                                <img src="{{booking.hotel.img.url}}" class="card-img " width="370px" height="320px"  alt="...">
 
                                 <div class="card-img-overlay text-white page-header-inner" style="padding-top: 200px;">
-                                    <h5 class="text-white">{{hotel.name}}</h5>
+                                    <h5 class="text-white">{{booking.hotel.name}}</h5>
                                     <div class="d-flex ms-2 fw-bold ">
-                                        <p class="me-3 "><i class="fa fa-map-marker-alt text-primary me-2"></i> {{hotel.address}} </p>
-                                        <p class=""><i class="fa fa-phone text-primary me-2"></i> {{hotel.phone}}</p>
+                                        <p class="me-3 "><i class="fa fa-map-marker-alt text-primary me-2"></i> {{booking.hotel.address}} </p>
+                                        <p class=""><i class="fa fa-phone text-primary me-2"></i> {{booking.hotel.phone}}</p>
                                     </div>
                                     <div class="d-flex ms-2">
-                                        <i class="{% if hotel.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
-                                        <i class="{% if hotel.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
-                                        <i class="{% if hotel.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
-                                        <i class="{% if hotel.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
-                                        <i class="{% if hotel.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if booking.hotel.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if booking.hotel.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if booking.hotel.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if booking.hotel.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+                                        <i class="{% if booking.hotel.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
                                         
                                     </div>
                                     
@@ -152,28 +159,39 @@
                                             <li class="mb-3">Total Days</li>
                                             <li class="mb-3">Adults</li>
                                             <li class="mb-3">Childern</li>
-                                            <li class="mb-3">V.A.T </li>
+                                            <li class="mb-3">Discount </li>
                                             <hr>
                                             <li class="mb-4 fs-5 text-primary">Total Cost</li>
                                         </ul>
                                     </div>
-                                    <div class="col-1"></div>
+                                    
 
-                                    <div class="col-5 fs-6 text-end ">
+                                    <div class="col-6 fs-6 text-end ">
                                         <ul type="none">
-                                            <li class="mb-3">{{checkin}}</li>
-                                            <li class="mb-3">{{checkout}}</li>
-                                            <li class="mb-3">{{total_days}} Days</li>
-                                            <li class="mb-3">{{adults}} Adults</li>
-                                            <li class="mb-3">{{children}} Childern</li>
+                                            <li class="mb-3">{{booking.check_in_date}}</li>
+                                            <li class="mb-3">{{booking.check_out_date}}</li>
+                                            <li class="mb-3">{{booking.total_days}} Days</li>
+                                            <li class="mb-3">{{booking.num_adults}} Adults</li>
+                                            <li class="mb-3">{{booking.num_children}} Childern</li>
                                             <li class="mb-3">$ 0.00</li>
                                             <hr>
-                                            <li class="mb-4 fs-5 text-primary">$ {{total_cost}}</li>
+                                            <li class="mb-4 fs-5 text-primary">$ {{booking.total}}</li>
                                         </ul>
                                     </div>
                                 </div>
-
+                                <form action="" class="d-flex ps-4 mb-3">
+                                    <input type="text" class="form-control bg-light" placeholder="Have a coupun enter here..">
+                                    <button class="btn btn-primary py-2 px-4 ms-2"> Apply</button>
+                                </form>
                                 
+                                <div class="bg-warning d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
+                                    <p class="pt-2">Pay With Strip <i class="fa-solid fa-credit-card ms-2"></i></p>
+                                </div>
+
+                                <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
+                                    <p class="pt-2">Pay With Paypal <i class="fa-solid fa-credit-card ms-2"></i></p>
+                                </div>
+
                             </div>
 
                         </div>

@@ -239,7 +239,8 @@ def delete_room_from_session(request):
 
 
 def checkout(request,booking_code):
-    return render(request, 'booking/checkout.html')
+    booking = Booking.objects.get(booking_code=booking_code)
+    return render(request, 'booking/checkout.html', {'booking':booking})
 
 
 # class CheckAvilability(generic.CreateView):

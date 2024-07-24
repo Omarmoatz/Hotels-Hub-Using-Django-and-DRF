@@ -76,19 +76,19 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control bg-light" name="full_name" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control bg-light" name="full_name" id="name" placeholder="Your Name" required>
                                         <label for="name">Your Full Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control bg-light" name="email" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control bg-light" name="email" id="email" placeholder="Your Email" required>
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-floating date" id="date3" data-target-input="nearest">
-                                        <input type="number" class="form-control bg-light" name="phone" placeholder="Your Phone" />
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control bg-light" name="phone" placeholder="Your Phone" required>
                                         <label for="checkin">Your Phone</label>
                                     </div>
                                 </div>
@@ -157,9 +157,8 @@
                                             <li class="mb-4 fs-5 text-primary">Total Cost</li>
                                         </ul>
                                     </div>
-                                    <div class="col-1"></div>
 
-                                    <div class="col-5 fs-6 text-end ">
+                                    <div class="col-6 fs-6 text-end ">
                                         <ul type="none">
                                             <li class="mb-3">{{checkin}}</li>
                                             <li class="mb-3">{{checkout}}</li>
