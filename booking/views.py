@@ -5,6 +5,8 @@ from django.views import generic
 from django.urls import reverse
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
+from decimal import Decimal
 
 from .models import Booking,Hotel,Room,RoomType,Coupon
 
@@ -238,46 +240,55 @@ def delete_room_from_session(request):
         return redirect('/')
 
 
+
 def checkout(request,booking_code):
     booking = Booking.objects.get(booking_code=booking_code)
     return render(request, 'booking/checkout.html', {'booking':booking})
 
 
+@csrf_exempt
 def check_coupun(request):
-    booking_id = request.GET['booking-id']
     if request.method == 'POST':
-        code = request.POst['code'] 
-        coupun = Coupon.objects.get(code=code)
+        booking_id = request.POST['booking_id']
+        code = request.POST['coupon_code'] 
 
-        if coupun and coupun.quantity > 0 :
+        try:
+            coupon = Coupon.objects.get(code=code)
+        except:
+            return JsonResponse({'status':'error', 'message':'Invalid coupon code.'})
+
+        if coupon and coupon.quantity > 0 :
             today = datetime.today().date()
-            start_date = coupun.start_date.date()
-            expire_date = coupun.end_date.date()
+            start_date = coupon.start_date.date()
+            expire_date = coupon.end_date.date()
 
             if today >= start_date and today <= expire_date:
                 booking = Booking.objects.get(id=booking_id)
                 
-                total_after_discount = booking.total * (coupun.discount /100)
-                booking.money_saved = booking.total - total_after_discount 
+                discount_decimal = Decimal(coupon.discount) / 100
+                total_after_discount = discount_decimal * booking.total
                 booking.total = total_after_discount
 
-                coupun.quantity -= 1
+                coupon.quantity -= 1
 
                 booking.save()
-                coupun.save()
+                coupon.save()
 
-                html = render_to_string('includes/total_after_desount.html',{'booking':booking})
-                return JsonResponse({'html':html})
+                messege = messages.success(request, 'Coupon applied successfully!')
+                html = render_to_string('includes/total_after_desount.html',{'booking':booking,
+                                                                             'message': messege,})
+                return JsonResponse({'status': 'success',
+                                      'html':html})
 
             else:
-                messages.warning(request, 'Expired coupon')
-                return 
+                return JsonResponse({'status':'error', 'message':'Expired coupon'})
                 
 
         else:
-            messages.warning(request, 'Invalid coupon')
-            return 
+            return JsonResponse({'status':'error', 'message':'Cupon quntity is empty'})
+        
 
+    return JsonResponse({'status':'error', 'message':'Invalid request method.'})    
 
 
 

@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+// ADD room to selection
     $('.add-to-selection').on('click', function(){
         let button = $(this)
         let room_id = button.attr("data-index");
@@ -52,6 +53,8 @@ $(document).ready(function(){
     })
 })
 
+
+// delete a booked room rom selection
 $(document).on('click', '.delete-room', function(){
     let room_id = $(this).attr('data-item')
     let button = $(this)
@@ -85,4 +88,59 @@ $(document).on('click', '.delete-room', function(){
             console.log('server error');
         }
     })
+})
+
+
+// check coupon 
+$(document).on('submit', '#check-coupun', function(e){
+    e.preventDefault()
+    let coupon_code = $('#coupon-code').val()
+    let booking_id = $('#booking-id').val()
+    var csrfToken = $("input[name='csrfmiddlewaretoken']").val();
+    let btn = $('#apply-coupon')
+
+    $.ajax({
+        url :'/booking/check_coupun/',
+        method: 'POST',
+        data :{
+            'booking_id':booking_id,
+            'coupon_code':coupon_code,
+            'csrfToken':csrfToken
+        },
+        dataType: 'json',
+        beforeSend: function(){
+
+            console.log('applying.....');
+            btn.html('<i class="fas fa-spinner fa-spin "></i>')
+            
+
+        },
+        success: function(res){
+            setTimeout(function(){
+                console.log(res.status)
+                if(res.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: res.message,
+                        timer: 2000,
+                    });
+
+                    btn.html('<i class="fa fa-check"></i>')
+                    $('#booking-summery').html(res.html)
+
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: res.message,
+                        timer: 2000,
+                    });
+                    btn.html('Apply')
+                }
+                          
+            },1000)
+            
+            
+        }
+    })
+
 })

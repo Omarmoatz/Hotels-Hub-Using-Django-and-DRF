@@ -53,7 +53,7 @@
                                                 <p class="ms-3"> <b>room no.</b> : {{item.room_num}}</p>
                                             </div>
                                             <div class="col-1"></div>
-                                            <div class="col-2 pt-3 fs-6 ">
+                                            <div class="col-2 fs-6 ">
                                                 <p class='btn btn-outline-primary'>{{item.price}} $</p>
                                             </div>
                                         </div>
@@ -150,7 +150,7 @@
                                 <i class="fa-regular fa-calendar-check fa-2xl text-primary me-3"></i>
                                 <span class=" fs-5 fw-light">Booking Summery</span>
                             </div>
-                            <div class=" pe-4 wow fadeInUp pt-1" data-wow-delay="0.2s">
+                            <div class=" pe-4 wow fadeInUp pt-1" data-wow-delay="0.2s" id="booking-summery">
                                 <div class="row">
                                     <div class="col-6">
                                         <ul type="none" class="text-start">
@@ -179,9 +179,11 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <form action="" class="d-flex ps-4 mb-4">
-                                    <input type="text" class="form-control bg-light" placeholder="Have a coupun enter here..">
-                                    <button class="btn btn-primary py-2 px-4 ms-2"> Apply</button>
+                                <form method="post" class="d-flex ps-4 mb-4" id="check-coupun">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control bg-light" placeholder="Have a coupun enter here.." id="coupon-code" required>
+                                    <button type='submit' class="btn btn-primary py-2 px-4 ms-2" id="apply-coupon"> <small>Apply</small></button>
+                                    <input type="hidden" value="{{booking.id}}" id="booking-id">
                                 </form>
                                 
                                 <div class="bg-warning d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">

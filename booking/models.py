@@ -41,7 +41,7 @@ class Booking(models.Model):
     booking_code = models.CharField( max_length=500, default=get_random_string(10), blank=True, null=True)
 
     def __str__(self):
-        return f'{str(self.user)}----{self.hotel}----{self.full_name}'
+        return f'{str(self.user)}----{self.hotel}----{self.full_name}---{self.booking_code}'
     
 
 class Coupon(models.Model):
