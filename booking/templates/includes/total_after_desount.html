@@ -7,7 +7,8 @@
                 <li class="mb-3">Total Days</li>
                 <li class="mb-3">Adults</li>
                 <li class="mb-3">Childern</li>
-                <li class="mb-3">Discount </li>
+                <li class="mb-3">Before Discount</li>
+                <li class="mb-3">Money Saved</li>
                 <hr>
                 <li class="mb-4 fs-5 text-primary">Total Cost</li>
             </ul>
@@ -21,7 +22,8 @@
                 <li class="mb-3">{{booking.total_days}} Days</li>
                 <li class="mb-3">{{booking.num_adults}} Adults</li>
                 <li class="mb-3">{{booking.num_children}} Childern</li>
-                <li class="mb-3">$ 0.00</li>
+                <li class="mb-3">$ {{ booking.before_discount }}</li>
+                <li class="mb-3">$ {{ booking.money_saved }}</li>
                 <hr>
                 <li class="mb-4 fs-5 text-primary">$ {{booking.total}}</li>
             </ul>

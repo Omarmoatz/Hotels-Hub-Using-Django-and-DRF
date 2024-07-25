@@ -29,7 +29,7 @@
                     <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
                         
                         <div class="my-5 ">
-                            <div class="bg-warning py-1 pt-3 px-2">
+                            <div class="py-1 pt-3 px-2" style="background-color: rgb(255, 235, 179);">
                                 <p> 
                                     <b class="ms-4 me-3">NOTE!</b>
                                     Review Your Rooms Before Payment 
@@ -181,7 +181,7 @@
                                 </div>
                                 <form method="post" class="d-flex ps-4 mb-4" id="check-coupun">
                                     {% csrf_token %}
-                                    <input type="text" class="form-control bg-light" placeholder="Have a coupun enter here.." id="coupon-code" required>
+                                    <input type="text" class="form-control bg-light" placeholder="Have a coupon? Enter here...." id="coupon-code" required>
                                     <button type='submit' class="btn btn-primary py-2 px-4 ms-2" id="apply-coupon"> <small>Apply</small></button>
                                     <input type="hidden" value="{{booking.id}}" id="booking-id">
                                 </form>

@@ -256,6 +256,10 @@ def check_coupun(request):
             coupon = Coupon.objects.get(code=code)
         except:
             return JsonResponse({'status':'error', 'message':'Invalid coupon code.'})
+        
+        booking = Booking.objects.get(id=booking_id)
+        if booking.coupon == coupon:
+            return JsonResponse({'status':'error', 'message':'you already used this coupon'})
 
         if coupon and coupon.quantity > 0 :
             today = datetime.today().date()
@@ -263,22 +267,22 @@ def check_coupun(request):
             expire_date = coupon.end_date.date()
 
             if today >= start_date and today <= expire_date:
-                booking = Booking.objects.get(id=booking_id)
                 
                 discount_decimal = Decimal(coupon.discount) / 100
                 total_after_discount = discount_decimal * booking.total
-                booking.total = total_after_discount
+                booking.total = round(total_after_discount,2)
+                booking.money_saved = booking.before_discount - booking.total
+                booking.coupon = coupon
 
                 coupon.quantity -= 1
 
                 booking.save()
                 coupon.save()
 
-                messege = messages.success(request, 'Coupon applied successfully!')
-                html = render_to_string('includes/total_after_desount.html',{'booking':booking,
-                                                                             'message': messege,})
+                html = render_to_string('includes/total_after_desount.html',{'booking':booking,})
                 return JsonResponse({'status': 'success',
-                                      'html':html})
+                                    'message': 'Coupon applied successfully!',
+                                    'html':html})
 
             else:
                 return JsonResponse({'status':'error', 'message':'Expired coupon'})
