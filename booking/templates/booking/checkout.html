@@ -159,7 +159,8 @@
                                             <li class="mb-3">Total Days</li>
                                             <li class="mb-3">Adults</li>
                                             <li class="mb-3">Childern</li>
-                                            <li class="mb-3">Discount </li>
+                                            <li class="mb-3">Before Discount</li>
+                                            <li class="mb-3">Money Saved</li>
                                             <hr>
                                             <li class="mb-4 fs-5 text-primary">Total Cost</li>
                                         </ul>
@@ -173,7 +174,8 @@
                                             <li class="mb-3">{{booking.total_days}} Days</li>
                                             <li class="mb-3">{{booking.num_adults}} Adults</li>
                                             <li class="mb-3">{{booking.num_children}} Childern</li>
-                                            <li class="mb-3">$ 0.00</li>
+                                            <li class="mb-3">$ {{ booking.before_discount }}</li>
+                                            <li class="mb-3">$ {{ booking.money_saved }}</li>
                                             <hr>
                                             <li class="mb-4 fs-5 text-primary">$ {{booking.total}}</li>
                                         </ul>
@@ -186,12 +188,12 @@
                                     <input type="hidden" value="{{booking.id}}" id="booking-id">
                                 </form>
                                 
-                                <div class="bg-warning d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
+                                <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
                                     <p class="pt-2">Pay With Strip <i class="fa-solid fa-credit-card ms-2"></i></p>
                                 </div>
 
-                                <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
-                                    <p class="pt-2">Pay With Paypal <i class="fa-solid fa-credit-card ms-2"></i></p>
+                                <div class="d-block mb-3 ms-4">
+                                     <i id="paypal-button-container"></i>
                                 </div>
 
                             </div>
@@ -207,5 +209,42 @@
         </div>
         
 
-
 {% endblock body %}
+
+
+{% block script %}
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+        <script>
+            let total_cost = '{{booking.total}}'
+            let booking_id = '{{booking.id}}'
+
+            paypal.Buttons({
+
+                CreateOrder: function(data, actions){
+                    return actions.order.create({
+                        purchace_units: [{
+                            amount: {
+                                value: total_cost
+                            }
+                        }]
+                    })
+                },
+
+                OnApprove: function (data, actions){
+                    return actions.order.capture().then(function(detail){
+                        console.log(detail);
+                    })
+                },
+
+                style: {
+                    layout: 'vertical',
+                    color:  'gold',
+                    shape:  'rect',
+                    label:  'paypal'
+                }
+                }).render('#paypal-button-container');
+        </script>
+    
+{% endblock script %}
+
+    

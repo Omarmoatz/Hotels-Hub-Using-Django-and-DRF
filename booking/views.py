@@ -267,13 +267,13 @@ def check_coupun(request):
             expire_date = coupon.end_date.date()
 
             if today >= start_date and today <= expire_date:
-                
-                discount_decimal = Decimal(coupon.discount) / 100
-                total_after_discount = discount_decimal * booking.total
-                booking.total = round(total_after_discount,2)
-                booking.money_saved = booking.before_discount - booking.total
-                booking.coupon = coupon
 
+                discount_decimal = Decimal(coupon.discount) / 100
+                discount = discount_decimal * booking.total
+                booking.total -= discount 
+
+                booking.money_saved = discount
+                booking.coupon = coupon
                 coupon.quantity -= 1
 
                 booking.save()

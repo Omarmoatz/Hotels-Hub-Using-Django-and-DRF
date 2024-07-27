@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
+from datetime import timedelta
 
 from accounts.models import User
 from hotel.models import Hotel, Room, RoomType
@@ -53,4 +54,9 @@ class Coupon(models.Model):
     end_date = models.DateTimeField( blank=True, null=True)
 
     def __str__(self):
-        return self.code
+        return f"{self.code} - {self.discount}% off"
+    
+    def save(self, *args, **kwargs):
+       week = timedelta(days=7)
+       self.end_date = self.start_date + week
+       super(Coupon, self).save(*args, **kwargs) 

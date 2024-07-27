@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)m#*7nb2bg=mc#g8(j9r70a05%-%mb&!ek%z2u3_mcjn+k&$pt
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'  # paypal about blank page
 
 # Application definition
 
