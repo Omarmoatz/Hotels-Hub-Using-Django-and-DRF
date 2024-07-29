@@ -213,16 +213,17 @@
 
 
 {% block script %}
-        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=AYd-JfkzKhhRe6djVxAc8obRQAxYpQWBaOjC4stHOaNdWov7ooeVbALd3mHm0Oor5U8bq3O4fRwSIy2b&currency=USD"></script>
         <script>
             let total_cost = '{{booking.total}}'
             let booking_id = '{{booking.id}}'
 
+            console.log(total_cost);
             paypal.Buttons({
 
-                CreateOrder: function(data, actions){
+                createOrder: function(data, actions) {
                     return actions.order.create({
-                        purchace_units: [{
+                        purchase_units: [{
                             amount: {
                                 value: total_cost
                             }
@@ -230,9 +231,21 @@
                     })
                 },
 
-                OnApprove: function (data, actions){
-                    return actions.order.capture().then(function(detail){
-                        console.log(detail);
+                onApprove: function (data, actions){
+                    return actions.order.capture().then(function(Detail){
+                        console.log(Detail);
+
+                        if(Detail.status == 'COMPLETED'){
+                            window.location.href = `/sucess/${booking_id}/?payer_id=${Detail.payer_id}&total_cost=${total_cost}&status=${Detail.status}`
+
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: "Somethig Went Wrong",
+                                timer: 2000,
+                            });
+                        }
+                        
                     })
                 },
 
