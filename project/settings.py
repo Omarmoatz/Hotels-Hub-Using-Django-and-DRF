@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # 3rd party Apps
     'django_summernote',
+    'rest_framework',
 
     # my apps
     'accounts',
