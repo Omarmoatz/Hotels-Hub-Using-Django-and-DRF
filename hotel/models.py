@@ -41,7 +41,7 @@ class Hotel(models.Model):
     phone = models.CharField(max_length=500, default='defaul_phone', blank=True, null=True)
     address = models.CharField(max_length=500, default='defaul_address', blank=True, null=True)
     email = models.EmailField(max_length=500, default='defaul_email', blank=True, null=True)
-    # rating = models.PositiveIntegerField( blank=True, null=True)
+    feature = models.ManyToManyField( 'HotelFeatures')
     tag = models.CharField( max_length=500, default='defaul_name', choices=TAG_CHOICES, blank=True, null=True)
     created_at = models.DateTimeField( default=timezone.now)
     slug = models.SlugField( blank=True, null=True)
@@ -69,7 +69,6 @@ class HotelGallery(models.Model):
         return str(self.hotel)
     
 class HotelFeatures(models.Model):
-    hotel = models.ForeignKey( Hotel, related_name='hotel_features', on_delete=models.CASCADE)
     icon = models.CharField( max_length=100, choices=ICON_FEATURES, blank=True, null=True)
     feature = models.CharField( max_length=500, default='defaul_name', blank=True, null=True)
 
