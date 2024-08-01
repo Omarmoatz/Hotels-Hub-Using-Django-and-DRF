@@ -26,4 +26,4 @@ class HotelAdmin(SummernoteModelAdmin):
     summernote_fields = ('description', )
 
 
-# admin.site.register(models.Hotel, HotelAdmin)
+admin.site.register(models.HotelFeatures)

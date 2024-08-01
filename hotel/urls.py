@@ -1,17 +1,18 @@
 from django.urls import path
 
-from . import views
-from . import api
+from .views import HotelList, HotelDetail, RoomTypeDetail
+from .api import hotel_list, HotelDetailApi
 
 app_name = 'hotel'
 
   #   hotels/
 urlpatterns = [
-    path('', views.HotelList.as_view(), name='hotel_list' ),
-    path('<slug:slug>/', views.HotelDetail.as_view(), name='hotel_detail' ),
-    path('<slug:slug>/<slug:room_type_slug>/', views.RoomTypeDetail.as_view(), name='room_type_detail' ),
-
+    path('', HotelList.as_view(), name='hotel_list' ),
+    path('<slug:slug>', HotelDetail.as_view(), name='hotel_detail' ),
+    path('<slug:slug>/<slug:room_type_slug>', RoomTypeDetail.as_view(), name='room_type_detail' ),
 
     #  API
-    path('api', api.hotel_list, name='hotel_list_api')
+    path('api/', hotel_list, name='hotel_list_api'),
+    path('api/<slug:slug>/', HotelDetailApi.as_view(), name='hotel_detail_api'),
+
 ]

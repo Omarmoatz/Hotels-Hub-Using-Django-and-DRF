@@ -1,4 +1,6 @@
+from rest_framework.reverse import reverse
 from rest_framework import serializers
+
 from .models import Hotel, HotelFeatures, HotelGallery, Room, RoomType
 
 
@@ -12,7 +14,7 @@ class HotelGallerySeriaLizer(serializers.ModelSerializer):
 class HotelFeaturesSeriaLizer(serializers.ModelSerializer):
     class Meta:
         model = HotelFeatures
-        fields = '__all__'
+        fields = ('feature', )
 
 
 class RoomTypeSeriaLizer(serializers.ModelSerializer):
@@ -27,20 +29,44 @@ class RoomSeriaLizer(serializers.ModelSerializer):
 
 
 class HotelSeriaLizer(serializers.ModelSerializer):
-    class Meta:
-        model = Hotel
-        fields = '__all__'
-
-
-
-class HotelDetailSeriaLizer(serializers.ModelSerializer):
-    hotel_feature = HotelFeaturesSeriaLizer()
+    detail_url_using_method = serializers.SerializerMethodField(method_name='get_detail_url')
+    # detail_url = serializers.HyperlinkedIdentityField(
+    #     view_name='hotel_detail_api',
+    #     lookup_field = 'slug'
+    # )
     class Meta:
         model = Hotel
         fields = (
                     'user',
                     'name',
-                    'hotel_feature',
+                    'img',
+                    'min_price',
+                    'max_price',
+                    'phone',
+                    'address',
+                    'email',
+                    # 'detail_url',
+                    'detail_url_using_method',
+                   )
+        
+    def get_detail_url(self,obj):
+        request = self.context.get('request')
+        if request is None:
+            return None
+        
+        return reverse('hotel:hotel_detail_api', kwargs={'slug':obj.slug}, request=request)
+
+
+
+class HotelDetailSeriaLizer(serializers.ModelSerializer):
+    feature = HotelFeaturesSeriaLizer(many=True)
+    class Meta:
+        model = Hotel
+        fields = (
+                    'id',
+                    'user',
+                    'name',
+                    'feature',
                     'img',
                     'subtitle',
                     'description',

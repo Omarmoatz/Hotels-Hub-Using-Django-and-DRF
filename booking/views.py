@@ -125,62 +125,6 @@ def selected_rooms(request):
         return redirect('/')
 
 
-def create_booking(request):
-    total_rooms_price = 0
-    rooms_obj = []
-    if 'room_selection_obj' in request.session:
-        if request.method == 'POST':
-            for id, item in request.session['room_selection_obj'].items():
-                hotel_id = item['hotel_id']
-                room_id = item['room_id']
-                checkin = item['checkin']
-                checkout = item['checkout']
-                adults = item['adults']
-                children = item['children']
-
-                room = Room.objects.get(id=room_id)
-                total_rooms_price += room.price
-                rooms_obj.append(room)
-
-            hotel = Hotel.objects.get(id=hotel_id)
-            
-            date_format = '%Y-%m-%d'
-            checkin_date = datetime.strptime(checkin, date_format)
-            checkout_date = datetime.strptime(checkout, date_format)
-            total_days = (checkout_date - checkin_date).days
-
-            total_price = total_rooms_price * total_days
-            user = request.user
-
-            full_name = request.POST['full_name']
-            email = request.POST['email']
-            phone = request.POST['phone']
-
-            booking = Booking.objects.create(
-                user=user,
-                full_name=full_name,
-                phone=phone,
-                email=email,
-                hotel=hotel,
-                total=total_price,
-                before_discount=total_price,
-                check_in_date=checkin,
-                check_out_date=checkout,
-                total_days=total_days,
-                num_adults=adults,
-                num_children=children
-            )
-
-            for item in rooms_obj:
-                room_type = item.room_type
-
-                booking.room.add(item)
-                booking.room_type.add(room_type)
-
-            messages.success(request, 'You Booked Sucesfully')
-    return redirect('booking:checkout', booking.booking_code)
-
-
 # it tooks its data from jQuery, AJAX
 def delete_room_from_session(request):
     room_id = 'room-selection'+str(request.GET['room_id'])
@@ -244,6 +188,63 @@ def delete_room_from_session(request):
 def checkout(request,booking_code):
     booking = Booking.objects.get(booking_code=booking_code)
     return render(request, 'booking/checkout.html', {'booking':booking})
+
+
+@csrf_exempt
+def create_booking(request):
+    total_rooms_price = 0
+    rooms_obj = []
+    if 'room_selection_obj' in request.session:
+        if request.method == 'POST':
+            for id, item in request.session['room_selection_obj'].items():
+                hotel_id = item['hotel_id']
+                room_id = item['room_id']
+                checkin = item['checkin']
+                checkout = item['checkout']
+                adults = item['adults']
+                children = item['children']
+
+                room = Room.objects.get(id=room_id)
+                total_rooms_price += room.price
+                rooms_obj.append(room)
+
+            hotel = Hotel.objects.get(id=hotel_id)
+            
+            date_format = '%Y-%m-%d'
+            checkin_date = datetime.strptime(checkin, date_format)
+            checkout_date = datetime.strptime(checkout, date_format)
+            total_days = (checkout_date - checkin_date).days
+
+            total_price = total_rooms_price * total_days
+            user = request.user
+
+            full_name = request.POST['full_name']
+            email = request.POST['email']
+            phone = request.POST['phone']
+
+            booking = Booking.objects.create(
+                user=user,
+                full_name=full_name,
+                phone=phone,
+                email=email,
+                hotel=hotel,
+                total=total_price,
+                before_discount=total_price,
+                check_in_date=checkin,
+                check_out_date=checkout,
+                total_days=total_days,
+                num_adults=adults,
+                num_children=children
+            )
+
+            for item in rooms_obj:
+                room_type = item.room_type
+
+                booking.room.add(item)
+                booking.room_type.add(room_type)
+
+            messages.success(request, 'You Booked Sucesfully')
+    return redirect('booking:checkout', booking.booking_code)
 
 
 @csrf_exempt
