@@ -29,7 +29,7 @@ class RoomSeriaLizer(serializers.ModelSerializer):
 
 
 class HotelSeriaLizer(serializers.ModelSerializer):
-    detail_url_using_method = serializers.SerializerMethodField(method_name='get_detail_url')
+    # detail_url = serializers.SerializerMethodField()
     # detail_url = serializers.HyperlinkedIdentityField(
     #     view_name='hotel_detail_api',
     #     lookup_field = 'slug'
@@ -46,7 +46,6 @@ class HotelSeriaLizer(serializers.ModelSerializer):
                     'address',
                     'email',
                     # 'detail_url',
-                    'detail_url_using_method',
                    )
         
     def get_detail_url(self,obj):
@@ -62,17 +61,4 @@ class HotelDetailSeriaLizer(serializers.ModelSerializer):
     feature = HotelFeaturesSeriaLizer(many=True)
     class Meta:
         model = Hotel
-        fields = (
-                    'id',
-                    'user',
-                    'name',
-                    'feature',
-                    'img',
-                    'subtitle',
-                    'description',
-                    'min_price',
-                    'max_price',
-                    'phone',
-                    'address',
-                    'email'
-                   )
+        fields = '__all__'

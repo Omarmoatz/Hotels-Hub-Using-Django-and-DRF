@@ -1,20 +1,18 @@
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 
 from .serializers import HotelSeriaLizer,HotelDetailSeriaLizer
 from .models import Hotel
 
 
-@api_view(['GET'])
-def hotel_list(request):
-    hotel = Hotel.objects.all()
-    serializer = HotelSeriaLizer(hotel, many=True, context={'request': request}).data
-
-    return Response({'data':serializer}) 
-
-
-class HotelDetailApi(generics.RetrieveUpdateDestroyAPIView):
+class HotelApiView(generics.GenericAPIView):
     queryset = Hotel.objects.all()
-    serializer_class = HotelDetailSeriaLizer
-    lookup_field = 'slug'
+    serializer_class = HotelSeriaLizer
+
+    def get(self, request, *args, **kwargs):
+        # generics.ListAPIView
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
