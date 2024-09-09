@@ -2,21 +2,20 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 from datetime import timedelta
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import User
 from hotel.models import Hotel, Room, RoomType
 
-
-PAYMENT_METHOD = (
-    ("cach","cach"),
-    ("visa","visa"),
-    ("strip","strip"),
-    ("paypal","paypal")
-)
-
 class Booking(models.Model):
+    class PAYMENT_METHOD(models.TextChoices):
+        CASH = 'cash', _('Cash')
+        VISA = 'visa', _('Visa')
+        STRIPE = 'stripe', _('Stripe')
+        PAYPAL = 'paypal', _('Paypal')
+
     user = models.ForeignKey(User, related_name='booked_user', on_delete=models.CASCADE)
-    payment_method = models.CharField( max_length=50, choices=PAYMENT_METHOD, blank=True, null=True)
+    payment_method = models.CharField( max_length=10, choices=PAYMENT_METHOD.choices, blank=True, null=True)
 
     full_name = models.CharField( max_length=500, blank=True, null=True)
     phone = models.CharField( max_length=500, blank=True, null=True)
@@ -43,7 +42,7 @@ class Booking(models.Model):
     coupon = models.ForeignKey('Coupon', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return f'{str(self.user)}----{self.hotel}----{self.full_name}---{self.booking_code}'
+        return f'booking{self.id} for {str(self.user)}'
     
     def save(self, *args, **kwargs):
        self.booking_code = get_random_string(10)

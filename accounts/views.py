@@ -35,7 +35,7 @@ def sign_up(request):
 
 
 def activate(request,username):
-    user = User.objects.get(user__username=username)
+    user = User.objects.get(username=username)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():

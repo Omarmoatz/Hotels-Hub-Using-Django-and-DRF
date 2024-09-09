@@ -4,8 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 
 class UserForm(UserCreationForm):
-    full_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your Full Name',
-                                                              'class':'form-control-lg w-100 border border-1'}))
     
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter Your username',
                                                              'class':'form-control-lg w-100 border border-1 '}))
@@ -23,7 +21,6 @@ class UserForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-                'full_name',
                 'username',
                 'email',
                 'password1',

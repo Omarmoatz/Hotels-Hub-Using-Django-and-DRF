@@ -2,5 +2,9 @@ from django.contrib import admin
 
 from .models import Booking,Coupon
 
-admin.site.register(Booking)
+@admin.register(Booking)
+class HotelAdmin(admin.ModelAdmin):
+    list_display = ('user', 'hotel', 'full_name')
+    search_fields = ('hotel', 'user')
+
 admin.site.register(Coupon)
