@@ -39,11 +39,15 @@ class Booking(models.Model):
     check_out = models.BooleanField(default=False)
     
     created_at = models.DateTimeField( default=timezone.now, blank=True, null=True)
-    booking_code = models.CharField( max_length=500, default=get_random_string(10), blank=True, null=True)
+    booking_code = models.CharField( max_length=500, blank=True, null=True)
     coupon = models.ForeignKey('Coupon', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{str(self.user)}----{self.hotel}----{self.full_name}---{self.booking_code}'
+    
+    def save(self, *args, **kwargs):
+       self.booking_code = get_random_string(10)
+       super().save(*args, **kwargs) 
     
 
 class Coupon(models.Model):

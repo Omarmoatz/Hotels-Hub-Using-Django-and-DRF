@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 
-from .models import User,Profile
+from .models import User
 from .forms import UserForm,ProfileForm,LoginForm
 
 
@@ -13,16 +13,16 @@ def sign_up(request):
         form = UserForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
+            email = form.cleaned_data['email'] # to send him the activation mail
            
             user_form = form.save(commit=False)
             user_form.is_active = False 
             user_form.save()
 
-            profile = Profile.objects.get(user__username=username)
+            user = User.objects.get(username=username)
             send_mail(
                 'Your Activation Mail',
-                f'Use this code {profile.code} to activate your account',
+                f'Use this code {user.code} to activate your account',
                 'omar@gmail.com',
                 [settings.EMAIL_BACKEND]
             )
@@ -31,21 +31,19 @@ def sign_up(request):
              
     else:
         form =UserForm()
-    return render(request, 'accounts/regester.html', {'form':form})
+    return render(request, 'accounts/register.html', {'form':form})
 
 
 def activate(request,username):
-    profile = Profile.objects.get(user__username=username)
+    user = User.objects.get(user__username=username)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
-            code = profile.code
             input_Code = form.cleaned_data['code']
-            if input_Code == code: 
-                code = ''
-                profile.user.is_active = True
-                profile.save()
-                profile.user.save()
+            if input_Code == user.code: 
+                user.code = ''
+                user.is_active = True
+                user.save()
                 messages.success(request, 'Your Account is Activated You Can Now Login')
                 return redirect('accounts:login')
             else:
@@ -63,15 +61,14 @@ def login_view(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
-            if user is not None:
+            if user:
                 login(request, user)
                 messages.success(request, f'Hey {user}, Welcome Back')
                 return redirect('/')
             else:
                 if User.objects.filter(email=email).exists():
                     messages.error(request, 'Invalid Password.')
-                    
-                 
+                                    
                 else:
                     messages.error(request, 'Invalid Email.')
                     
@@ -82,11 +79,11 @@ def login_view(request):
                 # else:
                 #     # Check if the password is incorrect
                 #     messages.error(request, 'Invalid password.')
-
     else:
         form =LoginForm()
 
     return render(request, 'accounts/login.html', {'form':form})
+
 
 def logout_view(request):
     logout(request)
