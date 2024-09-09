@@ -6,6 +6,7 @@ from utils import random_numbers
 
 class HotelList(generic.ListView):
     model = models.Hotel
+    paginate_by = 10 
 
 
 class HotelDetail(generic.DetailView):
