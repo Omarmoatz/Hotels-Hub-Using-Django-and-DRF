@@ -43,6 +43,10 @@ class Hotel(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Hotel, self).save(*args, **kwargs) 
+
+    @property
+    def check_created_at_this_year(self) -> bool:
+        return self.created_at.year == timezone.now().year
     
 
 class HotelGallery(models.Model):
