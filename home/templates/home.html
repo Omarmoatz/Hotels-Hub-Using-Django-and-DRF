@@ -159,7 +159,7 @@
                     </div>
                     <div class="row g-4">
                         
-                        {% for item in hotel %}  
+                        {% for item in latest_hotel %}  
                             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" >
                                 <div class="room-item shadow rounded overflow-hidden"  style="width:410px; height:560px;">
                                     <div class="position-relative">
@@ -169,7 +169,7 @@
                                     </div>
                                     <div class="p-4 mt-2">
                                         <div class="d-flex justify-content-between mb-3">
-                                            <h5 class="mb-0">{{item.name}}</h5>
+                                            <h5 class="mb-0">{{item.name|slice:":15"}}...</h5>
                                             <div class="ps-2">
                                                 <i>({{item.hotel_review.all|length}}) </i>
                                                 <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
@@ -181,7 +181,7 @@
                                         </div>
                                         <div class='d-flex mb-1'>
                                             <small class=" "><i
-                                                 class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address}}</small>
+                                                 class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address|slice:":35"}}...</small>
                                         </div>
 
                                         <div class='d-flex mb-1'>

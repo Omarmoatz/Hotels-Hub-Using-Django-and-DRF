@@ -322,7 +322,7 @@
                     </div>
                     <div class="p-4 mt-2">
                         <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0">{{item.name}}</h5>
+                            <h5 class="mb-0">{{item.name|slice:":25"}}</h5>
                             <div class="ps-2">
                                 <i>({{item.hotel_review.all|length}}) </i>
                                 <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
@@ -332,11 +332,11 @@
                                 <i class="{% if item.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
                             </div>
                         </div>
-                        <div class='d-flex mb-1'>
-                            <small class=" "><i class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address}}</small>
+                        <div class='d-flex mb-2'>
+                            <small class=" "><i class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address|slice:":35"}}...</small>
                         </div>
 
-                        <div class='d-flex mb-1'>
+                        <div class='d-flex mb-2'>
                             <small class=" "><i class="fa fa-phone text-primary me-2"></i><b>Phone:</b> {{ item.phone }}</small>
                         </div>
 

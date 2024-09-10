@@ -91,7 +91,7 @@
                                         <h5 class="mb-3">{{ item.name}}  </h5>
                                         <div class='d-flex mb-4'>
                                             <small class="border-end me-3 pe-3"><i
-                                                 class="fa fa-map-marker-alt text-primary me-2"></i>Address:<br> {{ item.address}}</small>
+                                                 class="fa fa-map-marker-alt text-primary me-2"></i>Address:<br> {{ item.address|slice:":20"}}...</small>
                                             <small class="border-end me-3 pe-3"><i
                                                     class="fa fa-phone text-primary me-2"></i>Phone:<br> {{ item.phone }}</small>
                                             <small><i class="fa fa-envelope text-primary me-2"></i>Email:<br>{{ item.email }}</small>

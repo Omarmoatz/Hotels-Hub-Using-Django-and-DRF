@@ -38,10 +38,6 @@ class Hotel(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Hotel, self).save(*args, **kwargs) 
-
-    @property
-    def check_created_at_this_year(self) -> bool:
-        return self.created_at.year == timezone.now().year
     
     def get_absolute_url(self):
         return reverse('hotel:hotel_detail', kwargs={'slug': self.slug})
@@ -49,11 +45,16 @@ class Hotel(models.Model):
     def get_api_url(self):
         return f"http://127.0.0.1:8000{reverse('hotel:hotel-detail', kwargs={'slug': self.slug})}"
     
+    @property
     def avg_rating(self):
         avg = self.hotel_review.aggregate(avg_rate=Avg('rate'))
         if not avg['avg_rate']:
             return 0
         return round(avg['avg_rate'],1) 
+    
+    @property
+    def check_created_at_this_year(self) -> bool:
+        return self.created_at.year == timezone.now().year
 
 class HotelGallery(models.Model):
     hotel = models.ForeignKey( Hotel, related_name='hotel_gallery', on_delete=models.CASCADE)
