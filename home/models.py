@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.html import mark_safe
 
@@ -12,6 +13,14 @@ class MainSettings(models.Model):
 
     facebook = models.URLField( max_length=500, blank=True, null=True)
     linkedin = models.URLField( max_length=500, blank=True, null=True)
+
+    def delete(self, *args, **kwargs):
+        raise Exception("You can't delete this object")
+    
+    def save(self,*args, **kwargs):
+        if MainSettings.objects.exists() and not self.pk:
+            raise Exception('You can not create more than one object')
+        return super(MainSettings, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name

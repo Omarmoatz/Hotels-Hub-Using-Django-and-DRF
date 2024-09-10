@@ -92,7 +92,7 @@ def selected_rooms(request):
             adults = int(item['adults'])
             children = int(item['children'])
 
-            room = Room.objects.get(id=room_id)
+            room = get_object_or_404(Room, id=room_id)
             rooms_list.append(room)
             rooms_price += float(room.price ) 
             
