@@ -15,11 +15,6 @@ class HotelFeaturesSeriaLizer(serializers.ModelSerializer):
         model = HotelFeatures
         fields = ('id','feature')
 
-class RoomTypeSeriaLizer(serializers.ModelSerializer):
-    class Meta:
-        model = RoomType
-        fields = '__all__'
-
 class RoomSeriaLizer(serializers.ModelSerializer):
     class Meta:
         model = Room
@@ -35,6 +30,7 @@ class HotelSeriaLizer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
         fields = (
+                    'id',
                     'user',
                     'name',
                     'img',
@@ -55,32 +51,32 @@ class HotelSeriaLizer(serializers.ModelSerializer):
         
         return reverse('hotel:hotel-detail', kwargs={'slug':obj.slug}, request=request)
 
+class RoomTypeListSeriaLizer(serializers.ModelSerializer):
+    hotel = serializers.StringRelatedField()
+    class Meta:
+        model = RoomType
+        fields = '__all__'
 
+    
+
+class RoomTypeDetailSeriaLizer(serializers.ModelSerializer):
+    hotel = HotelSeriaLizer()
+    rooms = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = RoomType
+        fields = '__all__'
+
+    def get_rooms(self, obj):
+        rooms = Room.objects.filter(room_type=obj)
+        return RoomSeriaLizer(rooms, many=True).data
 
 class HotelDetailSeriaLizer(serializers.ModelSerializer):
     feature = HotelFeaturesSeriaLizer(many=True, read_only=True)
     room_type = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Hotel
-        fields = (
-            'id',
-            'user',
-            'name',
-            'img',
-            'subtitle',
-            'description',
-            'min_price',
-            'max_price',
-            'phone',
-            'address',
-            'email',
-            'feature',
-            'tag',
-            'created_at',
-            'slug',
-            'room_type',
-        )
+        fields = '__all__'
 
     def get_room_type(self, obj):
         room_type = RoomType.objects.filter(hotel=obj)
-        return RoomTypeSeriaLizer(room_type, many=True).data
+        return RoomTypeListSeriaLizer(room_type, many=True).data
