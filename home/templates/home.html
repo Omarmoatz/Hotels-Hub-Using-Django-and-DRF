@@ -195,7 +195,7 @@
                                         
                                         <p class="text-body mb-3">{{ item.subtitle }}</p>
                                         <div class="d-flex justify-content-between ">
-                                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="{% url 'hotel:hotel_detail' item.slug %}">View Detail</a>
+                                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="{{item.get_absolute_url}}">View Detail</a>
                                             <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href>
                                                 <i class="fa fa-heart text-primary me-2" ></i>Add To Favorite</a>
                                         </div>

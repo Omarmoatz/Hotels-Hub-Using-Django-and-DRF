@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.db.models.aggregates import  Avg
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 from accounts.models import User
 
@@ -30,12 +31,6 @@ class Hotel(models.Model):
     created_at = models.DateTimeField( auto_now=True)
     slug = models.SlugField( blank=True, null=True)
 
-    def avg_rating(self):
-        avg = self.hotel_review.aggregate(avg_rate=Avg('rate'))
-        if not avg['avg_rate']:
-            result = 0
-            return result
-        return round(avg['avg_rate'],1) 
 
     def __str__(self):
         return self.name
@@ -48,6 +43,17 @@ class Hotel(models.Model):
     def check_created_at_this_year(self) -> bool:
         return self.created_at.year == timezone.now().year
     
+    def get_absolute_url(self):
+        return reverse('hotel:hotel_detail', kwargs={'slug': self.slug})
+    
+    def get_api_url(self):
+        return f"http://127.0.0.1:8000{reverse('hotel:hotel-detail', kwargs={'slug': self.slug})}"
+    
+    def avg_rating(self):
+        avg = self.hotel_review.aggregate(avg_rate=Avg('rate'))
+        if not avg['avg_rate']:
+            return 0
+        return round(avg['avg_rate'],1) 
 
 class HotelGallery(models.Model):
     hotel = models.ForeignKey( Hotel, related_name='hotel_gallery', on_delete=models.CASCADE)

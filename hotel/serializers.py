@@ -30,10 +30,10 @@ class RoomSeriaLizer(serializers.ModelSerializer):
 
 class HotelSeriaLizer(serializers.ModelSerializer):
     # detail_url = serializers.SerializerMethodField()
-    # detail_url = serializers.HyperlinkedIdentityField(
-    #     view_name='hotel_detail_api',
-    #     lookup_field = 'slug'
-    # )
+    detail_url = serializers.HyperlinkedIdentityField(
+        view_name='hotel:hotel-detail',
+        lookup_field = 'slug'
+    )
     class Meta:
         model = Hotel
         fields = (
@@ -45,7 +45,9 @@ class HotelSeriaLizer(serializers.ModelSerializer):
                     'phone',
                     'address',
                     'email',
-                    # 'detail_url',
+                    'get_absolute_url',
+                    'get_api_url',
+                    'detail_url',
                    )
         
     def get_detail_url(self,obj):
@@ -53,7 +55,7 @@ class HotelSeriaLizer(serializers.ModelSerializer):
         if request is None:
             return None
         
-        return reverse('hotel:hotel_detail_api', kwargs={'slug':obj.slug}, request=request)
+        return reverse('hotel:hotel-detail', kwargs={'slug':obj.slug}, request=request)
 
 
 
