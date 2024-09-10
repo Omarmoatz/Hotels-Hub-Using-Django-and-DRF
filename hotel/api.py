@@ -7,7 +7,7 @@ from .models import Hotel
 
 class HotelApiView(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
-    serializer_class = HotelSeriaLizer
+    serializer_class = HotelDetailSeriaLizer
     lookup_field = 'slug'
 
     # def get(self, request, *args, **kwargs):
@@ -16,4 +16,7 @@ class HotelApiView(viewsets.ModelViewSet):
     #     serializer = self.get_serializer(queryset, many=True)
     #     return Response(serializer.data)
     
-
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return HotelSeriaLizer
+        return super().get_serializer_class()

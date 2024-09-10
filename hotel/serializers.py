@@ -10,12 +10,10 @@ class HotelGallerySeriaLizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class HotelFeaturesSeriaLizer(serializers.ModelSerializer):
     class Meta:
         model = HotelFeatures
-        fields = ('feature', )
-
+        fields = ('id','feature')
 
 class RoomTypeSeriaLizer(serializers.ModelSerializer):
     class Meta:
@@ -60,7 +58,29 @@ class HotelSeriaLizer(serializers.ModelSerializer):
 
 
 class HotelDetailSeriaLizer(serializers.ModelSerializer):
-    feature = HotelFeaturesSeriaLizer(many=True)
+    feature = HotelFeaturesSeriaLizer(many=True, read_only=True)
+    room_type = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Hotel
-        fields = '__all__'
+        fields = (
+            'id',
+            'user',
+            'name',
+            'img',
+            'subtitle',
+            'description',
+            'min_price',
+            'max_price',
+            'phone',
+            'address',
+            'email',
+            'feature',
+            'tag',
+            'created_at',
+            'slug',
+            'room_type',
+        )
+
+    def get_room_type(self, obj):
+        room_type = RoomType.objects.filter(hotel=obj)
+        return RoomTypeSeriaLizer(room_type, many=True).data

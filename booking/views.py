@@ -121,7 +121,7 @@ def selected_rooms(request):
         return render(request, 'hotel/rooms_selected.html', context)
     
     else:
-        messages.warning(request, 'Rebook your Suitable  Room!')
+        messages.warning(request, 'You Dont Have Any Booked Rooms Yet!')
         return redirect('/')
 
 

@@ -6,7 +6,7 @@ from utils import random_numbers
 
 class HotelList(generic.ListView):
     model = models.Hotel
-    paginate_by = 10 
+    paginate_by = 7 
 
 
 class HotelDetail(generic.DetailView):
@@ -17,7 +17,7 @@ class HotelDetail(generic.DetailView):
         context['hotel_gallery'] =  models.HotelGallery.objects.filter(hotel=self.get_object())
         context['room_type'] = models.RoomType.objects.filter(hotel=self.get_object())  
         context['review'] = models.Review.objects.filter(hotel=self.get_object())  
-        context['related_hotels'] = models.Hotel.objects.all()[:3]  
+        context['related_hotels'] = models.Hotel.objects.all()[:6]  
         # context['related_hotels'] = models.Hotel.objects.all()[:random_numbers]  
         return context
     

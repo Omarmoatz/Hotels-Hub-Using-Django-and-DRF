@@ -322,7 +322,7 @@
                     </div>
                     <div class="p-4 mt-2">
                         <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0">{{item.name|slice:":25"}}</h5>
+                            <h5 class="mb-0">{{item.name|slice:":20"}}...</h5>
                             <div class="ps-2">
                                 <i>({{item.hotel_review.all|length}}) </i>
                                 <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>

@@ -14,9 +14,9 @@ class MainSettingsAdmin(admin.ModelAdmin):
         return False
     
     def has_add_permission(self, request: HttpRequest) -> bool:
+        # disable the Create button in the admin
         if MainSettings.objects.exists():
             messages.set_level(request, messages.ERROR)
-            messages.error(request, 'You can not create more than one object')
             return False
         return super().has_add_permission(request)
 
