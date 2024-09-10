@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="col-4"></div>
                                 <div class="col-3 fs-6 text-primary">
-                                    <p> {{item.price_start}} $ -> {{item.price_end}} $</p>
+                                    <p> {{item.price_start|floatformat:0 }} $ -> {{item.price_end|floatformat:0 }} $</p>
                                 </div>
                             </div>
                         </li>
@@ -303,7 +303,7 @@
 
 </div>
 
-
+<!-- Related Hotels -->
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
