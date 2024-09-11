@@ -55,6 +55,9 @@ class Hotel(TimeStampedModel):
     @property
     def check_created_at_this_year(self) -> bool:
         return self.created_at.year == timezone.now().year
+    
+    class Meta:
+        ordering = ['-created']
 
 class HotelGallery(models.Model):
     hotel = models.ForeignKey( Hotel, related_name='hotel_gallery', on_delete=models.CASCADE)

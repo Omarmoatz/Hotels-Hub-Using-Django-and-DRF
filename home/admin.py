@@ -23,4 +23,4 @@ class MainSettingsAdmin(admin.ModelAdmin):
     
     def img_tag(self, obj):
         if obj.logo:
-            return format_html(f'<img src="{obj.logo.url}" width="110" height="70"/>')
+            return format_html(f'<img src="{obj.logo.url}" width="150" height="60"/>')

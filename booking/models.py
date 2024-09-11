@@ -3,11 +3,12 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from datetime import timedelta
 from django.utils.translation import gettext_lazy as _
+from model_utils.models import TimeStampedModel, TimeFramedModel
 
 from accounts.models import User
 from hotel.models import Hotel, Room, RoomType
 
-class Booking(models.Model):
+class Booking(TimeStampedModel):
     class PAYMENT_METHOD(models.TextChoices):
         CASH = 'cash', _('Cash')
         VISA = 'visa', _('Visa')
@@ -37,7 +38,6 @@ class Booking(models.Model):
     check_in = models.BooleanField(default=False)
     check_out = models.BooleanField(default=False)
     
-    created_at = models.DateTimeField( default=timezone.now, blank=True, null=True)
     booking_code = models.CharField( max_length=500, blank=True, null=True)
     coupon = models.ForeignKey('Coupon', on_delete=models.CASCADE, blank=True, null=True)
 
@@ -46,20 +46,29 @@ class Booking(models.Model):
     
     def save(self, *args, **kwargs):
        self.booking_code = get_random_string(10)
-       super().save(*args, **kwargs) 
+       return super().save(*args, **kwargs) 
+       
+    class Meta:
+        ordering = ['-created']
     
 
-class Coupon(models.Model):
+class Coupon(TimeFramedModel):
     code = models.CharField( max_length=100, blank=True, null=True)
     discount = models.PositiveIntegerField( blank=True, null=True)
     quantity = models.PositiveIntegerField( blank=True, null=True)
-    start_date = models.DateTimeField(default=timezone.now)
-    end_date = models.DateTimeField( blank=True, null=True)
 
     def __str__(self):
         return f"{self.code} - {self.discount}% off"
     
     def save(self, *args, **kwargs):
-       week = timedelta(days=7)
-       self.end_date = self.start_date + week
-       super(Coupon, self).save(*args, **kwargs) 
+        if not self.end:
+            week = timedelta(days=7)
+            self.end = self.start + week
+
+        if not self.code:
+            self.code = get_random_string(10)
+            
+        return super(Coupon, self).save(*args, **kwargs) 
+
+    class Meta:
+        ordering = ['-start']

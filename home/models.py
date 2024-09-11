@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils.html import mark_safe
+from model_utils.models import TimeStampedModel
 
 
-class MainSettings(models.Model):
+class MainSettings(TimeStampedModel):
     name = models.CharField( max_length=150)
     logo = models.ImageField( upload_to='company/')
     description = models.TextField( max_length=1000, default='', blank=True, null=True)

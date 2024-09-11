@@ -21,7 +21,7 @@ class RivewInline(admin.TabularInline):
 @admin.register(Hotel)
 class HotelAdmin(SummernoteModelAdmin):
     inlines = [HotelGalleryTabular, RoomTypeInline, RoomsInline, RivewInline]
-    list_display = ('name', 'min_price', 'address', 'user', 'img_tag')
+    list_display = ('name', 'min_price', 'address', 'user', 'img_tag', 'created')
     list_filter = ('name', 'min_price')
     search_fields = ('name', 'min_price')
     summernote_fields = ('description', )
