@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.crypto import get_random_string
+from model_utils.models import TimeStampedModel
 
 
 GENDER = (
@@ -8,7 +9,7 @@ GENDER = (
     ('Female', 'Female')
 )
 
-class User(AbstractUser):
+class User(AbstractUser, TimeStampedModel):
     username = models.CharField(max_length=200, unique=True)
     email = models.EmailField(max_length=300, unique=True)
 
@@ -23,7 +24,6 @@ class User(AbstractUser):
     twitter = models.URLField( max_length=900, blank=True, null=True)
 
     verified = models.BooleanField(default=False)
-    created_at = models.DateField( auto_now=True)
 
     code = models.CharField( max_length=200 , blank=True, null=True)
 
@@ -32,7 +32,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username']  # Add this line to specify the required fields for user creation
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-created']
 
     def __str__(self):
         return self.username or self.email

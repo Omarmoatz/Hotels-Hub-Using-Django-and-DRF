@@ -1,4 +1,5 @@
 from django.db import models
+from model_utils.models import TimeStampedModel
 from django.utils import timezone
 from django.utils.text import slugify
 from django.db.models.aggregates import  Avg
@@ -7,7 +8,7 @@ from django.urls import reverse
 
 from accounts.models import User
 
-class Hotel(models.Model):
+class Hotel(TimeStampedModel):
     class TAG_CHOICES(models.TextChoices):
         SALE = 'sale', _('Sale')
         NEW = 'new', _('New')
@@ -28,7 +29,6 @@ class Hotel(models.Model):
     email = models.EmailField(max_length=500, default='', blank=True, null=True)
     feature = models.ManyToManyField( 'HotelFeatures')
     tag = models.CharField( max_length=500, default='', choices=TAG_CHOICES.choices, blank=True, null=True)
-    created_at = models.DateTimeField( auto_now=True)
     slug = models.SlugField( blank=True, null=True)
 
 
