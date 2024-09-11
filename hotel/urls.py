@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from .views import HotelList, HotelDetail, RoomTypeDetail
-from .api import HotelApiView, RoomTypeApiView
+from hotel.api.views import HotelApiView, RoomTypeApiView
 
 app_name = 'hotel'
 

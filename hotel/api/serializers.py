@@ -1,7 +1,8 @@
 from rest_framework.reverse import reverse
 from rest_framework import serializers
 
-from .models import Hotel, HotelFeatures, HotelGallery, Room, RoomType
+from hotel.models import Hotel, HotelFeatures, HotelGallery, Room, RoomType
+from accounts.api.serializers import UserSerializer
 
 
 class HotelGallerySeriaLizer(serializers.ModelSerializer):
@@ -72,7 +73,9 @@ class RoomTypeDetailSeriaLizer(serializers.ModelSerializer):
 
 class HotelDetailSeriaLizer(serializers.ModelSerializer):
     feature = HotelFeaturesSeriaLizer(many=True, read_only=True)
-    room_type = serializers.SerializerMethodField(read_only=True)
+    # room_type = serializers.SerializerMethodField(read_only=True)
+    rooms_type = RoomTypeListSeriaLizer(source='hotel_room_type', many=True, read_only=True)
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Hotel
         fields = '__all__'

@@ -2,7 +2,7 @@ from rest_framework import generics, viewsets
 from rest_framework.response import Response
 
 from .serializers import HotelSeriaLizer,HotelDetailSeriaLizer, RoomTypeListSeriaLizer, RoomTypeDetailSeriaLizer
-from .models import Hotel, RoomType
+from hotel.models import Hotel, RoomType
 
 
 class HotelApiView(viewsets.ModelViewSet):

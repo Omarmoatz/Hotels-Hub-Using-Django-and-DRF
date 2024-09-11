@@ -1,23 +1,23 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 
-from . import models
+from .models import HotelGallery, RoomType, Room, Hotel, HotelFeatures, Review
 
 class HotelGalleryTabular(admin.TabularInline):
-    model = models.HotelGallery
+    model = HotelGallery
 
 # class HotelFeaturesInline(admin.TabularInline):
-#     model = models.HotelFeatures
+#     model = HotelFeatures
 
 class RoomTypeInline(admin.TabularInline):
-    model = models.RoomType
+    model = RoomType
 
 class RoomsInline(admin.TabularInline):
-    model = models.Room
+    model = Room
 class RivewInline(admin.TabularInline):
-    model = models.Review
+    model = Review
 
-@admin.register(models.Hotel)
+@admin.register(Hotel)
 class HotelAdmin(SummernoteModelAdmin):
     inlines = [HotelGalleryTabular, RoomTypeInline, RoomsInline, RivewInline]
     list_display = ('name', 'min_price', 'address', 'user')
@@ -26,4 +26,4 @@ class HotelAdmin(SummernoteModelAdmin):
     summernote_fields = ('description', )
 
 
-admin.site.register(models.HotelFeatures)
+admin.site.register(HotelFeatures)
