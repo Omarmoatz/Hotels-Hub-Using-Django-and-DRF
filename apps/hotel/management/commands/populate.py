@@ -1,32 +1,42 @@
-from django.core.management.base import BaseCommand
+from random import choice
+from random import randint
+
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 from faker import Faker
-from random import choice, randint
-from apps.hotel.models import Hotel, HotelGallery, HotelFeatures, RoomType, Room, Review
+
+from apps.hotel.models import Hotel
+from apps.hotel.models import HotelFeatures
+from apps.hotel.models import HotelGallery
+from apps.hotel.models import Review
+from apps.hotel.models import Room
+from apps.hotel.models import RoomType
 
 fake = Faker()
 User = get_user_model()
 
+
 class Command(BaseCommand):
-    help = 'Populate the database with fake data'
+    help = "Populate the database with fake data"
 
     def add_arguments(self, parser):
-        parser.add_argument('n', type=int, help='Number of hotels to create')
+        parser.add_argument("n", type=int, help="Number of hotels to create")
 
     def handle(self, *args, **kwargs):
-        n = kwargs['n']
+        n = kwargs["n"]
 
         # Create a user
-        user, created = User.objects.get_or_create(username='testuser')
-        if created: user.set_password('test@1234')
-        user.email = 'testuser@example.com'
-        user.gender = 'Male'
-        user.phone = '1234567890'
-        user.image = 'profile/user.jpg'
-        user.country = 'United States'
-        user.address = '123 Main St, City, State'
-        user.facebook = 'https://www.facebook.com/testuser'
-        user.twitter = 'https://www.twitter.com/testuser'
+        user, created = User.objects.get_or_create(username="testuser")
+        if created:
+            user.set_password("test@1234")
+        user.email = "testuser@example.com"
+        user.gender = "Male"
+        user.phone = "1234567890"
+        user.image = "profile/user.jpg"
+        user.country = "United States"
+        user.address = "123 Main St, City, State"
+        user.facebook = "https://www.facebook.com/testuser"
+        user.twitter = "https://www.twitter.com/testuser"
         user.save()
 
         # Create hotels
@@ -56,10 +66,12 @@ class Command(BaseCommand):
 
             # Create hotel features
             for _ in range(4):
-                selected_icon = choice([icon[0] for icon in HotelFeatures.ICON_FEATURES.choices])
+                selected_icon = choice(
+                    [icon[0] for icon in HotelFeatures.ICON_FEATURES.choices]
+                )
                 hotel_feature = HotelFeatures(
-                icon=selected_icon,
-                feature=selected_icon,
+                    icon=selected_icon,
+                    feature=selected_icon,
                 )
                 hotel_feature.save()
                 hotel.feature.add(hotel_feature)
@@ -98,7 +110,7 @@ class Command(BaseCommand):
                 )
                 review.save()
 
-        self.stdout.write(self.style.SUCCESS(f'{n} hotels populated successfully!'))
+        self.stdout.write(self.style.SUCCESS(f"{n} hotels populated successfully!"))
 
 
 # Running Command: python manage.py populate 10

@@ -4,20 +4,20 @@ $(document).ready(function(){
     $('.add-to-selection').on('click', function(){
         let button = $(this)
         let room_id = button.attr("data-index");
-        
+
         let hotel_id = $('.hotel-id').val()
         let hotel_name= $('.hotel-name').val()
         let room_type= $('.room-type').val()
 
-        let room_price= $('.room-price').val() 
-        let room_num = $('.room-num').val() 
+        let room_price= $('.room-price').val()
+        let room_num = $('.room-num').val()
         let room_view= $('.room-view').val()
         let num_of_beds= $('.beds-num').val()
 
         let checkin = $('.checkin').val()
-        let checkout = $('.checkout').val() 
+        let checkout = $('.checkout').val()
         let adults = $('.adults').val()
-        let children = $('.children').val() 
+        let children = $('.children').val()
 
         $.ajax({
             url: '/booking/room_selection/',
@@ -37,17 +37,17 @@ $(document).ready(function(){
             },
             dataType : 'json',
             beforeSend : function() {
-                
-               button.html('<i class="fas fa-spinner fa-spin"></i> Processing')     
+
+               button.html('<i class="fas fa-spinner fa-spin"></i> Processing')
             },
             success : function(res){
 
                 setTimeout(function() {
-                    button.html('<i class="fa fa-check "></i> Added'); 
+                    button.html('<i class="fa fa-check "></i> Added');
                     console.log(res.rooms_len);
                     $('.rooms-len').html(res.rooms_len)
                  }, 1000);
-                
+
             }
         })
     })
@@ -90,12 +90,12 @@ $(document).on('click', '.delete-room', function(){
                 success: function(res){
                     if (res.rooms_len == 0) {
                         $('.rooms-booked').html(`<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                                                    <h1 class="my-5 fs-3">you deleted all your booked rooms 
+                                                    <h1 class="my-5 fs-3">you deleted all your booked rooms
                                                     <span class="text-primary text-uppercase"> you will be redirected to home page </span></h1>
                                                 </div>`);
                         setTimeout(function() {
                             window.location.href = '/booking/selected_rooms/'; // Redirect to another page
-                        }, 3000); // Wait for 3 seconds 
+                        }, 3000); // Wait for 3 seconds
                     } else {
                         swalWithBootstrapButtons.fire({
                             title: "Deleted!",
@@ -105,13 +105,13 @@ $(document).on('click', '.delete-room', function(){
                         $('.rooms-booked').html(res.rendered_data);
                     }
                     $('.rooms-len').html(res.rooms_len)
-                        
+
                 },
                 erorr: function(res){
                     console.log('server error');
                 }
             })
-          
+
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -123,11 +123,11 @@ $(document).on('click', '.delete-room', function(){
         }
       });
 
-    
+
 })
 
 
-// check coupon 
+// check coupon
 $(document).on('submit', '#check-coupun', function(e){
     e.preventDefault()
     let coupon_code = $('#coupon-code').val()
@@ -148,7 +148,7 @@ $(document).on('submit', '#check-coupun', function(e){
 
             console.log('applying.....');
             btn.html('<i class="fas fa-spinner fa-spin "></i>')
-            
+
 
         },
         success: function(res){
@@ -172,10 +172,10 @@ $(document).on('submit', '#check-coupun', function(e){
                     });
                     btn.html('Apply')
                 }
-                          
+
             },1000)
-            
-            
+
+
         }
     })
 

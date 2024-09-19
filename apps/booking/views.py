@@ -1,33 +1,39 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
 from datetime import datetime
-from django.views import generic
-from django.urls import reverse
-from django.http import HttpResponseRedirect, JsonResponse
-from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 
-from .models import Booking,Hotel,Room,RoomType,Coupon
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+
+from .models import Booking
+from .models import Coupon
+from .models import Hotel
+from .models import Room
+from .models import RoomType
 
 
-def check_avilability(request,slug):
-    if request.method == 'POST': 
-        name = request.POST.get('name','')
-        email = request.POST.get('email','')
-        checkin = request.POST.get('checkin','')
-        checkout = request.POST.get('checkout','')
-        adults = request.POST.get('adults','')
-        children = request.POST.get('children','')
-        room_type = request.POST.get('room_type','')
+def check_avilability(request, slug):
+    if request.method == "POST":
+        name = request.POST.get("name", "")
+        email = request.POST.get("email", "")
+        checkin = request.POST.get("checkin", "")
+        checkout = request.POST.get("checkout", "")
+        adults = request.POST.get("adults", "")
+        children = request.POST.get("children", "")
+        room_type = request.POST.get("room_type", "")
 
-        hotel = get_object_or_404(Hotel,slug=slug)
+        hotel = get_object_or_404(Hotel, slug=slug)
         room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
-        
-        url = reverse('hotel:room_type_detail', args=(slug, room_type.slug))
-        url_with_params = f'{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}'
-        return HttpResponseRedirect(url_with_params)
 
+        url = reverse("hotel:room_type_detail", args=(slug, room_type.slug))
+        url_with_params = f"{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}"
+        return HttpResponseRedirect(url_with_params)
 
 
 # it tooks its data from jQuery, AJAX
@@ -35,182 +41,181 @@ def room_selection_view(request):
     data = request.GET
     room_selection = {}
 
-    room_selection['room-selection' + str(data['room_id'])] = {
-        'hotel_id' : data['hotel_id'],
-        'hotel_name' : data['hotel_name'],
-        'room_id' : data['room_id'],
-        'room_type' : data['room_type'],
-        'room_price' : data['room_price'],
-        'room_num' : data['room_num'],
-        'room_view' : data['room_view'],
-        'num_of_beds' : data['num_of_beds'],
-        'checkin' : data['checkin'],
-        'checkout' : data['checkout'],
-        'adults' : data['adults'],
-        'children' : data['children'],
+    room_selection["room-selection" + str(data["room_id"])] = {
+        "hotel_id": data["hotel_id"],
+        "hotel_name": data["hotel_name"],
+        "room_id": data["room_id"],
+        "room_type": data["room_type"],
+        "room_price": data["room_price"],
+        "room_num": data["room_num"],
+        "room_view": data["room_view"],
+        "num_of_beds": data["num_of_beds"],
+        "checkin": data["checkin"],
+        "checkout": data["checkout"],
+        "adults": data["adults"],
+        "children": data["children"],
     }
 
-    
-    if 'room_selection_obj' in request.session:
-        current_id = data['room_id']
-        if current_id in request.session['room_selection_obj']:
-            old_data = request.session['room_selection_obj']
-            old_data[current_id]['adults'] = int(room_selection[current_id]['adults'])
-            old_data[current_id]['children'] = int(room_selection[current_id]['children'])
-            request.session['room_selection_obj'] = old_data
+    if "room_selection_obj" in request.session:
+        current_id = data["room_id"]
+        if current_id in request.session["room_selection_obj"]:
+            old_data = request.session["room_selection_obj"]
+            old_data[current_id]["adults"] = int(room_selection[current_id]["adults"])
+            old_data[current_id]["children"] = int(
+                room_selection[current_id]["children"]
+            )
+            request.session["room_selection_obj"] = old_data
         else:
-            old_data = request.session['room_selection_obj']
+            old_data = request.session["room_selection_obj"]
             old_data.update(room_selection)
-            request.session['room_selection_obj'] = old_data
+            request.session["room_selection_obj"] = old_data
     else:
-        request.session['room_selection_obj'] = room_selection
+        request.session["room_selection_obj"] = room_selection
 
     json_data = {
-        'data': request.session['room_selection_obj'],
-        'name' : 'omar moataz',
-        'rooms_len' : len(request.session['room_selection_obj'])
+        "data": request.session["room_selection_obj"],
+        "name": "omar moataz",
+        "rooms_len": len(request.session["room_selection_obj"]),
     }
 
     return JsonResponse(json_data)
 
 
-
-
 def selected_rooms(request):
     rooms_price = 0
     rooms_list = []
-    if 'room_selection_obj' in request.session:
-        if len(request.session['room_selection_obj']) == 0:
-            messages.warning(request, 'You deleted all your booked rooms!')
-            return redirect('/')
-        
-        for id, item in request.session['room_selection_obj'].items():
-            hotel_id = int(item['hotel_id'])
-            room_id = int(item['room_id'])
-            checkin = item['checkin']
-            checkout = item['checkout']
-            adults = int(item['adults'])
-            children = int(item['children'])
+    if "room_selection_obj" in request.session:
+        if len(request.session["room_selection_obj"]) == 0:
+            messages.warning(request, "You deleted all your booked rooms!")
+            return redirect("/")
+
+        for id, item in request.session["room_selection_obj"].items():
+            hotel_id = int(item["hotel_id"])
+            room_id = int(item["room_id"])
+            checkin = item["checkin"]
+            checkout = item["checkout"]
+            adults = int(item["adults"])
+            children = int(item["children"])
 
             room = get_object_or_404(Room, id=room_id)
             rooms_list.append(room)
-            rooms_price += float(room.price ) 
-            
+            rooms_price += float(room.price)
+
         hotel = Hotel.objects.get(id=hotel_id)
 
-        date_format = '%Y-%m-%d'
-        chickin_date = datetime.strptime( checkin, date_format)
-        chickout_date = datetime.strptime( checkout, date_format)
-        total_days = (chickout_date - chickin_date).days 
+        date_format = "%Y-%m-%d"
+        chickin_date = datetime.strptime(checkin, date_format)
+        chickout_date = datetime.strptime(checkout, date_format)
+        total_days = (chickout_date - chickin_date).days
 
-
-        total_cost = float(rooms_price * total_days) 
+        total_cost = float(rooms_price * total_days)
 
         context = {
-            'selected_rooms': request.session['room_selection_obj'],
-            'hotel': hotel,
-            'rooms_list': rooms_list,
-            'checkin': checkin ,
-            'checkout': checkout ,
-            'total_days': total_days,
-            'adults' : adults,
-            'children': children,
-            'total_cost': round(total_cost,2) 
+            "selected_rooms": request.session["room_selection_obj"],
+            "hotel": hotel,
+            "rooms_list": rooms_list,
+            "checkin": checkin,
+            "checkout": checkout,
+            "total_days": total_days,
+            "adults": adults,
+            "children": children,
+            "total_cost": round(total_cost, 2),
         }
 
-        return render(request, 'hotel/rooms_selected.html', context)
-    
-    else:
-        messages.warning(request, 'You Dont Have Any Booked Rooms Yet!')
-        return redirect('/')
+        return render(request, "hotel/rooms_selected.html", context)
+
+    messages.warning(request, "You Dont Have Any Booked Rooms Yet!")
+    return redirect("/")
 
 
 # it tooks its data from jQuery, AJAX
 def delete_room_from_session(request):
-    room_id = 'room-selection'+str(request.GET['room_id'])
+    room_id = "room-selection" + str(request.GET["room_id"])
     rooms_price = 0
     rooms_list = []
-    if 'room_selection_obj' in request.session:
+    if "room_selection_obj" in request.session:
+        if room_id in request.session["room_selection_obj"]:
+            existing_data = request.session["room_selection_obj"]
+            del request.session["room_selection_obj"][room_id]
+            request.session["room_selection_obj"] = existing_data
 
-        if room_id in request.session['room_selection_obj']:
-            existing_data = request.session['room_selection_obj']
-            del request.session['room_selection_obj'][room_id]
-            request.session['room_selection_obj'] = existing_data
-            
+        if len(request.session["room_selection_obj"]) == 0:
+            return JsonResponse(
+                {"rooms_len": len(request.session["room_selection_obj"])}
+            )
 
-        if len(request.session['room_selection_obj']) == 0:
-            return JsonResponse({'rooms_len': len(request.session['room_selection_obj'])})
-        
-        for id, item in request.session['room_selection_obj'].items():
-            hotel_id = int(item['hotel_id'])
-            room_id = int(item['room_id'])
-            checkin = item['checkin']
-            checkout = item['checkout']
-            adults = int(item['adults'])
-            children = int(item['children'])
+        for id, item in request.session["room_selection_obj"].items():
+            hotel_id = int(item["hotel_id"])
+            room_id = int(item["room_id"])
+            checkin = item["checkin"]
+            checkout = item["checkout"]
+            adults = int(item["adults"])
+            children = int(item["children"])
 
             room = Room.objects.get(id=room_id)
             rooms_list.append(room)
-            rooms_price += float(room.price ) 
-            
+            rooms_price += float(room.price)
+
         hotel = Hotel.objects.get(id=hotel_id)
 
-        date_format = '%Y-%m-%d'
-        chickin_date = datetime.strptime( checkin, date_format)
-        chickout_date = datetime.strptime( checkout, date_format)
-        total_days = (chickout_date - chickin_date).days 
+        date_format = "%Y-%m-%d"
+        chickin_date = datetime.strptime(checkin, date_format)
+        chickout_date = datetime.strptime(checkout, date_format)
+        total_days = (chickout_date - chickin_date).days
 
-
-        total_cost = float(rooms_price * total_days) 
+        total_cost = float(rooms_price * total_days)
 
         rendered_data = render_to_string(
-                    'includes/rooms.html', 
-                    {
-                        'selected_rooms': request.session['room_selection_obj'],
-                        'hotel': hotel,
-                        'rooms_list': rooms_list,
-                        'checkin': checkin ,
-                        'checkout': checkout ,
-                        'total_days': total_days,
-                        'adults' : adults,
-                        'children': children,
-                        'total_cost': round(total_cost,2) 
-                    }
-                )
-        return JsonResponse( {'rendered_data': rendered_data , 'rooms_len': len(request.session['room_selection_obj'])})
-    
-    else:
-        messages.warning(request, 'You deleted all your booked rooms!')
-        return redirect('/')
+            "includes/rooms.html",
+            {
+                "selected_rooms": request.session["room_selection_obj"],
+                "hotel": hotel,
+                "rooms_list": rooms_list,
+                "checkin": checkin,
+                "checkout": checkout,
+                "total_days": total_days,
+                "adults": adults,
+                "children": children,
+                "total_cost": round(total_cost, 2),
+            },
+        )
+        return JsonResponse(
+            {
+                "rendered_data": rendered_data,
+                "rooms_len": len(request.session["room_selection_obj"]),
+            }
+        )
+
+    messages.warning(request, "You deleted all your booked rooms!")
+    return redirect("/")
 
 
-
-def checkout(request,booking_code):
+def checkout(request, booking_code):
     booking = Booking.objects.get(booking_code=booking_code)
-    return render(request, 'booking/checkout.html', {'booking':booking})
+    return render(request, "booking/checkout.html", {"booking": booking})
 
 
 @csrf_exempt
 def create_booking(request):
     total_rooms_price = 0
     rooms_obj = []
-    if 'room_selection_obj' in request.session:
-        if request.method == 'POST':
-            for id, item in request.session['room_selection_obj'].items():
-                hotel_id = item['hotel_id']
-                room_id = item['room_id']
-                checkin = item['checkin']
-                checkout = item['checkout']
-                adults = item['adults']
-                children = item['children']
+    if "room_selection_obj" in request.session:
+        if request.method == "POST":
+            for id, item in request.session["room_selection_obj"].items():
+                hotel_id = item["hotel_id"]
+                room_id = item["room_id"]
+                checkin = item["checkin"]
+                checkout = item["checkout"]
+                adults = item["adults"]
+                children = item["children"]
 
                 room = Room.objects.get(id=room_id)
                 total_rooms_price += room.price
                 rooms_obj.append(room)
 
             hotel = Hotel.objects.get(id=hotel_id)
-            
-            date_format = '%Y-%m-%d'
+
+            date_format = "%Y-%m-%d"
             checkin_date = datetime.strptime(checkin, date_format)
             checkout_date = datetime.strptime(checkout, date_format)
             total_days = (checkout_date - checkin_date).days
@@ -218,9 +223,9 @@ def create_booking(request):
             total_price = total_rooms_price * total_days
             user = request.user
 
-            full_name = request.POST['full_name']
-            email = request.POST['email']
-            phone = request.POST['phone']
+            full_name = request.POST["full_name"]
+            email = request.POST["email"]
+            phone = request.POST["phone"]
 
             booking = Booking.objects.create(
                 user=user,
@@ -234,7 +239,7 @@ def create_booking(request):
                 check_out_date=checkout,
                 total_days=total_days,
                 num_adults=adults,
-                num_children=children
+                num_children=children,
             )
 
             for item in rooms_obj:
@@ -243,35 +248,36 @@ def create_booking(request):
                 booking.room.add(item)
                 booking.room_type.add(room_type)
 
-            messages.success(request, 'You Booked Sucesfully')
-    return redirect('booking:checkout', booking.booking_code)
+            messages.success(request, "You Booked Sucesfully")
+    return redirect("booking:checkout", booking.booking_code)
 
 
 @csrf_exempt
 def check_coupun(request):
-    if request.method == 'POST':
-        booking_id = request.POST['booking_id']
-        code = request.POST['coupon_code'] 
+    if request.method == "POST":
+        booking_id = request.POST["booking_id"]
+        code = request.POST["coupon_code"]
 
         try:
             coupon = Coupon.objects.get(code=code)
         except:
-            return JsonResponse({'status':'error', 'message':'Invalid coupon code.'})
-        
+            return JsonResponse({"status": "error", "message": "Invalid coupon code."})
+
         booking = Booking.objects.get(id=booking_id)
         if booking.coupon == coupon:
-            return JsonResponse({'status':'error', 'message':'you already used this coupon'})
+            return JsonResponse(
+                {"status": "error", "message": "you already used this coupon"}
+            )
 
-        if coupon and coupon.quantity > 0 :
+        if coupon and coupon.quantity > 0:
             today = datetime.today().date()
             start_date = coupon.start_date.date()
             expire_date = coupon.end_date.date()
 
             if today >= start_date and today <= expire_date:
-
                 discount_decimal = Decimal(coupon.discount) / 100
                 discount = discount_decimal * booking.total
-                booking.total -= discount 
+                booking.total -= discount
 
                 booking.money_saved = discount
                 booking.coupon = coupon
@@ -280,26 +286,22 @@ def check_coupun(request):
                 booking.save()
                 coupon.save()
 
-                html = render_to_string('includes/total_after_desount.html',{'booking':booking,})
-                return JsonResponse({'status': 'success',
-                                    'message': 'Coupon applied successfully!',
-                                    'html':html})
+                html = render_to_string(
+                    "includes/total_after_desount.html", {"booking": booking}
+                )
+                return JsonResponse(
+                    {
+                        "status": "success",
+                        "message": "Coupon applied successfully!",
+                        "html": html,
+                    }
+                )
 
-            else:
-                return JsonResponse({'status':'error', 'message':'Expired coupon'})
-                
+            return JsonResponse({"status": "error", "message": "Expired coupon"})
 
-        else:
-            return JsonResponse({'status':'error', 'message':'Cupon quntity is empty'})
-        
+        return JsonResponse({"status": "error", "message": "Cupon quntity is empty"})
 
-    return JsonResponse({'status':'error', 'message':'Invalid request method.'})    
-
-
-
-
-
-
+    return JsonResponse({"status": "error", "message": "Invalid request method."})
 
 
 # class CheckAvilability(generic.CreateView):
@@ -312,7 +314,7 @@ def check_coupun(request):
 #     #     context = super().get_context_data(**kwargs)
 #     #     context["room_type"] = models.RoomType.objects.filter(hotel =self.get_object())
 #     #     return context
-    
+
 
 #     def form_valid(self, form):
 #         slug = self.kwargs['slug']
@@ -334,4 +336,4 @@ def check_coupun(request):
 #             form.instance.user = user
 
 #         # self.success_url = f'/hotels/{slug}/ckeck_avilability/'
-#         return super().form_valid(form) 
+#         return super().form_valid(form)

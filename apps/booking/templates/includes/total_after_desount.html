@@ -1,46 +1,49 @@
 <div class=" pt-1" id="booking-summery">
-    <div class="row">
-        <div class="col-6">
-            <ul type="none" class="text-start">
-                <li class="mb-3">Checkin</li>
-                <li class="mb-3">Checkout</li>
-                <li class="mb-3">Total Days</li>
-                <li class="mb-3">Adults</li>
-                <li class="mb-3">Childern</li>
-                <li class="mb-3">Before Discount</li>
-                <li class="mb-3">Money Saved</li>
-                <hr>
-                <li class="mb-4 fs-5 text-primary">Total Cost</li>
-            </ul>
-        </div>
-        
-
-        <div class="col-6 fs-6 text-end ">
-            <ul type="none">
-                <li class="mb-3">{{booking.check_in_date}}</li>
-                <li class="mb-3">{{booking.check_out_date}}</li>
-                <li class="mb-3">{{booking.total_days}} Days</li>
-                <li class="mb-3">{{booking.num_adults}} Adults</li>
-                <li class="mb-3">{{booking.num_children}} Childern</li>
-                <li class="mb-3">$ {{ booking.before_discount }}</li>
-                <li class="mb-3">$ {{ booking.money_saved }}</li>
-                <hr>
-                <li class="mb-4 fs-5 text-primary">$ {{booking.total}}</li>
-            </ul>
-        </div>
+  <div class="row">
+    <div class="col-6">
+      <ul type="none" class="text-start">
+        <li class="mb-3">Checkin</li>
+        <li class="mb-3">Checkout</li>
+        <li class="mb-3">Total Days</li>
+        <li class="mb-3">Adults</li>
+        <li class="mb-3">Childern</li>
+        <li class="mb-3">Before Discount</li>
+        <li class="mb-3">Money Saved</li>
+        <hr />
+        <li class="mb-4 fs-5 text-primary">Total Cost</li>
+      </ul>
     </div>
-    <form method="post" class="d-flex ps-4 mb-4" id="check-coupun">
-        <input type="text" class="form-control bg-light" placeholder="Have a coupun enter here..">
-        <button type="submit" class="btn btn-primary py-2 px-4 ms-2" id="apply-coupon"> Apply</button>
-        <input type="hidden" value="{{booking.id}}" id="booking-id">
-    </form>
-    
-    <div class="bg-warning d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
-        <p class="pt-2">Pay With Strip <i class="fa-solid fa-credit-card ms-2"></i></p>
+    <div class="col-6 fs-6 text-end ">
+      <ul type="none">
+        <li class="mb-3">{{ booking.check_in_date }}</li>
+        <li class="mb-3">{{ booking.check_out_date }}</li>
+        <li class="mb-3">{{ booking.total_days }} Days</li>
+        <li class="mb-3">{{ booking.num_adults }} Adults</li>
+        <li class="mb-3">{{ booking.num_children }} Childern</li>
+        <li class="mb-3">$ {{ booking.before_discount }}</li>
+        <li class="mb-3">$ {{ booking.money_saved }}</li>
+        <hr />
+        <li class="mb-4 fs-5 text-primary">$ {{ booking.total }}</li>
+      </ul>
     </div>
-
-    <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
-        <p class="pt-2">Pay With Paypal <i class="fa-solid fa-credit-card ms-2"></i></p>
-    </div>
-
+  </div>
+  <form method="post" class="d-flex ps-4 mb-4" id="check-coupun">
+    <input type="text"
+           class="form-control bg-light"
+           placeholder="Have a coupun enter here.." />
+    <button type="submit"
+            class="btn btn-primary py-2 px-4 ms-2"
+            id="apply-coupon">Apply</button>
+    <input type="hidden" value="{{ booking.id }}" id="booking-id" />
+  </form>
+  <div class="bg-warning d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
+    <p class="pt-2">
+      Pay With Strip <i class="fa-solid fa-credit-card ms-2"></i>
+    </p>
+  </div>
+  <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
+    <p class="pt-2">
+      Pay With Paypal <i class="fa-solid fa-credit-card ms-2"></i>
+    </p>
+  </div>
 </div>

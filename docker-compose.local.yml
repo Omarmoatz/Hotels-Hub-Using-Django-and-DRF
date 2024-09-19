@@ -44,10 +44,10 @@ services:
   redis:
     image: docker.io/redis:6
     container_name: hotels_hub_local_redis
-    
+
     volumes:
       - hotels_hub_local_redis_data:/data
-    
+
 
   celeryworker:
     <<: *django

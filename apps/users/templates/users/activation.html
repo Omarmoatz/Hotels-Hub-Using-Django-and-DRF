@@ -1,30 +1,27 @@
 {% extends 'auth_base.html' %}
-{% load static %}
-{% block body %}  
-    <div class="container my-5 ">
-        <div class="row text-center justify-content-center">
-            <h1 class="text-warning bg-dark w-auto mx-auto mb-5 py-1 px-3">HOTELIER</h1>
-            <h4>Activation Your Account</h4>
-            <p>we had send you the activation code use it to activate your acount </p>
-            <div class="col-lg-5 mt-2">
-                
-                <form class="form-control my-5 bg-white shadow-lg rounded-3 "  method="post">
-                    {% csrf_token %}
-                    
-                    <div class="my-3">
-                        {% if error %} 
-                            <div class="alert alert-danger my-2">
-                                {{ error}}
-                            </div>
-                        {% endif %}
 
-                        {{ form }}
-                    </div>
-                     
-                    <button class="btn btn-warning w-100 my-2" type="submit">activate</button>
-                </form>
-                <p>already have an account <a href="{% url 'users:login' %}">login</a></p>
-            </div>
-        </div>
+{% load static %}
+
+{% block body %}
+  <div class="container my-5 ">
+    <div class="row text-center justify-content-center">
+      <h1 class="text-warning bg-dark w-auto mx-auto mb-5 py-1 px-3">HOTELIER</h1>
+      <h4>Activation Your Account</h4>
+      <p>we had send you the activation code use it to activate your acount</p>
+      <div class="col-lg-5 mt-2">
+        <form class="form-control my-5 bg-white shadow-lg rounded-3 "
+              method="post">
+          {% csrf_token %}
+          <div class="my-3">
+            {% if error %}<div class="alert alert-danger my-2">{{ error }}</div>{% endif %}
+            {{ form }}
+          </div>
+          <button class="btn btn-warning w-100 my-2" type="submit">activate</button>
+        </form>
+        <p>
+          already have an account <a href="{% url 'users:login' %}">login</a>
+        </p>
+      </div>
     </div>
+  </div>
 {% endblock body %}

@@ -1,368 +1,385 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
 {% block body %}
-
-<div id="room-carousel" class="carousel slide mb-5 wow fadeIn h-25" data-bs-ride="carousel" data-wow-delay="0.1s">
+  <div id="room-carousel"
+       class="carousel slide mb-5 wow fadeIn h-25"
+       data-bs-ride="carousel"
+       data-wow-delay="0.1s">
     <div class="carousel-inner">
-
-        {% for item in hotel_gallery %}
+      {% for item in hotel_gallery %}
         <div class="carousel-item active">
-            <img class="w-100" height="550px" src="{{item.img.url}}" alt="Image">
+          <img class="w-100" height="550px" src="{{ item.img.url }}" alt="Image" />
         </div>
-        {% endfor %}
-
+      {% endfor %}
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#room-carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#room-carousel"
+            data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#room-carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#room-carousel"
+            data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
     </button>
-</div>
-
-<div class="container-xxl py-5">
-
+  </div>
+  <div class="container-xxl py-5">
     <div class="row g-5">
-        <div class="col-lg-8">
-            <div class="d-flex align-items-center mb-4">
-                <h1 class="mb-0">{{object.name}}</h1>
-                <div class="ps-3">
-                    <i>({{object.hotel_review.all|length}}) </i>
-                    <i class="{% if object.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
-                    <i class="{% if object.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
-                    <i class="{% if object.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
-                    <i class="{% if object.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
-                    <i class="{% if object.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center mb-4">
+          <h1 class="mb-0">{{ object.name }}</h1>
+          <div class="ps-3">
+            <i>({{ object.hotel_review.all|length }}) </i>
+            <i class="{% if object.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+            <i class="{% if object.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+            <i class="{% if object.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+            <i class="{% if object.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+            <i class="{% if object.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap pb-4 m-n1">
+          {% for item in object.feature.all %}
+            <small class="bg-light rounded py-1 px-3 m-1"><i class="fa fa-{{ item.icon }} text-primary me-2"></i>{{ item.feature }}</small>
+          {% endfor %}
+        </div>
+        <p class="mb-5">{{ object.description|safe }}</p>
+        <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
+          <!-- Location -->
+          <div class="my-5">
+            <ul class="nav nav-pills d-flex justify-content-between border-bottom mb-4">
+              <li class="nav-item">
+                <a class="d-flex align-items-center py-3"
+                   data-bs-toggle="pill"
+                   href="#tab-3">
+                  <i class="fa fa-map-marker-alt text-primary me-2"></i>
+                  <h6 class="mb-0">Location</h6>
+                </a>
+              </li>
+            </ul>
+            <div id="tab-3" class="tab-pane fade show p-0">
+              <div class="row g-4 mb-4">
+                <div class="col-md-4 d-flex align-items-center">
+                  <div class="flex-shrink-0 border rounded p-1 me-3"
+                       style="width: 45px;
+                              height: 45px">
+                    <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                      <i class="fa fa-map-marker-alt text-primary"></i>
+                    </div>
+                  </div>
+                  <span>{{ object.address }}</span>
                 </div>
+                <div class="col-md-4 d-flex align-items-center">
+                  <div class="flex-shrink-0 border rounded p-1 me-3"
+                       style="width: 45px;
+                              height: 45px">
+                    <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                      <i class="fa fa-phone-alt text-primary"></i>
+                    </div>
+                  </div>
+                  <span>+{{ object.phone }}</span>
+                </div>
+                <div class="col-md-4 d-flex align-items-center">
+                  <div class="flex-shrink-0 border rounded p-1 me-3"
+                       style="width: 45px;
+                              height: 45px">
+                    <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                      <i class="fa fa-envelope text-primary"></i>
+                    </div>
+                  </div>
+                  <span><a href="">{{ object.email }}</a></span>
+                </div>
+              </div>
             </div>
-            <div class="d-flex flex-wrap pb-4 m-n1">
-
-                {% for item in object.feature.all %}
-                    <small class="bg-light rounded py-1 px-3 m-1"><i
-                            class="fa fa-{{item.icon}} text-primary me-2"></i>{{item.feature}}</small>
+          </div>
+          <!-- Pricing -->
+          <div class="my-5">
+            <ul class="nav nav-pills d-flex justify-content-between border-bottom mb-4">
+              <li class="nav-item">
+                <a class="d-flex align-items-center py-3"
+                   data-bs-toggle="pill"
+                   href="#tab-2">
+                  <i class="fa fa-dollar text-primary me-2"></i>
+                  <h6 class="mb-0">Pricing</h6>
+                </a>
+              </li>
+            </ul>
+            <ul class="list-group w-75">
+              <li class="list-group-item bg-warning py-3">
+                <h6>Room Type</h6>
+              </li>
+              {% for item in room_type %}
+                <li class="list-group-item py-2">
+                  <h6 class="fs-6">{{ item.title }}</h6>
+                  <div class="row">
+                    <div class="col-5 d-flex">
+                      <p class="py-1 mx-2 ">beds : {{ item.beds_num }}</p>
+                      _
+                      <p class="py-1 mx-2">room size : {{ item.room_size }} m</p>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-3 fs-6 text-primary">
+                      <p>{{ item.price_start|floatformat:0 }} $ -> {{ item.price_end|floatformat:0 }} $</p>
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- Reviews -->
+          <div class="my-5">
+            <ul class="nav nav-pills d-flex justify-content-between border-bottom mb-4">
+              <li class="nav-item">
+                <a class="d-flex align-items-center py-3"
+                   data-bs-toggle="pill"
+                   href="#tab-4">
+                  <i class="fa fa-star text-primary me-2"></i>
+                  <h6 class="mb-0">Reviews( {{ review|length }} )</h6>
+                </a>
+              </li>
+            </ul>
+            <div id="tab-4" class="tab-pane fade show bg-white p-5">
+              <div class="mb-4">
+                <h4 class="mb-4">{{ review|length }} Reviews</h4>
+                {% if not review %}
+                  <div class="d-flex mb-4">
+                    <p class="mb-2 bg-warning px-5 py-3">NO Reviews On This Hotel Yet</p>
+                  </div>
+                {% endif %}
+                {% for item in review %}
+                  <div class="d-flex mb-4 border border-1 p-3 rounded rounded-3 bg-light">
+                    {% if item.user.user_profile.image %}
+                      <img src="{{ item.user.user_profile.image.url }}"
+                           class="img-fluid rounded rounded-3"
+                           style="width: 60px;
+                                  height: 60px" />
+                    {% else %}
+                      <img src="{% static 'img/user.png' %}"
+                           class="img-fluid rounded rounded-3"
+                           style="width: 60px;
+                                  height: 60px" />
+                    {% endif %}
+                    <div class="ps-3">
+                      <h6>
+                        {{ item.user.username }} <small class="text-body fw-normal fst-italic">{{ item.created_at }}</small>
+                      </h6>
+                      <div class="mb-2">
+                        <small class="{% if item.rate > '0' %} fa fa-star text-primary {% endif %} "></small>
+                        <small class="{% if item.rate > '1' %} fa fa-star text-primary {% endif %} "></small>
+                        <small class="{% if item.rate > '2' %} fa fa-star text-primary {% endif %} "></small>
+                        <small class="{% if item.rate > '3' %} fa fa-star text-primary {% endif %} "></small>
+                        <small class="{% if item.rate > '4' %} fa fa-star text-primary {% endif %} "></small>
+                      </div>
+                      <p class="mb-2">{{ item.content }}</p>
+                      <a><i class="fa fa-reply me-2"></i> Reply</a>
+                    </div>
+                  </div>
                 {% endfor %}
-
+              </div>
             </div>
-            <p class="mb-5">{{object.description|safe}}</p>
-
-            <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
-                <!-- Location -->
-                <div class="my-5">
-                    <ul class="nav nav-pills d-flex justify-content-between border-bottom mb-4">
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center py-3" data-bs-toggle="pill" href="#tab-3">
-                                <i class="fa fa-map-marker-alt text-primary me-2"></i>
-                                <h6 class="mb-0">Location</h6>
-                            </a>
-                        </li>
-                    </ul>
-                    <div id="tab-3" class="tab-pane fade show p-0">
-                        <div class="row g-4 mb-4">
-                            <div class="col-md-4 d-flex align-items-center">
-                                <div class="flex-shrink-0 border rounded p-1 me-3" style="width: 45px; height: 45px;">
-                                    <div
-                                        class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-map-marker-alt text-primary"></i>
-                                    </div>
-                                </div>
-                                <span>{{object.address}}</span>
-                            </div>
-                            <div class="col-md-4 d-flex align-items-center">
-                                <div class="flex-shrink-0 border rounded p-1 me-3" style="width: 45px; height: 45px;">
-                                    <div
-                                        class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-phone-alt text-primary"></i>
-                                    </div>
-                                </div>
-                                <span>+{{object.phone}}</span>
-                            </div>
-                            <div class="col-md-4 d-flex align-items-center">
-                                <div class="flex-shrink-0 border rounded p-1 me-3" style="width: 45px; height: 45px;">
-                                    <div
-                                        class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-envelope text-primary"></i>
-                                    </div>
-                                </div>
-                                <span><a href="">{{object.email}}</a></span>
-                            </div>
-                        </div>
-                    </div>
+            <div class="bg-white p-4 p-md-5 rounded rounded-1 mt-5">
+              <h4 class="mb-4">Leave A Review</h4>
+              <form>
+                <div class="row g-3">
+                  <div class="col-12 d-flex align-items-center">
+                    <h6 class="mb-0 me-2">Rate Me:</h6>
+                    <div id="halfstarsReview" class="fs-3 me-2"></div>
+                    <input type="number"
+                           id="halfstarsInput"
+                           class="border-0 bg-light"
+                           style="width: 50px" />
+                  </div>
+                  <div class="col-12">
+                    <textarea class="form-control bg-light border-0" rows="5" placeholder="Review"></textarea>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100 py-3" type="submit">
+                      Leave Your
+                      Review
+                    </button>
+                  </div>
                 </div>
-
-                <!-- Pricing -->
-                <div class="my-5">
-                    <ul class="nav nav-pills d-flex justify-content-between border-bottom mb-4">
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center py-3" data-bs-toggle="pill" href="#tab-2">
-                                <i class="fa fa-dollar text-primary me-2"></i>
-                                <h6 class="mb-0">Pricing</h6>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="list-group w-75">
-                        <li class="list-group-item bg-warning py-3">
-                            <h6>Room Type</h6>
-                        </li>
-
-                        {% for item in room_type %}
-                        <li class="list-group-item py-2">
-                            <h6 class="fs-6">{{item.title}}</h6>
-                            <div class="row">
-                                <div class="col-5 d-flex">
-                                    <p class="py-1 mx-2 ">beds : {{item.beds_num}}</p> _
-                                    <p class="py-1 mx-2"> room size : {{item.room_size}} m </p>
-                                </div>
-                                <div class="col-4"></div>
-                                <div class="col-3 fs-6 text-primary">
-                                    <p> {{item.price_start|floatformat:0 }} $ -> {{item.price_end|floatformat:0 }} $</p>
-                                </div>
-                            </div>
-                        </li>
-                        {% endfor %}
-
-                    </ul>
-                </div>
-
-                <!-- Reviews -->
-                <div class="my-5">
-                    <ul class="nav nav-pills d-flex justify-content-between border-bottom mb-4">
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center py-3" data-bs-toggle="pill" href="#tab-4">
-                                <i class="fa fa-star text-primary me-2"></i>
-                                <h6 class="mb-0">Reviews( {{ review|length }} )</h6>
-                            </a>
-                        </li>
-                    </ul>
-                    <div id="tab-4" class="tab-pane fade show bg-white p-5">
-                        <div class="mb-4">
-                            <h4 class="mb-4">{{ review|length }} Reviews</h4>
-                            {% if not review %}
-
-                            <div class="d-flex mb-4">
-                                <p class="mb-2 bg-warning px-5 py-3">NO Reviews On This Hotel Yet</p>
-                            </div>
-
-                            {% endif %}
-
-                            {% for item in review %}
-                            <div class="d-flex mb-4 border border-1 p-3 rounded rounded-3 bg-light">
-
-                                {% if item.user.user_profile.image %}
-                                    <img src="{{ item.user.user_profile.image.url }}" class="img-fluid rounded rounded-3"
-                                        style="width: 60px; height: 60px;">
-                                {% else %}
-                                    <img src="{% static 'img/user.png' %}" class="img-fluid rounded rounded-3"
-                                        style="width: 60px; height: 60px;">
-                                {% endif %}
-
-                                <div class="ps-3">
-                                    <h6>{{ item.user.username }} <small class="text-body fw-normal fst-italic">{{item.created_at }}</small></h6>
-                                    <div class="mb-2">
-                                        <small
-                                            class="{% if item.rate > '0' %} fa fa-star text-primary {% endif %} "></small>
-                                        <small
-                                            class="{% if item.rate > '1' %} fa fa-star text-primary {% endif %} "></small>
-                                        <small
-                                            class="{% if item.rate > '2' %} fa fa-star text-primary {% endif %} "></small>
-                                        <small
-                                            class="{% if item.rate > '3' %} fa fa-star text-primary {% endif %} "></small>
-                                        <small
-                                            class="{% if item.rate > '4' %} fa fa-star text-primary {% endif %} "></small>
-                                    </div>
-                                    <p class="mb-2">{{ item.content }}</p>
-                                    <a><i class="fa fa-reply me-2"></i> Reply</a>
-                                </div>
-                            </div>
-                            {% endfor %}
-
-                        </div>
-                        
-                    </div>
-
-                    <div class="bg-white p-4 p-md-5 rounded rounded-1 mt-5">
-                        <h4 class="mb-4">Leave A Review</h4>
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12 d-flex align-items-center">
-                                    <h6 class="mb-0 me-2">Rate Me:</h6>
-                                    <div id="halfstarsReview" class="fs-3 me-2"></div>
-                                    <input type="number"  id="halfstarsInput" class="border-0 bg-light"
-                                        style="width: 50px;">
-                                        
-                                </div>
-                                <div class="col-12">
-                                    <textarea class="form-control bg-light border-0" rows="5"
-                                        placeholder="Review"></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Leave Your
-                                        Review</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
+              </form>
             </div>
+          </div>
         </div>
-
-
-        <div class="col-lg-4">
-            <!-- booking -->
-            <div class="bg-light my-5 p-4 border border-2 shadow wow fadeInUp"  data-wow-delay="0.1s">
-                <div class="border-bottom text-center text-dark p-3 pt-4 mb-3">
-                    <span class="align-top fs-4 lh-base">Start</span>
-                    <span class="align-middle fs-1 lh-sm fw-bold">Booking</span>
-                    <span class="align-bottom fs-6 lh-lg">Now</span>
+      </div>
+      <div class="col-lg-4">
+        <!-- booking -->
+        <div class="bg-light my-5 p-4 border border-2 shadow wow fadeInUp"
+             data-wow-delay="0.1s">
+          <div class="border-bottom text-center text-dark p-3 pt-4 mb-3">
+            <span class="align-top fs-4 lh-base">Start</span>
+            <span class="align-middle fs-1 lh-sm fw-bold">Booking</span>
+            <span class="align-bottom fs-6 lh-lg">Now</span>
+          </div>
+          <div class="wow fadeInUp" data-wow-delay="0.2s">
+            <form method="post"
+                  action="{% url 'booking:check_avilabilty' object.slug %}">
+              {% csrf_token %}
+              <div class="row g-3 ">
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           name="name"
+                           id="name"
+                           placeholder="Your Name"
+                           required />
+                    <label for="name">Your Name</label>
+                  </div>
                 </div>
-                <div class="wow fadeInUp" data-wow-delay="0.2s">
-
-                    <form method="post" action="{% url 'booking:check_avilabilty' object.slug  %}">
-                        {% csrf_token %}
-                        <div class="row g-3 ">      
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Your Name" required>
-                                    <label for="name">Your Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Your Email" required>
-                                    <label for="email">Your Email</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-floating date" id="date3" name='checkin' data-target-input="nearest">
-                                    <input type="date" class="form-control datetimepicker-input" id="checkin" name="checkin" 
-                                    placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" required/>
-                                    <label for="checkin">Check In</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-floating date" id="date4" name='checkout' data-target-input="nearest">
-                                    <input type="date" class="form-control datetimepicker-input" id="checkout" name="checkout" 
-                                    placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" required/>
-                                    <label for="checkout">Check Out</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" name="adults" 
-                                        placeholder="Adult Num" required>
-                                    <label for="select1">Adult Num</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" name="children" 
-                                            placeholder="Children Num" required>
-                                        <label for="select2">Children Num</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 my-3">
-                                <div class="form-floating">
-                                    <select class="form-select w-100 d-block" name="room_type" id="select3" required>
-                                        <option value="">...</option>
-                                        {% for item in room_type %} 
-                                            <option value="{{item.slug}}">{{item}}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <label for="select3">Select A Room Type</label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Check Avilability</button>
-                            </div>
-
-                            
-
-                        </div>
-
-                    </form>
-
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="email"
+                           class="form-control"
+                           name="email"
+                           id="email"
+                           placeholder="Your Email"
+                           required />
+                    <label for="email">Your Email</label>
+                  </div>
                 </div>
-
-            </div>
-
+                <div class="col-md-12">
+                  <div class="form-floating date"
+                       id="date3"
+                       name='checkin'
+                       data-target-input="nearest">
+                    <input type="date"
+                           class="form-control datetimepicker-input"
+                           id="checkin"
+                           name="checkin"
+                           placeholder="Check In"
+                           data-target="#date3"
+                           data-toggle="datetimepicker"
+                           required />
+                    <label for="checkin">Check In</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating date"
+                       id="date4"
+                       name='checkout'
+                       data-target-input="nearest">
+                    <input type="date"
+                           class="form-control datetimepicker-input"
+                           id="checkout"
+                           name="checkout"
+                           placeholder="Check Out"
+                           data-target="#date4"
+                           data-toggle="datetimepicker"
+                           required />
+                    <label for="checkout">Check Out</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           name="adults"
+                           placeholder="Adult Num"
+                           required />
+                    <label for="select1">Adult Num</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <div class="form-floating">
+                      <input type="text"
+                             class="form-control"
+                             name="children"
+                             placeholder="Children Num"
+                             required />
+                      <label for="select2">Children Num</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 my-3">
+                  <div class="form-floating">
+                    <select class="form-select w-100 d-block"
+                            name="room_type"
+                            id="select3"
+                            required>
+                      <option value="">...</option>
+                      {% for item in room_type %}<option value="{{ item.slug }}">{{ item }}</option>{% endfor %}
+                    </select>
+                    <label for="select3">Select A Room Type</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-primary w-100 py-3" type="submit">Check Avilability</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-
+      </div>
     </div>
-
-</div>
-
-<!-- Related Hotels -->
-<div class="container-xxl py-5">
+  </div>
+  <!-- Related Hotels -->
+  <div class="container-xxl py-5">
     <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title text-center text-primary text-uppercase">Related Hotels</h6>
-            <h1 class="mb-5">Explore More <span class="text-primary text-uppercase">Hotels</span></h1>
-        </div>
-        <div class="row g-4">
-
-            {% for item in related_hotels %}
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="room-item shadow rounded overflow-hidden" style="width:410px; height:560px;">
-                    <div class="position-relative">
-                        <img class="img-fluid" src="{{item.img.url}}" alt="img" style=' width:410px; height:250px; '>
-                        <small class="position-absolute start-0 top-100 translate-middle-y 
-                                bg-primary text-white rounded py-1 px-3 ms-4">${{ item.min_price }}/Night</small>
-                    </div>
-                    <div class="p-4 mt-2">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h5 class="mb-0">{{item.name|slice:":20"}}...</h5>
-                            <div class="ps-2">
-                                <i>({{item.hotel_review.all|length}}) </i>
-                                <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
-                                <i class="{% if item.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
-                                <i class="{% if item.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
-                                <i class="{% if item.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
-                                <i class="{% if item.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
-                            </div>
-                        </div>
-                        <div class='d-flex mb-2'>
-                            <small class=" "><i class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address|slice:":35"}}...</small>
-                        </div>
-
-                        <div class='d-flex mb-2'>
-                            <small class=" "><i class="fa fa-phone text-primary me-2"></i><b>Phone:</b> {{ item.phone }}</small>
-                        </div>
-
-                        <div class='d-flex mb-4'>
-                            <small><i class="fa fa-envelope text-primary me-2"></i><b>Email:</b> {{ item.email}}</small>
-                        </div>
-
-                        <p class="text-body mb-3">{{ item.subtitle }}</p>
-                        <div class="d-flex justify-content-between ">
-                            <a class="btn btn-sm btn-primary rounded py-2 px-4"
-                                href="{% url 'hotel:hotel_detail' item.slug %}">View Detail</a>
-                            <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href>
-                                <i class="fa fa-heart text-primary me-2"></i>Add To Favorite</a>
-                        </div>
-                    </div>
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="section-title text-center text-primary text-uppercase">Related Hotels</h6>
+        <h1 class="mb-5">
+          Explore More <span class="text-primary text-uppercase">Hotels</span>
+        </h1>
+      </div>
+      <div class="row g-4">
+        {% for item in related_hotels %}
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="room-item shadow rounded overflow-hidden"
+                 style="width:410px;
+                        height:560px">
+              <div class="position-relative">
+                <img class="img-fluid"
+                     src="{{ item.img.url }}"
+                     alt="img"
+                     style='width:410px;
+                            height:250px' />
+                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">${{ item.min_price }}/Night</small>
+              </div>
+              <div class="p-4 mt-2">
+                <div class="d-flex justify-content-between mb-3">
+                  <h5 class="mb-0">{{ item.name|slice:":20" }}...</h5>
+                  <div class="ps-2">
+                    <i>({{ item.hotel_review.all|length }}) </i>
+                    <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
+                  </div>
                 </div>
+                <div class='d-flex mb-2'>
+                  <small class=" "><i class="fa fa-map-marker-alt text-primary me-2"></i><b>Address:</b> {{ item.address|slice:":35" }}...</small>
+                </div>
+                <div class='d-flex mb-2'>
+                  <small class=" "><i class="fa fa-phone text-primary me-2"></i><b>Phone:</b> {{ item.phone }}</small>
+                </div>
+                <div class='d-flex mb-4'>
+                  <small><i class="fa fa-envelope text-primary me-2"></i><b>Email:</b> {{ item.email }}</small>
+                </div>
+                <p class="text-body mb-3">{{ item.subtitle }}</p>
+                <div class="d-flex justify-content-between ">
+                  <a class="btn btn-sm btn-primary rounded py-2 px-4"
+                     href="{% url 'hotel:hotel_detail' item.slug %}">View Detail</a>
+                  <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href>
+                    <i class="fa fa-heart text-primary me-2"></i>Add To Favorite</a>
+                </div>
+              </div>
             </div>
-            {% endfor %}
-
-
-
-            <div class="col-12 text-center mt-5 wow fadeInUp" data-wow-delay="0.9s">
-                <a href="{% url 'hotel:hotel_list' %}" class="btn btn-primary py-3 px-5">Explore All Hotels</a>
-            </div>
+          </div>
+        {% endfor %}
+        <div class="col-12 text-center mt-5 wow fadeInUp" data-wow-delay="0.9s">
+          <a href="{% url 'hotel:hotel_list' %}" class="btn btn-primary py-3 px-5">Explore All Hotels</a>
         </div>
+      </div>
     </div>
-</div>
-
+  </div>
 {% endblock body %}

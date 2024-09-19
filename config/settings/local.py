@@ -1,7 +1,6 @@
 # ruff: noqa: E501
 from .base import *  # noqa: F403
 from .base import INSTALLED_APPS
-from .base import MIDDLEWARE
 from .base import env
 
 # GENERAL
@@ -103,7 +102,7 @@ JAZZMIN_UI_TWEAKS = {
         "info": "btn-info",
         "warning": "btn-warning",
         "danger": "btn-danger",
-        "success": "btn-success"
+        "success": "btn-success",
     },
-    "actions_sticky_top": True
+    "actions_sticky_top": True,
 }

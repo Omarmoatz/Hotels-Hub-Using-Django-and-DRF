@@ -30,9 +30,9 @@ urlpatterns = [
     path("booking/", include("apps.booking.urls", namespace="booking")),
     # path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path('summernote/', include('django_summernote.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path("summernote/", include("django_summernote.urls")),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     # ...
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),

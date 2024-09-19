@@ -1,181 +1,221 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
 {% block body %}
-    
-    
-        <!-- Page Header Start -->
-        <div class="container-fluid page-header mb-5 p-0" style="background-image: url({% static 'img/carousel-1.jpg' %});">
-            <div class="container-fluid page-header-inner py-5">
-                <div class="container text-center pb-5">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">{{object}} Room</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'hotel:hotel_detail' object.hotel.slug %}">{{object.hotel}}</a></li>
-                            <!-- <li class="breadcrumb-item text-white active" aria-current="page">Booking</li> -->
-                        </ol>
-                    </nav>
+  <!-- Page Header Start -->
+  <div class="container-fluid page-header mb-5 p-0"
+       style="background-image: url({% static 'img/carousel-1.jpg' %})">
+    <div class="container-fluid page-header-inner py-5">
+      <div class="container text-center pb-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">{{ object }} Room</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item">
+              <a href="/">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'hotel:hotel_detail' object.hotel.slug %}">{{ object.hotel }}</a>
+            </li>
+            <!-- <li class="breadcrumb-item text-white active" aria-current="page">Booking</li> -->
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <!-- Page Header End -->
+  <div class="container-xxl py-5">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="section-title text-center text-primary text-uppercase">All Available Rooms</h6>
+        <h1 class="mb-5 fs-3">
+          The {{ object.title }} room has <span class="text-primary text-uppercase">{{ rooms|length }} Available rooms</span>
+        </h1>
+      </div>
+      <div class="col-lg-12">
+        <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
+          <div class="row">
+            {% if not rooms %}
+              <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="my-5 fs-3">
+                  No Rooms Available Rigth Now <span class="text-primary text-uppercase">in {{ object.title }} room</span>
+                </h1>
+              </div>
+            {% endif %}
+            {% for r in rooms %}
+              <div class="col-lg-3">
+                <div class="my-5 shadow">
+                  <div class="card">
+                    <div class="card-header bg-warning">
+                      <p class="card-title fs-2 text-center border-bottom px-4">Room No.{{ r.room_num }}</p>
+                      <p class="card-text">
+                        <div class=" text-center text-dark p-1 pt-1 mb-3">
+                          <span class="align-top fs-4 lh-base"></span>
+                          <span class="align-middle fs-1 lh-sm ">{{ r.view }}</span>
+                          <span class="align-bottom fs-6 lh-lg">View</span>
+                        </div>
+                      </p>
+                    </div>
+                    <div class="card-body text-center">
+                      <p class="card-title ">{{ r.price }} $ /per night</p>
+                      <p class="card-title  ">
+                        <b>Beds</b> : {{ object.beds_num }} beds
+                      </p>
+                      <p class="card-title">
+                        <b>Room Size</b> : {{ object.room_size }} m
+                      </p>
+                      <a data-index="{{ r.id }}"
+                         value='{{ r.id }}'
+                         class="btn btn-outline-warning w-100 add-to-selection">
+                        {% if r.id == request.session.room_selection_obj.room_id %}
+                          Added
+                        {% else %}
+                          Add to Selection
+                        {% endif %}
+                      </a>
+                    </div>
+                  </div>
                 </div>
-            </div>
+                <input type="hidden" value="{{ r.price }}" class="room-price" />
+                <input type="hidden" value="{{ r.view }}" class="room-view" />
+                <input type="hidden" value="{{ r.hotel.id }}" class="hotel-id" />
+                <input type="hidden" value="{{ r.hotel.name }}" class="hotel-name" />
+                <input type="hidden" value="{{ r.room_type }}" class="room-type" />
+                <input type="hidden" value="{{ r.beds_num }}" class="beds-num" />
+                <input type="hidden" value="{{ r.room_num }}" class="room-num" />
+              </div>
+            {% endfor %}
+          </div>
         </div>
-        <!-- Page Header End -->
-
-
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title text-center text-primary text-uppercase">All Available Rooms</h6>
-                    <h1 class="mb-5 fs-3">The {{object.title}} room has <span class="text-primary text-uppercase"> {{rooms|length}} Available rooms</span></h1>
-                </div>
-
-                <div class="col-lg-12">
-                    <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="row">
-                            
-                            {% if not rooms %}
-                                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                                    <h1 class="my-5 fs-3">No Rooms Available Rigth Now <span class="text-primary text-uppercase"> in {{object.title}} room</span></h1>
-                                </div>
-                            {% endif %}
-                                
-                            {% for r in rooms %}
-                                <div class="col-lg-3">
-                                    <div class="my-5 shadow">
-                                        <div class="card">
-                                            <div class="card-header bg-warning">
-                                                <p class="card-title fs-2 text-center border-bottom px-4">Room No.{{r.room_num}}</p>
-                                                <p class="card-text">
-                                                    <div class=" text-center text-dark p-1 pt-1 mb-3">
-                                                        <span class="align-top fs-4 lh-base"></span>
-                                                        <span class="align-middle fs-1 lh-sm "> {{r.view}}</span>
-                                                        <span class="align-bottom fs-6 lh-lg"> View</span>
-                                                    </div>
-                                                </p>
-                                            </div>
-                                            <div class="card-body text-center">
-                                                <p class="card-title " >{{r.price}} $ /per night</p>
-                                                <p class="card-title  "><b>Beds</b> : {{object.beds_num}} beds</p>
-                                                <p class="card-title"><b>Room Size</b> : {{object.room_size}} m</p>
-                                                <a data-index="{{r.id}}" value='{{r.id}}' class="btn btn-outline-warning w-100 add-to-selection">
-                                                    
-                                                    {% if r.id == request.session.room_selection_obj.room_id %}
-                                                        Added
-                                                    {% else %}
-                                                        Add to Selection
-                                                    {% endif %}
-                                                        
-                                                    
-                                                </a>
-                                            </div>
-                                        </div>
-                                            
-                                    </div>
-                                    <input type="hidden" value="{{r.price}}" class="room-price">
-                                    <input type="hidden" value="{{r.view}}" class="room-view">
-                                    <input type="hidden" value="{{r.hotel.id}}" class="hotel-id">
-                                    <input type="hidden" value="{{r.hotel.name}}" class="hotel-name">
-                                    <input type="hidden" value="{{r.room_type}}" class="room-type">
-                                    <input type="hidden" value="{{r.beds_num}}" class="beds-num">
-                                    <input type="hidden" value="{{r.room_num}}" class="room-num">
-                                </div>
-                                
-
-                            {% endfor %}
-
-                        </div>
-
-
-                    </div>
-                </div>
-                {% if rooms %}
-                <!-- booking form -->
-                    <div class="row g-5 my-5">
-                        <div class="col-lg-6">
-                            <div class="row g-3">
-                                <div class="col-6 text-end">
-                                    <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" src="{% static "img/about-1.jpg" %}" style="margin-top: 25%;">
-                                </div>
-                                <div class="col-6 text-start">
-                                    <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{% static "img/about-2.jpg" %}">
-                                </div>
-                                <div class="col-6 text-end">
-                                    <img class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s" src="{% static "img/about-3.jpg" %}">
-                                </div>
-                                <div class="col-6 text-start">
-                                    <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s" src="{% static "img/about-4.jpg" %}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="wow fadeInUp pt-5" data-wow-delay="0.2s">
-                                <form method="post" action="{% url 'booking:selected_rooms' %}">
-                                    {% csrf_token %}
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="name" name="name" value="{{name}}" placeholder="Your Name">
-                                                <label for="name">Your Full Name</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="email" class="form-control" id="email" name="email" value='{{email}}' placeholder="Your Email">
-                                                <label for="email">Your Email</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating date" id="date3" name='checkin' data-target-input="nearest">
-                                                <input type="date" class="form-control datetimepicker-input checkin" value="{{checkin}}" id="checkin" name="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
-                                                <label for="checkin">Check In</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating date" id="date4" name='checkout' data-target-input="nearest">
-                                                <input type="date" class="form-control datetimepicker-input checkout" value="{{checkout}}" id="checkout" name="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
-                                                <label for="checkout">Check Out</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control adults" name="adults" value='{{adults}}'
-                                                    placeholder="Adult Num" required>
-                                                <label for="select1">Adult Num</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control children" name="children" value='{{children}}'
-                                                        placeholder="Children Num" required>
-                                                    <label for="select2">Children Num</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="Special Request" id="message" name="special_request" style="height: 100px"></textarea>
-                                                <label for="message">Special Request</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h1 class="my-5 fs-3">You Can't Book Any {{object.title}} room 
-                            <span class="text-primary text-lowercase"> because there aren't any rooms Available Rigth Now</span>
-                        </h1>
-                    </div>
-                {% endif %}
-
-
+      </div>
+      {% if rooms %}
+        <!-- booking form -->
+        <div class="row g-5 my-5">
+          <div class="col-lg-6">
+            <div class="row g-3">
+              <div class="col-6 text-end">
+                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" src="{% static "img/about-1.jpg" %}" style="margin-top: 25%;" />
+              </div>
+              <div class="col-6 text-start">
+                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{% static "img/about-2.jpg" %}" />
+              </div>
+              <div class="col-6 text-end">
+                <img class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s" src="{% static "img/about-3.jpg" %}" />
+              </div>
+              <div class="col-6 text-start">
+                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s" src="{% static "img/about-4.jpg" %}" />
+              </div>
             </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="wow fadeInUp pt-5" data-wow-delay="0.2s">
+              <form method="post" action="{% url 'booking:selected_rooms' %}">
+                {% csrf_token %}
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text"
+                             class="form-control"
+                             id="name"
+                             name="name"
+                             value="{{ name }}"
+                             placeholder="Your Name" />
+                      <label for="name">Your Full Name</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="email"
+                             class="form-control"
+                             id="email"
+                             name="email"
+                             value='{{ email }}'
+                             placeholder="Your Email" />
+                      <label for="email">Your Email</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating date"
+                         id="date3"
+                         name='checkin'
+                         data-target-input="nearest">
+                      <input type="date"
+                             class="form-control datetimepicker-input checkin"
+                             value="{{ checkin }}"
+                             id="checkin"
+                             name="checkin"
+                             placeholder="Check In"
+                             data-target="#date3"
+                             data-toggle="datetimepicker" />
+                      <label for="checkin">Check In</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating date"
+                         id="date4"
+                         name='checkout'
+                         data-target-input="nearest">
+                      <input type="date"
+                             class="form-control datetimepicker-input checkout"
+                             value="{{ checkout }}"
+                             id="checkout"
+                             name="checkout"
+                             placeholder="Check Out"
+                             data-target="#date4"
+                             data-toggle="datetimepicker" />
+                      <label for="checkout">Check Out</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text"
+                             class="form-control adults"
+                             name="adults"
+                             value='{{ adults }}'
+                             placeholder="Adult Num"
+                             required />
+                      <label for="select1">Adult Num</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <div class="form-floating">
+                        <input type="text"
+                               class="form-control children"
+                               name="children"
+                               value='{{ children }}'
+                               placeholder="Children Num"
+                               required />
+                        <label for="select2">Children Num</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <textarea class="form-control"
+                                placeholder="Special Request"
+                                id="message"
+                                name="special_request"
+                                style="height: 100px"></textarea>
+                      <label for="message">Special Request</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-
+      {% else %}
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h1 class="my-5 fs-3">
+            You Can't Book Any {{ object.title }} room
+            <span class="text-primary text-lowercase">because there aren't any rooms Available Rigth Now</span>
+          </h1>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 {% endblock body %}

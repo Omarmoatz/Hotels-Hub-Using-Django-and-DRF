@@ -1,253 +1,267 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
 {% block body %}
-
-        <div class="container-fluid page-header mb-5 p-0" style="background-image: url({% static 'img/carousel-1.jpg' %});">
-            <div class="container-fluid page-header-inner py-5">
-                <div class="container text-center pb-5">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">Our Hotels</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <!-- <li class="breadcrumb-item"><a href="#">Pages</a></li> -->
-                            <li class="breadcrumb-item text-white active" aria-current="page">Hotel List</li>
-                        </ol>
-                    </nav>
+  <div class="container-fluid page-header mb-5 p-0"
+       style="background-image: url({% static 'img/carousel-1.jpg' %})">
+    <div class="container-fluid page-header-inner py-5">
+      <div class="container text-center pb-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Our Hotels</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item">
+              <a href="/">Home</a>
+            </li>
+            <!-- <li class="breadcrumb-item"><a href="#">Pages</a></li> -->
+            <li class="breadcrumb-item text-white active" aria-current="page">Hotel List</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+      <div class="bg-white shadow" style="padding: 35px;">
+        <div class="row g-2">
+          <div class="col-md-10">
+            <div class="row g-2">
+              <div class="col-md-3">
+                <div class="date" id="date1" data-target-input="nearest">
+                  <input type="text"
+                         class="form-control datetimepicker-input"
+                         placeholder="Check in"
+                         data-target="#date1"
+                         data-toggle="datetimepicker" />
                 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="date" id="date2" data-target-input="nearest">
+                  <input type="text"
+                         class="form-control datetimepicker-input"
+                         placeholder="Check out"
+                         data-target="#date2"
+                         data-toggle="datetimepicker" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select">
+                  <option selected>Adult</option>
+                  <option value="1">Adult 1</option>
+                  <option value="2">Adult 2</option>
+                  <option value="3">Adult 3</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select">
+                  <option selected>Child</option>
+                  <option value="1">Child 1</option>
+                  <option value="2">Child 2</option>
+                  <option value="3">Child 3</option>
+                </select>
+              </div>
             </div>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary w-100">Submit</button>
+          </div>
         </div>
-
-
-        <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
-            <div class="container">
-                <div class="bg-white shadow" style="padding: 35px;">
-                    <div class="row g-2">
-                        <div class="col-md-10">
-                            <div class="row g-2">
-                                <div class="col-md-3">
-                                    <div class="date" id="date1" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input"
-                                            placeholder="Check in" data-target="#date1" data-toggle="datetimepicker" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="date" id="date2" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input"
-                                            placeholder="Check out" data-target="#date2" data-toggle="datetimepicker" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-select">
-                                        <option selected>Adult</option>
-                                        <option value="1">Adult 1</option>
-                                        <option value="2">Adult 2</option>
-                                        <option value="3">Adult 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-select">
-                                        <option selected>Child</option>
-                                        <option value="1">Child 1</option>
-                                        <option value="2">Child 2</option>
-                                        <option value="3">Child 3</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary w-100">Submit</button>
-                        </div>
-                    </div>
-                </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-xxl py-5">
+    <div class="row g-5">
+      <div class="col-lg-9">
+        {% for item in hotel_list %}
+          <div class="row room-item m-0 mb-4 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="col-md-5 col-lg-12 col-xl-5 p-0" style="max-height: 300px;">
+              <div class="position-relative h-100">
+                <img class="position-absolute w-100 h-100 pt-3"
+                     src="{{ item.img.url }}"
+                     alt
+                     style="object-fit: cover" />
+              </div>
             </div>
-        </div>
-
-
-        <div class="container-xxl py-5">
-                <div class="row g-5">
-
-                    <div class="col-lg-9">
-                        {% for item in hotel_list %}
-                            <div class="row room-item m-0 mb-4 wow fadeInUp" data-wow-delay="0.1s">
-                                <div class="col-md-5 col-lg-12 col-xl-5 p-0" style="max-height: 300px;">
-                                    <div class="position-relative h-100">
-                                        <img class="position-absolute w-100 h-100 pt-3" src="{{ item.img.url }}" alt
-                                            style="object-fit: cover;">
-                                    </div>
-                                </div>
-                                <div class="col-md-7 col-lg-12 col-xl-7 h-100 px-0">
-                                    <div class="p-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <small class="bg-primary text-white rounded py-1 px-3">${{ item.min_price }} /Night</small>
-                                            <div class="ps-2">
-                                                <i>({{item.hotel_review.all|length}}) </i>
-                                                <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
-                                                <i class="{% if item.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
-                                                <i class="{% if item.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
-                                                <i class="{% if item.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
-                                                <i class="{% if item.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
-                                            </div>
-                                        </div>
-                                        <h5 class="mb-3">{{ item.name}}  </h5>
-                                        <div class='d-flex mb-4'>
-                                            <small class="border-end me-3 pe-3"><i
-                                                 class="fa fa-map-marker-alt text-primary me-2"></i>Address:<br> {{ item.address|slice:":20"}}...</small>
-                                            <small class="border-end me-3 pe-3"><i
-                                                    class="fa fa-phone text-primary me-2"></i>Phone:<br> {{ item.phone }}</small>
-                                            <small><i class="fa fa-envelope text-primary me-2"></i>Email:<br>{{ item.email }}</small>
-                                        </div>
-                                        <p class="text-body mb-0">{{ item.subtitle }}</p>
-                                    </div>
-                                    <div class="d-flex justify-content-between border-top mt-auto p-4">
-                                        <a class="btn btn-sm btn-primary rounded py-2 px-4" href="{{item.get_absolute_url}}">View Detail</a>
-                                        <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href>
-                                            <i class="fa fa-heart text-primary me-2" ></i>Add To Favorite</a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-
-                        <div class="row wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="col-12">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center m-0">
-                                        {% if page_obj.has_previous %}
-                                            <li class="page-item">
-                                                <a class="page-link rounded-0" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                                                    <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li class="page-item disabled">
-                                                <a class="page-link rounded-0" href="#" aria-label="Previous">
-                                                    <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
-                                                </a>
-                                            </li>
-                                        {% endif %}
-                                        
-                                        {% for num in page_obj.paginator.page_range %}
-                                            {% if page_obj.number == num %}
-                                                <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                                            {% else %}
-                                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-                                        
-                                        {% if page_obj.has_next %}
-                                            <li class="page-item">
-                                                <a class="page-link rounded-0" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                                                    <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li class="page-item disabled">
-                                                <a class="page-link rounded-0" href="#" aria-label="Next">
-                                                    <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
-                                                </a>
-                                            </li>
-                                        {% endif %}
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        
-
-                    </div>
-
-                    <!-- strat hotel filter -->
-                    <div class="col-lg-3">
-
-                        <div class="bg-light mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="border-bottom text-center text-dark p-3 pt-4 mb-3">
-                                <span class="align-top fs-4 lh-base">Filter</span>
-                                <span class="align-middle fs-1 lh-sm fw-bold">Hotels</span>
-                                <span class="align-bottom fs-6 lh-lg">Now</span>
-                            </div>
-                            <div class="row g-3 p-4 pt-2">
-                                <div class="col-12">
-                                    <div class="date" id="date3" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input"
-                                            placeholder="Check in" data-target="#date3" data-toggle="datetimepicker" />
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="date" id="date4" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input"
-                                            placeholder="Check out" data-target="#date4" data-toggle="datetimepicker" />
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <select class="form-select">
-                                        <option selected>Adult</option>
-                                        <option value="1">Adult 1</option>
-                                        <option value="2">Adult 2</option>
-                                        <option value="3">Adult 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <select class="form-select">
-                                        <option selected>Child</option>
-                                        <option value="1">Child 1</option>
-                                        <option value="2">Child 2</option>
-                                        <option value="3">Child 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <select class="form-select">
-                                        <option selected>Night</option>
-                                        <option value="1">Night 1</option>
-                                        <option value="2">Night 2</option>
-                                        <option value="3">Night 3</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary py-3 w-100">Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="bg-light p-4 mb-5 wow fadeInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Category</h4>
-                            <a class="d-block position-relative mb-3" href>
-                                <img class="img-fluid" src="img/cat-1.jpg" alt>
-                                <div class="d-flex position-absolute top-0 start-0 w-100 h-100 p-3"
-                                    style="background: rgba(0,0,0,.3);">
-                                    <h5 class="text-white m-0 mt-auto">luxury Room</h5>
-                                </div>
-                            </a>
-                            <a class="d-block position-relative mb-3" href>
-                                <img class="img-fluid" src="img/cat-2.jpg" alt>
-                                <div class="d-flex position-absolute top-0 start-0 w-100 h-100 p-3"
-                                    style="background: rgba(0,0,0,.3);">
-                                    <h5 class="text-white m-0 mt-auto">Couple Room</h5>
-                                </div>
-                            </a>
-                            <a class="d-block position-relative" href>
-                                <img class="img-fluid" src="img/cat-3.jpg" alt>
-                                <div class="d-flex position-absolute top-0 start-0 w-100 h-100 p-3"
-                                    style="background: rgba(0,0,0,.3);">
-                                    <h5 class="text-white m-0 mt-auto">Single Room</h5>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        <div class="border p-1 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="border p-4">
-                                <h4 class="mb-4">Help & Support</h4>
-                                <p>Lorem sed erat elitr magna magna labore duo elitr ipsum duo. Et sed duo rebum lorem
-                                    sed stet sed</p>
-                                <div class="bg-primary text-center p-3">
-                                    <h4 class="text-white m-0">+012 345 67890</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- strat hotel filter -->
+            <div class="col-md-7 col-lg-12 col-xl-7 h-100 px-0">
+              <div class="p-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <small class="bg-primary text-white rounded py-1 px-3">${{ item.min_price }} /Night</small>
+                  <div class="ps-2">
+                    <i>({{ item.hotel_review.all|length }}) </i>
+                    <i class="{% if item.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+                    <i class="{% if item.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
+                  </div>
                 </div>
-            
+                <h5 class="mb-3">{{ item.name }}</h5>
+                <div class='d-flex mb-4'>
+                  <small class="border-end me-3 pe-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>Address:
+                    <br />
+                  {{ item.address|slice:":20" }}...</small>
+                  <small class="border-end me-3 pe-3"><i class="fa fa-phone text-primary me-2"></i>Phone:
+                    <br />
+                  {{ item.phone }}</small>
+                  <small><i class="fa fa-envelope text-primary me-2"></i>Email:
+                    <br />
+                  {{ item.email }}</small>
+                </div>
+                <p class="text-body mb-0">{{ item.subtitle }}</p>
+              </div>
+              <div class="d-flex justify-content-between border-top mt-auto p-4">
+                <a class="btn btn-sm btn-primary rounded py-2 px-4"
+                   href="{{ item.get_absolute_url }}">View Detail</a>
+                <a class="btn btn-sm btn-outline-dark rounded py-2 px-4" href>
+                  <i class="fa fa-heart text-primary me-2"></i>Add To Favorite</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="row wow fadeInUp" data-wow-delay="0.1s">
+          <div class="col-12">
+            <nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center m-0">
+                {% if page_obj.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link rounded-0"
+                       href="?page={{ page_obj.previous_page_number }}"
+                       aria-label="Previous">
+                      <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link rounded-0" href="#" aria-label="Previous">
+                      <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+                    </a>
+                  </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                  {% if page_obj.number == num %}
+                    <li class="page-item active">
+                      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                  {% else %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                  <li class="page-item">
+                    <a class="page-link rounded-0"
+                       href="?page={{ page_obj.next_page_number }}"
+                       aria-label="Next">
+                      <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link rounded-0" href="#" aria-label="Next">
+                      <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
         </div>
-
+      </div>
+      <!-- strat hotel filter -->
+      <div class="col-lg-3">
+        <div class="bg-light mb-5 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="border-bottom text-center text-dark p-3 pt-4 mb-3">
+            <span class="align-top fs-4 lh-base">Filter</span>
+            <span class="align-middle fs-1 lh-sm fw-bold">Hotels</span>
+            <span class="align-bottom fs-6 lh-lg">Now</span>
+          </div>
+          <div class="row g-3 p-4 pt-2">
+            <div class="col-12">
+              <div class="date" id="date3" data-target-input="nearest">
+                <input type="text"
+                       class="form-control datetimepicker-input"
+                       placeholder="Check in"
+                       data-target="#date3"
+                       data-toggle="datetimepicker" />
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="date" id="date4" data-target-input="nearest">
+                <input type="text"
+                       class="form-control datetimepicker-input"
+                       placeholder="Check out"
+                       data-target="#date4"
+                       data-toggle="datetimepicker" />
+              </div>
+            </div>
+            <div class="col-12">
+              <select class="form-select">
+                <option selected>Adult</option>
+                <option value="1">Adult 1</option>
+                <option value="2">Adult 2</option>
+                <option value="3">Adult 3</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <select class="form-select">
+                <option selected>Child</option>
+                <option value="1">Child 1</option>
+                <option value="2">Child 2</option>
+                <option value="3">Child 3</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <select class="form-select">
+                <option selected>Night</option>
+                <option value="1">Night 1</option>
+                <option value="2">Night 2</option>
+                <option value="3">Night 3</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary py-3 w-100">Book Now</button>
+            </div>
+          </div>
+        </div>
+        <div class="bg-light p-4 mb-5 wow fadeInUp" data-wow-delay="0.1s">
+          <h4 class="mb-4">Category</h4>
+          <a class="d-block position-relative mb-3" href>
+            <img class="img-fluid" src="img/cat-1.jpg" alt />
+            <div class="d-flex position-absolute top-0 start-0 w-100 h-100 p-3"
+                 style="background: rgba(0,0,0,.3)">
+              <h5 class="text-white m-0 mt-auto">luxury Room</h5>
+            </div>
+          </a>
+          <a class="d-block position-relative mb-3" href>
+            <img class="img-fluid" src="img/cat-2.jpg" alt />
+            <div class="d-flex position-absolute top-0 start-0 w-100 h-100 p-3"
+                 style="background: rgba(0,0,0,.3)">
+              <h5 class="text-white m-0 mt-auto">Couple Room</h5>
+            </div>
+          </a>
+          <a class="d-block position-relative" href>
+            <img class="img-fluid" src="img/cat-3.jpg" alt />
+            <div class="d-flex position-absolute top-0 start-0 w-100 h-100 p-3"
+                 style="background: rgba(0,0,0,.3)">
+              <h5 class="text-white m-0 mt-auto">Single Room</h5>
+            </div>
+          </a>
+        </div>
+        <div class="border p-1 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="border p-4">
+            <h4 class="mb-4">Help & Support</h4>
+            <p>
+              Lorem sed erat elitr magna magna labore duo elitr ipsum duo. Et sed duo rebum lorem
+              sed stet sed
+            </p>
+            <div class="bg-primary text-center p-3">
+              <h4 class="text-white m-0">+012 345 67890</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- strat hotel filter -->
+    </div>
+  </div>
 {% endblock body %}

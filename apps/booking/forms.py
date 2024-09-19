@@ -2,12 +2,18 @@ from django import forms
 
 from apps.booking.models import Booking
 
+
 class BokingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ('full_name', 'email',
-                    'check_in_date', 'check_out_date',
-                    'num_adults', 'num_children' )
+        fields = (
+            "full_name",
+            "email",
+            "check_in_date",
+            "check_out_date",
+            "num_adults",
+            "num_children",
+        )
         # widgets = {
         #     'user': forms.Select(attrs={'class': 'form-control'}),
         #     'event': forms.Select(attrs={'class': 'form-control'}),
@@ -18,4 +24,3 @@ class BokingForm(forms.ModelForm):
         #     # 'invoice_id': forms.TextInput(attrs={'class': 'form-control'}),
         #     'payment_url': forms.URLInput(attrs={'class': 'form-control'}),
         # }
-        
