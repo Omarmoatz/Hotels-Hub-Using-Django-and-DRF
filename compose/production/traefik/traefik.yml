@@ -22,7 +22,7 @@ certificatesResolvers:
   letsencrypt:
     # https://doc.traefik.io/traefik/https/acme/#lets-encrypt
     acme:
-      email: 'omar-moataz@hotelier.com'
+      email: 'omar-moataz@hotels_hub.com'
       storage: /etc/traefik/acme/acme.json
       # https://doc.traefik.io/traefik/https/acme/#httpchallenge
       httpChallenge:
@@ -31,7 +31,7 @@ certificatesResolvers:
 http:
   routers:
     web-secure-router:
-      rule: 'Host(`HOTELIER.com`) || Host(`www.HOTELIER.com`)'
+      rule: 'Host(`hotels_hub.com`) || Host(`www.hotels_hub.com`)'
       entryPoints:
         - web-secure
       middlewares:
@@ -42,7 +42,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: 'Host(`HOTELIER.com`)'
+      rule: 'Host(`hotels_hub.com`)'
       entryPoints:
         - flower
       service: flower

@@ -91,7 +91,6 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "apps.users",
-    # "apps.accounts",
     "apps.hotel",
     "apps.home",
     "apps.booking",

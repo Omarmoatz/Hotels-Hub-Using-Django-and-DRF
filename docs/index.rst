@@ -1,9 +1,9 @@
-.. hotel-resrvation-system documentation master file, created by
+.. hotels_hub documentation master file, created by
    sphinx-quickstart.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to hotel-resrvation-system's documentation!
+Welcome to hotels_hub's documentation!
 ======================================================================
 
 .. toctree::

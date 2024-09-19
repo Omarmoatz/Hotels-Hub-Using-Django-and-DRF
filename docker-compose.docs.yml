@@ -10,7 +10,7 @@ services:
     volumes:
       - ./docs:/docs:z
       - ./config:/app/config:z
-      - ./apps:/app/apps:z
+      - ./hotels_hub:/app/hotels_hub:z
     ports:
       - '9000:9000'
     command: /start-docs

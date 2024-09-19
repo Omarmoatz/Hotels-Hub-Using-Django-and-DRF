@@ -27,11 +27,11 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: hotels_hub_local_postgres
+    image: hotels_hub_production_postgres
     container_name: hotels_hub_local_postgres
     volumes:
       - hotels_hub_local_postgres_data:/var/lib/postgresql/data
-      - hotels_hub_local_postgres_data:/backups
+      - hotels_hub_local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
 

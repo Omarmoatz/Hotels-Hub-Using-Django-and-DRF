@@ -1,6 +1,6 @@
-# Translations for the hotel-resrvation-system project
+# Translations for the hotels_hub project
 # Copyright (C) 2024 Omar Moataz
-# Omar Moataz <omar-moataz@hotelier.com>, 2024.
+# Omar Moataz <omar-moataz@hotels_hub.com>, 2024.
 #
 #, fuzzy
 msgid ""

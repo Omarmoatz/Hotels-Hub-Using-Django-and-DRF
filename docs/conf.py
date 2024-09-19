@@ -28,7 +28,7 @@ django.setup()
 
 # -- Project information -----------------------------------------------------
 
-project = "hotel-resrvation-system"
+project = "hotels_hub"
 copyright = """2024, Omar Moataz"""
 author = "Omar Moataz"
 

@@ -4,7 +4,7 @@ How To - Project Documentation
 Get Started
 ----------------------------------------------------------------------
 
-Documentation can be written as rst files in `apps/docs`.
+Documentation can be written as rst files in `hotels_hub/docs`.
 
 
 To build and serve docs, use the commands::
