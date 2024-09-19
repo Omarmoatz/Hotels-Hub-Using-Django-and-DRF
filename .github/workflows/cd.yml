@@ -1,0 +1,21 @@
+name: CD | Production V2
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore: ["docs/**"]
+
+  workflow_dispatch:
+
+jobs:
+  deployment:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          clean: false
+
+      - name: Build and Run Server
+        run: sudo systemctl restart hotel_hub.service
