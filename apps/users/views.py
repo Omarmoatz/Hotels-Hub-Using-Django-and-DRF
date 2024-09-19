@@ -27,10 +27,10 @@ def sign_up(request):
 
             user = User.objects.get(username=username)
             send_mail(
-                'Your Activation Mail',
-                f'Use this code {user.code} to activate your account',
-                'omar@gmail.com',
-                [settings.EMAIL_BACKEND]
+                'Your Activation Mail', # subject
+                f'Use this code {user.code} to activate your account', # body
+                settings.EMAIL_BACKEND, #from 
+                (email ,)  #to  
             )
             
             return redirect(f'/users/activate/{username}')
@@ -51,7 +51,7 @@ def activate(request,username):
                 user.is_active = True
                 user.save()
                 messages.success(request, 'Your Account is Activated You Can Now Login')
-                return redirect('users:login')
+                return redirect('/users/login')
             else:
                 error = 'Invalid activation code'
                 return render(request, 'users/activation.html', {'form': form, 'error': error})
