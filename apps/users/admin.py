@@ -34,7 +34,7 @@ class UserAdmin(auth_admin.UserAdmin):
                     "twitter",
                     "verified",
                     "code",
-                )
+                ),
             },
         ),
         (

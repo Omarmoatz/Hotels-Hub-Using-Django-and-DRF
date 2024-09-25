@@ -18,15 +18,15 @@ class User(AbstractUser, TimeStampedModel):
     )
     # First and last name do not cover name patterns around the globe
     email = models.EmailField(max_length=300, unique=True)
-    gender = models.CharField(max_length=200, choices=GENDER, blank=True, null=True)
-    phone = models.CharField(max_length=200, blank=True, null=True)
+    gender = models.CharField(max_length=200, choices=GENDER, blank=True)
+    phone = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to="profile", blank=True, null=True)
 
-    country = models.CharField(max_length=200, blank=True, null=True)
-    address = models.CharField(max_length=600, blank=True, null=True)
+    country = models.CharField(max_length=200, blank=True)
+    address = models.CharField(max_length=600, blank=True)
 
-    facebook = models.URLField(max_length=900, blank=True, null=True)
-    twitter = models.URLField(max_length=900, blank=True, null=True)
+    facebook = models.URLField(max_length=900, blank=True)
+    twitter = models.URLField(max_length=900, blank=True)
 
     verified = models.BooleanField(default=False)
 
@@ -34,7 +34,7 @@ class User(AbstractUser, TimeStampedModel):
 
     USERNAME_FIELD = "email"  # Change this line to specify the field for authentication
     REQUIRED_FIELDS = [
-        "username"
+        "username",
     ]  # Add this line to specify the required fields for user creation
 
     class Meta:

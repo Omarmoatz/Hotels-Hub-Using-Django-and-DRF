@@ -41,7 +41,7 @@ class HotelAdmin(SummernoteModelAdmin):
     def img_tag(self, obj):
         if obj.img:
             return format_html(
-                f'<img src="{obj.img.url}" style= max-width:50px; max-height:50px;" />'
+                f'<img src="{obj.img.url}" style= max-width:50px; max-height:50px;" />',
             )
         return "-"
 

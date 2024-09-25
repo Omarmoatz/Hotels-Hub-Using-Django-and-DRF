@@ -12,7 +12,9 @@ app_name = "hotel"
 router = DefaultRouter()
 router.register("api", HotelApiView, basename="hotel")
 router.register(
-    r"api/(?P<hotel_pk>\d+)/room-type", RoomTypeApiView, basename="roomtype"
+    r"api/(?P<hotel_pk>\d+)/room-type",
+    RoomTypeApiView,
+    basename="roomtype",
 )
 
 #   hotels/
@@ -24,4 +26,5 @@ urlpatterns = [
         RoomTypeDetail.as_view(),
         name="room_type_detail",
     ),
-] + router.urls
+    *router.urls,
+]

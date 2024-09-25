@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from model_utils.models import TimeStampedModel
 
@@ -8,20 +9,29 @@ class MainSettings(TimeStampedModel):
     description = models.TextField(max_length=1000, default="", blank=True, null=True)
 
     email = models.EmailField(
-        max_length=500, default="default@default.com", blank=True, null=True
+        max_length=500,
+        default="default@default.com",
+        blank=True,
+        null=True,
     )
-    phone = models.CharField(max_length=150, default="01099999", blank=True, null=True)
+    phone = models.CharField(max_length=150, default="01099999", blank=True)
 
-    facebook = models.URLField(max_length=500, blank=True, null=True)
-    linkedin = models.URLField(max_length=500, blank=True, null=True)
-
-    def delete(self, *args, **kwargs):
-        raise Exception("You can't delete this object")
+    facebook = models.URLField(max_length=500, blank=True)
+    linkedin = models.URLField(max_length=500, blank=True)
 
     def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        err = "You can't delete this object"
+        raise ValidationError(err)
+
+    def clean(self, *args, **kwargs):
         if MainSettings.objects.exists() and not self.pk:
-            raise Exception("You can not create more than one object")
-        return super(MainSettings, self).save(*args, **kwargs)
+            err = "You can not create more than one object"
+            raise ValidationError(err)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

@@ -1,4 +1,4 @@
-exclude: '^docs/|/migrations/|devcontainer.json'
+exclude: '^docs/|/migrations/|devcontainer.json|^templates/'
 default_stages: [commit]
 
 default_language_version:
@@ -20,27 +20,34 @@ repos:
       - id: check-docstring-first
       - id: detect-private-key
 
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: '1.21.0'
+  - repo: https://github.com/joaopalmeiro/djlint
+    rev: v1.21.0
     hooks:
-      - id: django-upgrade
-        args: ['--target-version', '5.0']
+    - id: djlint
+      args: [--ignore, templates, --ignore, static]
+      exclude: templates/|static/
 
-  # Run the Ruff linter.
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.4
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
     hooks:
-      # Linter
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
-      # Formatter
-      - id: ruff-format
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-added-large-files
+    - id: check-docstring-first
+      exclude: templates/
 
-  - repo: https://github.com/Riverside-Healthcare/djLint
-    rev: v1.35.2
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.281
     hooks:
-      - id: djlint-reformat-django
-      - id: djlint-django
+    - id: ruff
+      args: ["--ignore=templates"]
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+    - id: black
+      exclude: templates/
+
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

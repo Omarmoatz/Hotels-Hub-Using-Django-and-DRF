@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 phone=fake.phone_number(),
                 address=fake.address(),
                 email=fake.email(),
-                tag=choice(Hotel.TAG_CHOICES.choices)[0],
+                tag=choice(Hotel.TagChoices.choices)[0],
             )
             hotel.save()
 
@@ -67,7 +67,7 @@ class Command(BaseCommand):
             # Create hotel features
             for _ in range(4):
                 selected_icon = choice(
-                    [icon[0] for icon in HotelFeatures.ICON_FEATURES.choices]
+                    [icon[0] for icon in HotelFeatures.IconFeatures.choices],
                 )
                 hotel_feature = HotelFeatures(
                     icon=selected_icon,

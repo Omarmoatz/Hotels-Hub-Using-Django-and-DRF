@@ -9,8 +9,7 @@
       <h4>Activation Your Account</h4>
       <p>we had send you the activation code use it to activate your acount</p>
       <div class="col-lg-5 mt-2">
-        <form class="form-control my-5 bg-white shadow-lg rounded-3 "
-              method="post">
+        <form class="form-control my-5 bg-white shadow-lg rounded-3 " method="post">
           {% csrf_token %}
           <div class="my-3">
             {% if error %}<div class="alert alert-danger my-2">{{ error }}</div>{% endif %}

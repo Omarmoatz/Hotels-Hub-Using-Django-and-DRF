@@ -40,7 +40,8 @@ class RoomTypeDetail(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["rooms"] = Room.objects.filter(
-            room_type=self.get_object(), is_available=True
+            room_type=self.get_object(),
+            is_available=True,
         )
         context["name"] = self.request.GET["name"]
         context["email"] = self.request.GET["email"]

@@ -46,6 +46,7 @@ include = "H017,H035"
 indent = 2
 max_line_length = 119
 profile = "django"
+exclude = "templates/*"  # Ensure all template files are ignored
 
 [tool.djlint.css]
 indent_size = 2
@@ -53,13 +54,16 @@ indent_size = 2
 [tool.djlint.js]
 indent_size = 2
 
+# ==== ruff ====
 [tool.ruff]
 target-version = "py312"
-# Exclude a variety of commonly ignored directories.
 extend-exclude = [
     "*/migrations/*.py",
     "staticfiles/*",
+    "templates/*"  # Ignoring the templates directory globally for ruff
 ]
+line-length = 95
+exclude = ["templates/*"]
 
 [tool.ruff.lint]
 select = [
@@ -126,12 +130,13 @@ ignore = [
           # of types for comparison.
           # Deactivated because it can make the code slow:
           # https://github.com/astral-sh/ruff/issues/7871
-]
-# The fixes in extend-unsafe-fixes will require
-# provide the `--unsafe-fixes` flag when fixing.
-extend-unsafe-fixes = [
-    "UP038",
+  "ERA001",
+  "DJ001",
+  "S311",
 ]
 
 [tool.ruff.lint.isort]
 force-single-line = true
+
+[tool.ruff.format]
+docstring-code-line-length = 90

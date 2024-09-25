@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 
+import pytz
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
@@ -32,8 +33,10 @@ def check_avilability(request, slug):
         room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
 
         url = reverse("hotel:room_type_detail", args=(slug, room_type.slug))
-        url_with_params = f"{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}"
+        rest_url = f"&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}"
+        url_with_params = f"{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}{rest_url}"
         return HttpResponseRedirect(url_with_params)
+    return messages.error(request, "something Happened")
 
 
 # it tooks its data from jQuery, AJAX
@@ -62,7 +65,7 @@ def room_selection_view(request):
             old_data = request.session["room_selection_obj"]
             old_data[current_id]["adults"] = int(room_selection[current_id]["adults"])
             old_data[current_id]["children"] = int(
-                room_selection[current_id]["children"]
+                room_selection[current_id]["children"],
             )
             request.session["room_selection_obj"] = old_data
         else:
@@ -89,7 +92,7 @@ def selected_rooms(request):
             messages.warning(request, "You deleted all your booked rooms!")
             return redirect("/")
 
-        for id, item in request.session["room_selection_obj"].items():
+        for hid, item in request.session["room_selection_obj"].items():
             hotel_id = int(item["hotel_id"])
             room_id = int(item["room_id"])
             checkin = item["checkin"]
@@ -141,10 +144,10 @@ def delete_room_from_session(request):
 
         if len(request.session["room_selection_obj"]) == 0:
             return JsonResponse(
-                {"rooms_len": len(request.session["room_selection_obj"])}
+                {"rooms_len": len(request.session["room_selection_obj"])},
             )
 
-        for id, item in request.session["room_selection_obj"].items():
+        for rid, item in request.session["room_selection_obj"].items():
             hotel_id = int(item["hotel_id"])
             room_id = int(item["room_id"])
             checkin = item["checkin"]
@@ -183,7 +186,7 @@ def delete_room_from_session(request):
             {
                 "rendered_data": rendered_data,
                 "rooms_len": len(request.session["room_selection_obj"]),
-            }
+            },
         )
 
     messages.warning(request, "You deleted all your booked rooms!")
@@ -201,7 +204,7 @@ def create_booking(request):
     rooms_obj = []
     if "room_selection_obj" in request.session:
         if request.method == "POST":
-            for id, item in request.session["room_selection_obj"].items():
+            for rid, item in request.session["room_selection_obj"].items():
                 hotel_id = item["hotel_id"]
                 room_id = item["room_id"]
                 checkin = item["checkin"]
@@ -216,8 +219,12 @@ def create_booking(request):
             hotel = Hotel.objects.get(id=hotel_id)
 
             date_format = "%Y-%m-%d"
-            checkin_date = datetime.strptime(checkin, date_format)
-            checkout_date = datetime.strptime(checkout, date_format)
+            checkin_date = datetime.strptime(checkin, date_format).replace(
+                tzinfo=pytz.UTC,
+            )
+            checkout_date = datetime.strptime(checkout, date_format).replace(
+                tzinfo=pytz.UTC,
+            )
             total_days = (checkout_date - checkin_date).days
 
             total_price = total_rooms_price * total_days
@@ -260,17 +267,17 @@ def check_coupun(request):
 
         try:
             coupon = Coupon.objects.get(code=code)
-        except:
+        except Coupon.DoesNotExist:
             return JsonResponse({"status": "error", "message": "Invalid coupon code."})
 
         booking = Booking.objects.get(id=booking_id)
         if booking.coupon == coupon:
             return JsonResponse(
-                {"status": "error", "message": "you already used this coupon"}
+                {"status": "error", "message": "you already used this coupon"},
             )
 
         if coupon and coupon.quantity > 0:
-            today = datetime.today().date()
+            today = datetime.now(tz=pytz.UTC).date()
             start_date = coupon.start_date.date()
             expire_date = coupon.end_date.date()
 
@@ -287,14 +294,15 @@ def check_coupun(request):
                 coupon.save()
 
                 html = render_to_string(
-                    "includes/total_after_desount.html", {"booking": booking}
+                    "includes/total_after_desount.html",
+                    {"booking": booking},
                 )
                 return JsonResponse(
                     {
                         "status": "success",
                         "message": "Coupon applied successfully!",
                         "html": html,
-                    }
+                    },
                 )
 
             return JsonResponse({"status": "error", "message": "Expired coupon"})

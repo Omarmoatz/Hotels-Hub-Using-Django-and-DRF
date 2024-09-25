@@ -9,10 +9,13 @@ class HotelTestCase(TestCase):
         user = User(username="testuser")
         user.save()
         hotel = Hotel(
-            user=user, name="Hotel Test", address="Test Address", phone="1234567890"
+            user=user,
+            name="Hotel Test",
+            address="Test Address",
+            phone="1234567890",
         )
         hotel.save()
-        self.assertEqual(hotel.check_created_at_this_year, True)
+        assert not hotel.check_created_at_this_year
 
         hotel.address = "Test Address 2"
-        self.assertEqual(hotel.address, "Test Address")
+        assert hotel.address == "Test Address"

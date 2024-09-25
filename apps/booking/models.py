@@ -14,7 +14,7 @@ from apps.users.models import User
 
 
 class Booking(TimeStampedModel):
-    class PAYMENT_METHOD(models.TextChoices):
+    class PaymentMethod(models.TextChoices):
         CASH = "cash", _("Cash")
         VISA = "visa", _("Visa")
         STRIPE = "stripe", _("Stripe")
@@ -22,24 +22,34 @@ class Booking(TimeStampedModel):
 
     user = models.ForeignKey(User, related_name="booked_user", on_delete=models.CASCADE)
     payment_method = models.CharField(
-        max_length=10, choices=PAYMENT_METHOD.choices, blank=True, null=True
+        max_length=10,
+        choices=PaymentMethod.choices,
+        blank=True,
     )
 
-    full_name = models.CharField(max_length=500, blank=True, null=True)
-    phone = models.CharField(max_length=500, blank=True, null=True)
+    full_name = models.CharField(max_length=500, blank=True)
+    phone = models.CharField(max_length=500, blank=True)
     email = models.EmailField(max_length=900, blank=True, null=True)
 
     hotel = models.ForeignKey(
-        Hotel, related_name="hotel_booked", on_delete=models.CASCADE
+        Hotel,
+        related_name="hotel_booked",
+        on_delete=models.CASCADE,
     )
     room_type = models.ManyToManyField(RoomType)
     room = models.ManyToManyField(Room)
     before_discount = models.DecimalField(
-        max_digits=9, decimal_places=2, blank=True, null=True
+        max_digits=9,
+        decimal_places=2,
+        blank=True,
+        null=True,
     )
     total = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     money_saved = models.DecimalField(
-        max_digits=7, decimal_places=2, blank=True, null=True
+        max_digits=7,
+        decimal_places=2,
+        blank=True,
+        null=True,
     )
 
     check_in_date = models.DateField(default=timezone.now, blank=True, null=True)
@@ -51,9 +61,12 @@ class Booking(TimeStampedModel):
     check_in = models.BooleanField(default=False)
     check_out = models.BooleanField(default=False)
 
-    booking_code = models.CharField(max_length=500, blank=True, null=True)
+    booking_code = models.CharField(max_length=500, blank=True)
     coupon = models.ForeignKey(
-        "Coupon", on_delete=models.CASCADE, blank=True, null=True
+        "Coupon",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
 
     def __str__(self):
@@ -68,7 +81,7 @@ class Booking(TimeStampedModel):
 
 
 class Coupon(TimeFramedModel):
-    code = models.CharField(max_length=100, blank=True, null=True)
+    code = models.CharField(max_length=100, blank=True)
     discount = models.PositiveIntegerField(blank=True, null=True)
     quantity = models.PositiveIntegerField(blank=True, null=True)
 
@@ -83,7 +96,7 @@ class Coupon(TimeFramedModel):
         if not self.code:
             self.code = get_random_string(10)
 
-        return super(Coupon, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["-start"]

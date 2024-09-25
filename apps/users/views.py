@@ -52,8 +52,8 @@ def activate(request, username):
     if request.method == "POST":
         form = ProfileForm(request.POST)
         if form.is_valid():
-            input_Code = form.cleaned_data["code"]
-            if input_Code == user.code:
+            input_code = form.cleaned_data["code"]
+            if input_code == user.code:
                 user.code = ""
                 user.is_active = True
                 user.save()
@@ -61,7 +61,9 @@ def activate(request, username):
                 return redirect("/users/login")
             error = "Invalid activation code"
             return render(
-                request, "users/activation.html", {"form": form, "error": error}
+                request,
+                "users/activation.html",
+                {"form": form, "error": error},
             )
     else:
         form = ProfileForm()

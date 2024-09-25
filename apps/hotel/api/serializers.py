@@ -82,11 +82,14 @@ class RoomTypeDetailSeriaLizer(serializers.ModelSerializer):
 
 class HotelDetailSeriaLizer(serializers.ModelSerializer):
     feature = serializers.PrimaryKeyRelatedField(
-        queryset=HotelFeatures.objects.all(), many=True
+        queryset=HotelFeatures.objects.all(),
+        many=True,
     )
     # room_type = serializers.SerializerMethodField(read_only=True)
     rooms_type = RoomTypeListSeriaLizer(
-        source="hotel_room_type", many=True, read_only=True
+        source="hotel_room_type",
+        many=True,
+        read_only=True,
     )
     user = UserSerializer(read_only=True)
 

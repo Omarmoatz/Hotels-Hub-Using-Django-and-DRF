@@ -14,8 +14,8 @@ class UserForm(UserCreationForm):
             attrs={
                 "placeholder": "Enter Your username",
                 "class": "form-control-lg w-100 border border-1 ",
-            }
-        )
+            },
+        ),
     )
 
     email = forms.CharField(
@@ -23,8 +23,8 @@ class UserForm(UserCreationForm):
             attrs={
                 "placeholder": "Enter Your email",
                 "class": "form-control-lg w-100 border border-1",
-            }
-        )
+            },
+        ),
     )
 
     password1 = forms.CharField(
@@ -32,8 +32,8 @@ class UserForm(UserCreationForm):
             attrs={
                 "placeholder": "Enter Your password",
                 "class": "form-control-lg w-100 border border-1",
-            }
-        )
+            },
+        ),
     )
 
     password2 = forms.CharField(
@@ -41,8 +41,8 @@ class UserForm(UserCreationForm):
             attrs={
                 "placeholder": "Confirm The password",
                 "class": "form-control-lg w-100 border border-1",
-            }
-        )
+            },
+        ),
     )
 
     class Meta:
@@ -56,8 +56,8 @@ class ProfileForm(forms.Form):
             attrs={
                 "placeholder": "Enter The Code",
                 "class": "form-control-lg w-100 border border-1",
-            }
-        )
+            },
+        ),
     )
 
 
@@ -68,7 +68,7 @@ class LoginForm(forms.Form):
             attrs={
                 "placeholder": "Enter Your Email",
                 "class": "form-control-lg w-100 border border-1",
-            }
+            },
         ),
     )
 
@@ -78,7 +78,7 @@ class LoginForm(forms.Form):
             attrs={
                 "placeholder": "Enter Your Password",
                 "class": "form-control-lg w-100 border border-1",
-            }
+            },
         ),
     )
 
