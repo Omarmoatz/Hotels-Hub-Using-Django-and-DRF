@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from zoneinfo import ZoneInfo
 
 import pytz
 from django.contrib import messages
@@ -33,8 +34,9 @@ def check_avilability(request, slug):
         room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
 
         url = reverse("hotel:room_type_detail", args=(slug, room_type.slug))
-        rest_url = f"&checkout={checkout}&adults={adults}&children={children}&room_type={room_type}"
-        url_with_params = f"{url}?hotel_id={hotel.id}&name={name}&email={email}&checkin={checkin}{rest_url}"
+        url2 = f"&email={email}&checkin={checkin}&checkout={checkout}"
+        rest_url = f"&adults={adults}&children={children}&room_type={room_type}"
+        url_with_params = f"{url}?hotel_id={hotel.id}&name={name}{url2}{rest_url}"
         return HttpResponseRedirect(url_with_params)
     return messages.error(request, "something Happened")
 
@@ -92,7 +94,7 @@ def selected_rooms(request):
             messages.warning(request, "You deleted all your booked rooms!")
             return redirect("/")
 
-        for hid, item in request.session["room_selection_obj"].items():
+        for _hid, item in request.session["room_selection_obj"].values():
             hotel_id = int(item["hotel_id"])
             room_id = int(item["room_id"])
             checkin = item["checkin"]
@@ -107,9 +109,15 @@ def selected_rooms(request):
         hotel = Hotel.objects.get(id=hotel_id)
 
         date_format = "%Y-%m-%d"
-        chickin_date = datetime.strptime(checkin, date_format)
-        chickout_date = datetime.strptime(checkout, date_format)
-        total_days = (chickout_date - chickin_date).days
+        timezone = ZoneInfo(
+            "UTC",
+        )
+
+        checkin_date = datetime.strptime(checkin, date_format).replace(tzinfo=timezone)
+        checkout_date = datetime.strptime(checkout, date_format).replace(
+            tzinfo=timezone,
+        )
+        total_days = (checkout_date - checkin_date).days
 
         total_cost = float(rooms_price * total_days)
 
@@ -147,7 +155,7 @@ def delete_room_from_session(request):
                 {"rooms_len": len(request.session["room_selection_obj"])},
             )
 
-        for rid, item in request.session["room_selection_obj"].items():
+        for _rid, item in request.session["room_selection_obj"].values():
             hotel_id = int(item["hotel_id"])
             room_id = int(item["room_id"])
             checkin = item["checkin"]
@@ -162,9 +170,14 @@ def delete_room_from_session(request):
         hotel = Hotel.objects.get(id=hotel_id)
 
         date_format = "%Y-%m-%d"
-        chickin_date = datetime.strptime(checkin, date_format)
-        chickout_date = datetime.strptime(checkout, date_format)
-        total_days = (chickout_date - chickin_date).days
+        timezone = pytz.UTC
+        checkin_date = datetime.strptime(checkin, date_format).replace(tzinfo=timezone)
+        checkout_date = datetime.strptime(checkout, date_format).replace(
+            tzinfo=timezone,
+        )
+
+        # Calculate total days
+        total_days = (checkout_date - checkin_date).days
 
         total_cost = float(rooms_price * total_days)
 
@@ -204,7 +217,7 @@ def create_booking(request):
     rooms_obj = []
     if "room_selection_obj" in request.session:
         if request.method == "POST":
-            for rid, item in request.session["room_selection_obj"].items():
+            for _rid, item in request.session["room_selection_obj"].values():
                 hotel_id = item["hotel_id"]
                 room_id = item["room_id"]
                 checkin = item["checkin"]

@@ -16,7 +16,7 @@ class UserFactory(DjangoModelFactory[User]):
     @post_generation
     def password(
         self,
-        create: bool,
+        create: bool,  # noqa: FBT001
         extracted: Sequence[Any],
         **kwargs,
     ):
