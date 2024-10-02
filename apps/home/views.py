@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 from apps.home.models import MainSettings
-from apps.hotel.models import Hotel
 
 
 def home_view(request):

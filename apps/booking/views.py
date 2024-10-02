@@ -331,6 +331,7 @@ def success_payment(request, booking_id):
         del request.session["room_selection_obj"]
     return render(request, "booking/success.html", {"booking": booking})
 
+
 # class CheckAvilability(generic.CreateView):
 #     model = Booking
 #     form_class = BokingForm
