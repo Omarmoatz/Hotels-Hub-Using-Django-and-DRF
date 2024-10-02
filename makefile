@@ -51,6 +51,9 @@ compilemessages:
 urls:
 	docker compose run django python manage.py show_urls
 
+pytest:
+	docker compose run --rm django pytest $(filter-out $@,$(MAKECMDGOALS))
+
 logs:
 	docker compose logs -f $(filter-out $@,$(MAKECMDGOALS))
 
