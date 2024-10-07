@@ -251,7 +251,7 @@
           console.log(Detail);
 
           if (Detail.status == 'COMPLETED') {
-            window.location.href = `/sucess/${booking_id}/?payer_id=${Detail.payer_id}&total_cost=${total_cost}&status=${Detail.status}`
+            window.location.href = `/booking/success/${booking_id}/?payer_id=${Detail.payer_id}&total_cost=${total_cost}&status=${Detail.status}`
 
           } else {
             Swal.fire({

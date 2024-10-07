@@ -8,10 +8,10 @@ from factory.django import DjangoModelFactory
 from apps.users.models import User
 
 
-class UserFactory(DjangoModelFactory[User]):
+class UserFactory(DjangoModelFactory):
     username = Faker("user_name")
     email = Faker("email")
-    name = Faker("name")
+    # name = Faker("name")
 
     @post_generation
     def password(

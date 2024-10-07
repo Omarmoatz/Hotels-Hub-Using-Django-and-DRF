@@ -1,0 +1,71 @@
+{% extends 'auth_base.html' %}
+
+{% load static %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12 ">
+                <h1>Booking Success</h1>
+                <p>Your booking has been successfully submitted. You will receive an email confirmation shortly.</p>
+                {% comment %} <a href="{% url 'booking:booking_list' %}" class="btn btn-primary">View Bookings</a> {% endcomment %}
+                <a href="{% url 'home:main' %}" class="btn btn-primary">Home Page</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Booking Details</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Hotel Name</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Room Type</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ booking.hotel }}</td>
+                            <td>{{ booking.check_in_date }}</td>
+                            <td>{{ booking.check_out_date }}</td>
+                            <td>{{ booking.room_type }}</td>
+                            <td>{{ booking.total }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% if booking.coupon %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Discount Details</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Discount Code</th>
+                            <th>Discount Percentage</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ discount.code }}</td>
+                            <td>{{ discount.discount }}%</td>
+                            <td>{{ discount.start }}</td>
+                            <td>{{ discount.end }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock body %}

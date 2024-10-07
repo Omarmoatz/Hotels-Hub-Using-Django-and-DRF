@@ -84,7 +84,7 @@ $(document).on('click', '.delete-room', function(){
                 },
                 dataType: 'json',
                 beforeSend: function(){
-                    console.log('deleteing...');
+                    console.log('deleting...');
                     button.html('<i class="fas fa-spinner fa-spin"></i>')
                 },
                 success: function(res){
@@ -107,7 +107,7 @@ $(document).on('click', '.delete-room', function(){
                     $('.rooms-len').html(res.rooms_len)
 
                 },
-                erorr: function(res){
+                error: function(res){
                     console.log('server error');
                 }
             })

@@ -39,9 +39,6 @@ createsuperuser:
 collectstatic:
 	docker compose run --rm django python manage.py collectstatic --noinput
 
-populate:
-	docker compose run django python3 manage.py populate
-
 makemessages:
 	docker compose run --rm django python manage.py makemessages --no-location -l ar
 
@@ -52,7 +49,7 @@ urls:
 	docker compose run django python manage.py show_urls
 
 pytest:
-	docker compose run --rm django pytest $(filter-out $@,$(MAKECMDGOALS))
+	docker compose run --rm django pytest -s
 
 logs:
 	docker compose logs -f $(filter-out $@,$(MAKECMDGOALS))
@@ -73,4 +70,4 @@ rm_pyc:
 	find . -name '__pycache__' -name '*.pyc' | xargs rm -rf
 
 populate:
-	docker compose run --rm django python3 manage.py populate
+	docker compose run --rm django python3 manage.py populate $(filter-out $@,$(MAKECMDGOALS))

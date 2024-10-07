@@ -30,22 +30,15 @@ repos:
     - id: check-docstring-first
       exclude: templates/
 
-  # Run the Ruff linter.
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.4
-    hooks:
-      # Linter
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
-      # Formatter
-      - id: ruff-format
-
-
-  - repo: https://github.com/psf/black
-    rev: 22.3.0
-    hooks:
-    - id: black
-      exclude: templates/
+  # # Run the Ruff linter.
+  # - repo: https://github.com/astral-sh/ruff-pre-commit
+  #   rev: v0.6.4
+  #   hooks:
+  #     # Linter
+  #     - id: ruff
+  #       args: [--fix, --exit-non-zero-on-fix]
+  #     # Formatter
+  #     - id: ruff-format
 
   - repo: https://github.com/Riverside-Healthcare/djLint
     rev: v1.35.2
