@@ -92,10 +92,10 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework_simplejwt",
-    "rest_framework.authtoken",
+    # "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
-    "django_summernote",
+    # "django_summernote",
 ]
 
 LOCAL_APPS = [
