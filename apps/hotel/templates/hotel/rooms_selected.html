@@ -129,10 +129,10 @@
                 <h5 class="text-white">{{ hotel.name }}</h5>
                 <div class="d-flex ms-2 fw-bold ">
                   <p class="me-3 ">
-                    <i class="fa fa-map-marker-alt text-primary me-2"></i> {{ hotel.address }}
+                    <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ hotel.address|slice:":15" }}...
                   </p>
                   <p class="">
-                    <i class="fa fa-phone text-primary me-2"></i> {{ hotel.phone }}
+                    <i class="fa fa-phone text-primary me-2"></i> {{ hotel.phone|slice:":15" }}
                   </p>
                 </div>
                 <div class="d-flex ms-2">

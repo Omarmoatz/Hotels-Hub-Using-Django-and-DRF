@@ -44,7 +44,7 @@ class Command(BaseCommand):
             hotel = Hotel(
                 user=user,
                 name=fake.company(),
-                img=f"hotel/hotel-{randint(1,4)}.jpg",
+                img=f"hotel/hotel{randint(1,12)}.jpeg",
                 subtitle=fake.sentence(),
                 description=fake.text(max_nb_chars=500),
                 min_price=fake.random_number(digits=4),
@@ -60,7 +60,7 @@ class Command(BaseCommand):
             for _ in range(5):
                 hotel_gallery = HotelGallery(
                     hotel=hotel,
-                    img=f"hotel gallery/room-{randint(1,4)}.jpg",
+                    img=f"hotel/hotel{randint(1,12)}.jpeg",
                 )
                 hotel_gallery.save()
 

@@ -7,6 +7,7 @@ from apps.booking.views import create_booking
 from apps.booking.views import delete_room_from_session
 from apps.booking.views import room_selection_view
 from apps.booking.views import selected_rooms
+from apps.booking.views import success_payment
 
 app_name = "booking"
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path("room_selection/", room_selection_view, name="room_selection"),
     path("create_booking/", create_booking, name="create_booking"),
     path("checkout/<booking_code>", checkout, name="checkout"),
+    path("success/<booking_id>/", success_payment, name="success_payment"),
 ]

@@ -94,7 +94,7 @@ def selected_rooms(request):
             messages.warning(request, "You deleted all your booked rooms!")
             return redirect("/")
 
-        for _hid, item in request.session["room_selection_obj"].values():
+        for item in request.session["room_selection_obj"].values():
             hotel_id = int(item["hotel_id"])
             room_id = int(item["room_id"])
             checkin = item["checkin"]
@@ -155,7 +155,7 @@ def delete_room_from_session(request):
                 {"rooms_len": len(request.session["room_selection_obj"])},
             )
 
-        for _rid, item in request.session["room_selection_obj"].values():
+        for item in request.session["room_selection_obj"].values():
             hotel_id = int(item["hotel_id"])
             room_id = int(item["room_id"])
             checkin = item["checkin"]
@@ -217,7 +217,7 @@ def create_booking(request):
     rooms_obj = []
     if "room_selection_obj" in request.session:
         if request.method == "POST":
-            for _rid, item in request.session["room_selection_obj"].values():
+            for item in request.session["room_selection_obj"].values():
                 hotel_id = item["hotel_id"]
                 room_id = item["room_id"]
                 checkin = item["checkin"]
@@ -323,6 +323,13 @@ def check_coupun(request):
         return JsonResponse({"status": "error", "message": "Cupon quntity is empty"})
 
     return JsonResponse({"status": "error", "message": "Invalid request method."})
+
+
+def success_payment(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+    if "room_selection_obj" in request.session:
+        del request.session["room_selection_obj"]
+    return render(request, "booking/success.html", {"booking": booking})
 
 
 # class CheckAvilability(generic.CreateView):
