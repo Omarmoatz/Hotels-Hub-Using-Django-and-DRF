@@ -69,7 +69,7 @@ class Hotel(TimeStampedModel):
         return round(avg["avg_rate"], 1)
 
     @property
-    def check_created_at_this_year(self) -> bool:
+    def check_creation_date(self) -> bool:
         return self.created_at.year == timezone.now().year
 
     class Meta:

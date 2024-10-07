@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from model_utils.models import TimeStampedModel
+from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser, TimeStampedModel):
@@ -16,8 +17,18 @@ class User(AbstractUser, TimeStampedModel):
         ("Male", "Male"),
         ("Female", "Female"),
     )
-    # First and last name do not cover name patterns around the globe
-    email = models.EmailField(max_length=300, unique=True)
+    username = models.CharField(
+        _("username"),
+        max_length=150,
+        blank=True,
+    )
+    email = models.EmailField(
+        max_length=300,
+        unique=True,
+        error_messages={
+            "unique": _("A user with that email already exists."),
+        },
+    )
     gender = models.CharField(max_length=200, choices=GENDER, blank=True)
     phone = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to="profile", blank=True, null=True)
