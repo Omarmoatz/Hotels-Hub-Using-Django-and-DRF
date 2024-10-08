@@ -18,7 +18,7 @@ class Booking(TimeStampedModel):
         Proccing = "Proccing", _("Proccing")
         Paid = "Paid", _("Paid")
         Failed = "Failed", _("Failed")
-        
+
 
     user = models.ForeignKey(User, related_name="booked_user", on_delete=models.CASCADE)
     payment_method = models.CharField(

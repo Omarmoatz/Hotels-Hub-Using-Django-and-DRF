@@ -333,7 +333,7 @@ def check_coupun(request):
 
 def success_payment(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
-    
+
     # Update the booking details
     booking.payment_method = Booking.PaymentStatus.Paid
     booking.room.is_available = True
@@ -341,7 +341,7 @@ def success_payment(request, booking_id):
 
     html_content = render_to_string("email/booking_confirmation.html", {"booking": booking})
     text_content = strip_tags(html_content)  # Create a plain-text version by stripping HTML tags
-    
+
     # Sending the email
     email = EmailMultiAlternatives(
         subject="Hotel Booking Confirmation",
@@ -351,10 +351,10 @@ def success_payment(request, booking_id):
     )
     email.attach_alternative(html_content, "text/html")  # Attach the HTML version
     email.send()
-    
+
     if "room_selection_obj" in request.session:
         del request.session["room_selection_obj"]
-   
+
     return render(request, "booking/success.html", {"booking": booking})
 
 

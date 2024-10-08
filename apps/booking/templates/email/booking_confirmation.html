@@ -5,11 +5,11 @@
 {% block body %}
     <div class="container bg-light p-4 my-4">
         <h1 class="text-primary">Booking Confirmation</h1>
-        
+
         <p>Dear <strong>{{ booking.user.username }}</strong>,</p>
 
         <p class="text-success">
-            Thank you for booking with us! We are pleased to confirm your reservation for room 
+            Thank you for booking with us! We are pleased to confirm your reservation for room
             <strong>{{ booking.room_type }}</strong>.
         </p>
 
@@ -41,8 +41,8 @@
         </ul>
         {% endif %}
 
-        <p>If you have any questions or need further assistance, please don't hesitate to contact us at 
-            <strong class="text-primary">{{ booking.hotel.email }}</strong> or call us at 
+        <p>If you have any questions or need further assistance, please don't hesitate to contact us at
+            <strong class="text-primary">{{ booking.hotel.email }}</strong> or call us at
             <strong class="text-primary">{{ booking.hotel.phone }}</strong>.
         </p>
 
