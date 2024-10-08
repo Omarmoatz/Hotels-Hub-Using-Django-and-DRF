@@ -145,11 +145,8 @@ $(document).on('submit', '#check-coupun', function(e){
         },
         dataType: 'json',
         beforeSend: function(){
-
             console.log('applying.....');
             btn.html('<i class="fas fa-spinner fa-spin "></i>')
-
-
         },
         success: function(res){
             setTimeout(function(){

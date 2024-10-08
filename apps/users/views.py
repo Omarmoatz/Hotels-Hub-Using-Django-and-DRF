@@ -37,7 +37,7 @@ def sign_up(request):
                 "Your Activation Mail",  # subject
                 f"Use this code {user.code} to activate your account",  # body
                 settings.EMAIL_BACKEND,  # from
-                (email,),  # to
+                [email],  # to
             )
 
             return redirect(f"/users/activate/{username}")

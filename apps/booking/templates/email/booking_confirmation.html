@@ -1,0 +1,59 @@
+{% extends 'auth_base.html' %}
+
+{% load static %}
+
+{% block body %}
+    <div class="container bg-light p-4 my-4">
+        <h1 class="text-primary">Booking Confirmation</h1>
+        
+        <p>Dear <strong>{{ booking.user.username }}</strong>,</p>
+
+        <p class="text-success">
+            Thank you for booking with us! We are pleased to confirm your reservation for room 
+            <strong>{{ booking.room_type }}</strong>.
+        </p>
+
+        <p><strong class="text-info">Booking Details:</strong></p>
+        <ul class="list-group mb-3">
+            <li class="list-group-item">
+                <strong>Check-in Date:</strong> {{ booking.check_in_date }}
+            </li>
+            <li class="list-group-item">
+                <strong>Check-out Date:</strong> {{ booking.check_out_date }}
+            </li>
+            <li class="list-group-item">
+                <strong>Room Number:</strong> {{ booking.room.number }}
+            </li>
+            <li class="list-group-item">
+                <strong>Total Price:</strong> ${{ booking.before_discount }}
+            </li>
+        </ul>
+
+        {% if booking.coupon %}
+        <p class="text-success"><strong>Coupon Applied:</strong> {{ booking.coupon.code }}</p>
+        <ul class="list-group mb-3">
+            <li class="list-group-item">
+                <strong>Discount:</strong> ${{ booking.coupon.discount }}
+            </li>
+            <li class="list-group-item">
+                <strong>Final Price After Discount:</strong> ${{ booking.total }}
+            </li>
+        </ul>
+        {% endif %}
+
+        <p>If you have any questions or need further assistance, please don't hesitate to contact us at 
+            <strong class="text-primary">{{ booking.hotel.email }}</strong> or call us at 
+            <strong class="text-primary">{{ booking.hotel.phone }}</strong>.
+        </p>
+
+        <p>We look forward to welcoming you!</p>
+
+        <p>Best regards,</p>
+        <p><strong>The {{ booking.hotel.name }} Team</strong></p>
+
+        <div class="footer text-muted mt-4">
+            <p>{{ booking.hotel.name }} | {{ booking.hotel.address }} | {{ booking.hotel.phone }}</p>
+            <p>&copy; {{ current_year }} {{ booking.hotel.name }}. All rights reserved.</p>
+        </div>
+    </div>
+{% endblock body %}

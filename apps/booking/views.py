@@ -12,6 +12,10 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 
 from .models import Booking
 from .models import Coupon
@@ -260,6 +264,7 @@ def create_booking(request):
                 total_days=total_days,
                 num_adults=adults,
                 num_children=children,
+                payment_method= Booking.PaymentStatus.Proccing,
             )
 
             for item in rooms_obj:
@@ -291,8 +296,8 @@ def check_coupun(request):
 
         if coupon and coupon.quantity > 0:
             today = datetime.now(tz=pytz.UTC).date()
-            start_date = coupon.start_date.date()
-            expire_date = coupon.end_date.date()
+            start_date = coupon.start.date()
+            expire_date = coupon.end.date()
 
             if today >= start_date and today <= expire_date:
                 discount_decimal = Decimal(coupon.discount) / 100
@@ -325,11 +330,33 @@ def check_coupun(request):
     return JsonResponse({"status": "error", "message": "Invalid request method."})
 
 
+
 def success_payment(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
+    
+    # Update the booking details
+    booking.payment_method = Booking.PaymentStatus.Paid
+    booking.room.is_available = True
+    booking.save()
+
+    html_content = render_to_string("email/booking_confirmation.html", {"booking": booking})
+    text_content = strip_tags(html_content)  # Create a plain-text version by stripping HTML tags
+    
+    # Sending the email
+    email = EmailMultiAlternatives(
+        subject="Hotel Booking Confirmation",
+        body=text_content,  # Fallback plain-text body
+        from_email=booking.hotel.email,
+        to=[booking.email]
+    )
+    email.attach_alternative(html_content, "text/html")  # Attach the HTML version
+    email.send()
+    
     if "room_selection_obj" in request.session:
         del request.session["room_selection_obj"]
+   
     return render(request, "booking/success.html", {"booking": booking})
+
 
 
 # class CheckAvilability(generic.CreateView):

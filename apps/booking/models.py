@@ -14,16 +14,16 @@ from apps.users.models import User
 
 
 class Booking(TimeStampedModel):
-    class PaymentMethod(models.TextChoices):
-        CASH = "cash", _("Cash")
-        VISA = "visa", _("Visa")
-        STRIPE = "stripe", _("Stripe")
-        PAYPAL = "paypal", _("Paypal")
+    class PaymentStatus(models.TextChoices):
+        Proccing = "Proccing", _("Proccing")
+        Paid = "Paid", _("Paid")
+        Failed = "Failed", _("Failed")
+        
 
     user = models.ForeignKey(User, related_name="booked_user", on_delete=models.CASCADE)
     payment_method = models.CharField(
         max_length=10,
-        choices=PaymentMethod.choices,
+        choices=PaymentStatus.choices,
         blank=True,
     )
 
@@ -73,7 +73,8 @@ class Booking(TimeStampedModel):
         return f"booking{self.id} for {self.user!s}"
 
     def save(self, *args, **kwargs):
-        self.booking_code = get_random_string(10)
+        if not self.booking_code:
+            self.booking_code = get_random_string(10)
         return super().save(*args, **kwargs)
 
     class Meta:

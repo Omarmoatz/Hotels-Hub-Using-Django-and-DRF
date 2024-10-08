@@ -47,3 +47,50 @@
     </p>
   </div>
 </div>
+{% block script %}
+  <script src="https://www.paypal.com/sdk/js?client-id=AYd-JfkzKhhRe6djVxAc8obRQAxYpQWBaOjC4stHOaNdWov7ooeVbALd3mHm0Oor5U8bq3O4fRwSIy2b&currency=USD"></script>
+  {% comment %} // client id i broughth it from making an app in a real paypal bussines account from developers page {% endcomment %}
+  <script>
+    let total_cost = '{{booking.total}}'
+    let booking_id = '{{booking.id}}'
+
+    console.log(total_cost);
+    paypal.Buttons({
+
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: total_cost
+            }
+          }]
+        })
+      },
+
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(Detail) {
+          console.log(Detail);
+
+          if (Detail.status == 'COMPLETED') {
+            window.location.href = `/booking/success/${booking_id}/?payer_id=${Detail.payer_id}&total_cost=${total_cost}&status=${Detail.status}`
+
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Somethig Went Wrong",
+              timer: 2000,
+            });
+          }
+
+        })
+      },
+
+      style: {
+        layout: 'vertical',
+        color: 'gold',
+        shape: 'rect',
+        label: 'paypal'
+      }
+    }).render('#paypal-button-container');
+  </script>
+{% endblock script %}
