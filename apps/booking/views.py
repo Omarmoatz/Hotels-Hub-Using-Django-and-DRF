@@ -355,6 +355,8 @@ def success_payment(request, booking_id):
     if "room_selection_obj" in request.session:
         del request.session["room_selection_obj"]
 
+    redirect("/")
+
     return render(request, "booking/success.html", {"booking": booking})
 
 
