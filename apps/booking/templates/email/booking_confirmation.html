@@ -9,20 +9,37 @@
         <p>Dear <strong>{{ booking.user.username }}</strong>,</p>
 
         <p class="text-success">
-            Thank you for booking with us! We are pleased to confirm your reservation for room
-            <strong>{{ booking.room_type }}</strong>.
+            Thank you for booking with us! We are pleased to confirm your reservation for the following rooms:
         </p>
 
         <p><strong class="text-info">Booking Details:</strong></p>
+
         <ul class="list-group mb-3">
+            <!-- Loop over Many-to-Many Room Types -->
+            <li class="list-group-item">
+                <strong>Room Types:</strong>
+                <ul>
+                    {% for room_type in booking.room_type.all %}
+                        <li>{{ room_type.title }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+
+            <!-- Loop over Many-to-Many Rooms -->
+            <li class="list-group-item">
+                <strong>Rooms:</strong>
+                <ul>
+                    {% for room in booking.room.all %}
+                        <li>Room Number: {{ room.room_num }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+
             <li class="list-group-item">
                 <strong>Check-in Date:</strong> {{ booking.check_in_date }}
             </li>
             <li class="list-group-item">
                 <strong>Check-out Date:</strong> {{ booking.check_out_date }}
-            </li>
-            <li class="list-group-item">
-                <strong>Room Number:</strong> {{ booking.room.number }}
             </li>
             <li class="list-group-item">
                 <strong>Total Price:</strong> ${{ booking.before_discount }}

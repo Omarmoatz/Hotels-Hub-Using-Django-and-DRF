@@ -26,6 +26,8 @@ class UserAdmin(auth_admin.UserAdmin):
             {
                 "fields": (
                     "gender",
+                    "first_name",
+                    "last_name",
                     "phone",
                     "image",
                     "country",

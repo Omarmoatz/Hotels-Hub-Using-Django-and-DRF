@@ -126,6 +126,7 @@ def selected_rooms(request):
         total_cost = float(rooms_price * total_days)
 
         context = {
+            "user": request.user,
             "selected_rooms": request.session["room_selection_obj"],
             "hotel": hotel,
             "rooms_list": rooms_list,
@@ -137,7 +138,7 @@ def selected_rooms(request):
             "total_cost": round(total_cost, 2),
         }
 
-        return render(request, "hotel/rooms_selected.html", context)
+        return render(request, "booking/rooms_selected.html", context)
 
     messages.warning(request, "You Dont Have Any Booked Rooms Yet!")
     return redirect("/")
@@ -202,6 +203,7 @@ def delete_room_from_session(request):
         return JsonResponse(
             {
                 "rendered_data": rendered_data,
+                "user": request.user,
                 "rooms_len": len(request.session["room_selection_obj"]),
             },
         )
@@ -243,19 +245,13 @@ def create_booking(request):
                 tzinfo=pytz.UTC,
             )
             total_days = (checkout_date - checkin_date).days
-
             total_price = total_rooms_price * total_days
-            user = request.user
-
-            full_name = request.POST["full_name"]
-            email = request.POST["email"]
-            phone = request.POST["phone"]
 
             booking = Booking.objects.create(
-                user=user,
-                full_name=full_name,
-                phone=phone,
-                email=email,
+                user=request.user,
+                full_name=request.POST["full_name"],
+                phone=request.POST["phone"],
+                email=request.POST["email"],
                 hotel=hotel,
                 total=total_price,
                 before_discount=total_price,
@@ -334,9 +330,8 @@ def check_coupun(request):
 def success_payment(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
 
-    # Update the booking details
     booking.payment_method = Booking.PaymentStatus.Paid
-    booking.room.is_available = True
+    booking.room.is_available = False
     booking.save()
 
     html_content = render_to_string("email/booking_confirmation.html", {"booking": booking})
@@ -354,8 +349,6 @@ def success_payment(request, booking_id):
 
     if "room_selection_obj" in request.session:
         del request.session["room_selection_obj"]
-
-    redirect("/")
 
     return render(request, "booking/success.html", {"booking": booking})
 

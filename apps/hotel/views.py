@@ -24,6 +24,7 @@ class HotelDetail(generic.DetailView):
         context["room_type"] = RoomType.objects.filter(hotel=self.get_object())
         context["review"] = Review.objects.filter(hotel=self.get_object())
         context["related_hotels"] = Hotel.objects.all()[:6]
+        context["user"] = self.request.user
         # context['related_hotels'] = Hotel.objects.all()[:random_numbers]
         return context
 

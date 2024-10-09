@@ -6,7 +6,7 @@ from apps.booking.models import Coupon
 
 @admin.register(Booking)
 class HotelAdmin(admin.ModelAdmin):
-    list_display = ("user", "hotel", "full_name")
+    list_display = ("user", "hotel", "full_name", "email")
     search_fields = ("hotel", "user")
 
 

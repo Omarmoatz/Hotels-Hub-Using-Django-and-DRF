@@ -242,12 +242,6 @@ EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
     default="django.core.mail.backends.smtp.EmailBackend",  # smtp
 )
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = "omar.raouf.002@gmail.com"
-EMAIL_HOST_PASSWORD = "niebjxxxgqhauram"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5

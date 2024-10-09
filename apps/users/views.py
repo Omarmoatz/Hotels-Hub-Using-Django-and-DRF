@@ -59,15 +59,16 @@ def activate(request, username):
                 user.save()
                 messages.success(request, "Your Account is Activated You Can Now Login")
                 return redirect("/users/login")
+            
             error = "Invalid activation code"
             return render(
                 request,
                 "users/activation.html",
-                {"form": form, "error": error},
+                {"form": form, "error": error, "user":user},
             )
     else:
         form = ProfileForm()
-    return render(request, "users/activation.html", {"form": form})
+    return render(request, "users/activation.html", {"form": form, "user":user})
 
 
 def login_view(request):

@@ -52,6 +52,7 @@
                        class="form-control bg-light"
                        name="full_name"
                        id="name"
+                       value="{{ user.username }}"
                        placeholder="Your Name" />
                 <label for="name">Your Full Name</label>
               </div>
@@ -62,6 +63,7 @@
                        class="form-control bg-light"
                        name="email"
                        id="email"
+                       value="{{user.email}}"
                        placeholder="Your Email" />
                 <label for="email">Your Email</label>
               </div>
@@ -71,7 +73,9 @@
                 <input type="number"
                        class="form-control bg-light"
                        name="phone"
-                       placeholder="Your Phone" />
+                       placeholder="Your Phone" 
+                       value="{{user.phone}}"
+                       />
                 <label for="checkin">Your Phone</label>
               </div>
             </div>

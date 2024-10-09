@@ -46,7 +46,7 @@ $(document).ready(function(){
                     button.html('<i class="fa fa-check "></i> Added');
                     console.log(res.rooms_len);
                     $('.rooms-len').html(res.rooms_len)
-                 }, 1000);
+                 }, 500);
 
             }
         })
@@ -72,7 +72,7 @@ $(document).on('click', '.delete-room', function(){
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Delete it!",
         cancelButtonText: "No, cancel!",
         reverseButtons: true
       }).then((result) => {
