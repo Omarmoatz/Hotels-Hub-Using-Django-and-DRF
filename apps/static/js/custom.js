@@ -126,42 +126,83 @@ $(document).on('click', '.delete-room', function(){
 
 })
 
-
 // check coupon
 $(document).on('submit', '#check-coupun', function(e){
-    e.preventDefault()
-    let coupon_code = $('#coupon-code').val()
-    let booking_id = $('#booking-id').val()
+    e.preventDefault();
+    let coupon_code = $('#coupon-code').val();
+    let booking_id = $('#booking-id').val();
     var csrfToken = $("input[name='csrfmiddlewaretoken']").val();
-    let btn = $('#apply-coupon')
+    let btn = $('#apply-coupon');
 
     $.ajax({
-        url :'/booking/check_coupun/',
+        url: '/booking/check_coupun/',
         method: 'POST',
-        data :{
-            'booking_id':booking_id,
-            'coupon_code':coupon_code,
-            'csrfToken':csrfToken
+        data: {
+            'booking_id': booking_id,
+            'coupon_code': coupon_code,
+            'csrfToken': csrfToken
         },
         dataType: 'json',
         beforeSend: function(){
             console.log('applying.....');
-            btn.html('<i class="fas fa-spinner fa-spin "></i>')
+            btn.html('<i class="fas fa-spinner fa-spin"></i>');
         },
         success: function(res){
             setTimeout(function(){
-                console.log(res.status)
-                if(res.status === 'success') {
+                console.log(res.status);
+                if (res.status === 'success') {
                     Swal.fire({
                         icon: 'success',
                         title: res.message,
                         timer: 2000,
                     });
 
-                    btn.html('<i class="fa fa-check"></i>')
-                    $('#booking-summery').html(res.html)
-                    // Disable the button after success
+                    btn.html('<i class="fa fa-check"></i>');
+                    $('#booking-summery').html(res.html); 
                     btn.prop('disabled', true);
+
+                    // Update the total cost after applying the coupon
+                    let new_total_cost = res.new_total;
+                    console.log(new_total_cost);
+
+                    paypal.Buttons({
+
+                        createOrder: function(data, actions) {
+                          let rounded_total_cost = parseFloat(new_total_cost).toFixed(2); 
+                          return actions.order.create({
+                            purchase_units: [{
+                              amount: {
+                                value: rounded_total_cost
+                              }
+                            }]
+                          })
+                        },
+                  
+                        onApprove: function(data, actions) {
+                          return actions.order.capture().then(function(Detail) {
+                            console.log(Detail);
+                  
+                            if (Detail.status == 'COMPLETED') {
+                              window.location.href = `/booking/success/${booking_id}/?total_cost=${rounded_total_cost}&status=${Detail.status}`
+                  
+                            } else {
+                              Swal.fire({
+                                icon: "error",
+                                title: "Something Went Wrong",
+                                timer: 2000,
+                              });
+                            }
+                  
+                          })
+                        },
+                  
+                        style: {
+                          layout: 'vertical',
+                          color: 'gold',
+                          shape: 'rect',
+                          label: 'paypal'
+                        }
+                      }).render('#paypal-button-container');
 
                 } else {
                     Swal.fire({
@@ -169,13 +210,9 @@ $(document).on('submit', '#check-coupun', function(e){
                         title: res.message,
                         timer: 2000,
                     });
-                    btn.html('Apply')
+                    btn.html('Apply');
                 }
-
-            },1000)
-
-
+            }, 1000);
         }
-    })
-
-})
+    });
+});

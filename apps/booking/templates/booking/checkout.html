@@ -164,8 +164,9 @@
               <span class=" fs-5 fw-light">Booking Summery</span>
             </div>
             <div class=" pe-4 wow fadeInUp pt-1"
-                 data-wow-delay="0.2s">
-              <div class="row" id="booking-summery">
+                 data-wow-delay="0.2s"
+                 id="booking-summery">
+              <div class="row">
                 <div class="col-6">
                   <ul type="none" class="text-start">
                     <li class="mb-3">Checkin</li>
@@ -252,12 +253,12 @@
           console.log(Detail);
 
           if (Detail.status == 'COMPLETED') {
-            window.location.href = `/booking/success/${booking_id}/?payer_id=${Detail.payer_id}&total_cost=${total_cost}&status=${Detail.status}`
+            window.location.href = `/booking/success/${booking_id}/?total_cost=${total_cost}&status=${Detail.status}`
 
           } else {
             Swal.fire({
               icon: "error",
-              title: "Somethig Went Wrong",
+              title: "Something Went Wrong",
               timer: 2000,
             });
           }

@@ -12,8 +12,9 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
 
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 
@@ -37,10 +38,10 @@ def check_avilability(request, slug):
         hotel = get_object_or_404(Hotel, slug=slug)
         room_type = get_object_or_404(RoomType, hotel=hotel, slug=room_type)
 
-        url = reverse("hotel:room_type_detail", args=(slug, room_type.slug))
+        main_url = reverse("hotel:room_type_detail", args=(slug, room_type.slug))
         url2 = f"&email={email}&checkin={checkin}&checkout={checkout}"
-        rest_url = f"&adults={adults}&children={children}&room_type={room_type}"
-        url_with_params = f"{url}?hotel_id={hotel.id}&name={name}{url2}{rest_url}"
+        rest_url = f"&adults={adults}&children={children}"
+        url_with_params = f"{main_url}?name={name}{url2}{rest_url}"
         return HttpResponseRedirect(url_with_params)
     return messages.error(request, "something Happened")
 
@@ -90,6 +91,7 @@ def room_selection_view(request):
     return JsonResponse(json_data)
 
 
+@login_required
 def selected_rooms(request):
     rooms_price = 0
     rooms_list = []
@@ -315,6 +317,7 @@ def check_coupun(request):
                         "status": "success",
                         "message": "Coupon applied successfully!",
                         "html": html,
+                        "new_total": str(booking.total),
                     },
                 )
 

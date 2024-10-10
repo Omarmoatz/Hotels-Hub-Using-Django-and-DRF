@@ -1,5 +1,6 @@
-
-  <div class="row" id="booking-summery">
+<div class=" pe-4 pt-1"
+      id="booking-summery">
+  <div class="row">
     <div class="col-6">
       <ul type="none" class="text-start">
         <li class="mb-3">Checkin</li>
@@ -27,3 +28,31 @@
       </ul>
     </div>
   </div>
+  <form method="post" class="d-flex ps-4 mb-4" id="check-coupun">
+    {% csrf_token %}
+    {% if not booking.coupon %}
+    <input type="text"
+            class="form-control bg-light"
+            placeholder="Have a coupon? Enter here...."
+            id="coupon-code"
+            required />
+
+    <button type='submit'
+            class="btn btn-primary py-2 px-4 ms-2"
+            id="apply-coupon">
+      <small>Apply</small>
+    </button>
+    {% endif %}
+
+
+    <input type="hidden" value="{{ booking.id }}" id="booking-id" />
+  </form>
+  <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
+    <p class="pt-2">
+      Pay With Strip <i class="fa-solid fa-credit-card ms-2"></i>
+    </p>
+  </div>
+  <div class="d-block mb-3 ms-4">
+    <i id="paypal-button-container"></i>
+  </div>
+</div>
