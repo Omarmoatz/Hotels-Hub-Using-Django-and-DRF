@@ -32,6 +32,11 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
     <!-- font awesome -->
     <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+        
+    {% block style %}
+      
+    {% endblock style %}
+    
   </head>
   <body>
     {% block body %}

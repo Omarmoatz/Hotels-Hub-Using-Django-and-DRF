@@ -46,7 +46,7 @@ $(document).ready(function(){
                     button.html('<i class="fa fa-check "></i> Added');
                     console.log(res.rooms_len);
                     $('.rooms-len').html(res.rooms_len)
-                 }, 500);
+                 }, 300);
 
             }
         })
@@ -160,6 +160,8 @@ $(document).on('submit', '#check-coupun', function(e){
 
                     btn.html('<i class="fa fa-check"></i>')
                     $('#booking-summery').html(res.html)
+                    // Disable the button after success
+                    btn.prop('disabled', true);
 
                 } else {
                     Swal.fire({

@@ -203,7 +203,6 @@ def delete_room_from_session(request):
         return JsonResponse(
             {
                 "rendered_data": rendered_data,
-                "user": request.user,
                 "rooms_len": len(request.session["room_selection_obj"]),
             },
         )

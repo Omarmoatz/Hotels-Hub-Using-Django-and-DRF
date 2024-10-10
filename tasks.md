@@ -1,4 +1,4 @@
-- fix sending email to gmail error
+- fix sending email to gmail error [/]
 
 1- add user_type(seller-user):
     - when user is created if he is a seller create to him a hotel
