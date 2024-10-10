@@ -12,4 +12,3 @@ def create_hotel(sender, instance, created, **kwargs):
             user = instance,
             name = f"{instance.username} hotel",
             )
-

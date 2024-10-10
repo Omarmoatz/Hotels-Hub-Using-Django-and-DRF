@@ -158,7 +158,7 @@ $(document).on('submit', '#check-coupun', function(e){
                     });
 
                     btn.html('<i class="fa fa-check"></i>');
-                    $('#booking-summery').html(res.html); 
+                    $('#booking-summery').html(res.html);
                     btn.prop('disabled', true);
 
                     // Update the total cost after applying the coupon
@@ -168,7 +168,7 @@ $(document).on('submit', '#check-coupun', function(e){
                     paypal.Buttons({
 
                         createOrder: function(data, actions) {
-                          let rounded_total_cost = parseFloat(new_total_cost).toFixed(2); 
+                          let rounded_total_cost = parseFloat(new_total_cost).toFixed(2);
                           return actions.order.create({
                             purchase_units: [{
                               amount: {
@@ -177,14 +177,14 @@ $(document).on('submit', '#check-coupun', function(e){
                             }]
                           })
                         },
-                  
+
                         onApprove: function(data, actions) {
                           return actions.order.capture().then(function(Detail) {
                             console.log(Detail);
-                  
+
                             if (Detail.status == 'COMPLETED') {
                               window.location.href = `/booking/success/${booking_id}/?total_cost=${rounded_total_cost}&status=${Detail.status}`
-                  
+
                             } else {
                               Swal.fire({
                                 icon: "error",
@@ -192,10 +192,10 @@ $(document).on('submit', '#check-coupun', function(e){
                                 timer: 2000,
                               });
                             }
-                  
+
                           })
                         },
-                  
+
                         style: {
                           layout: 'vertical',
                           color: 'gold',
