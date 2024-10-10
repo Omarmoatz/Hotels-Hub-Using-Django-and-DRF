@@ -1,0 +1,33 @@
+{% extends 'auth_base.html' %}
+
+{% block body %}
+      
+    <div class="container">
+        <h1>Activate Your Account</h1>
+
+        <p>Dear {{ user.username }},</p>
+
+        <p>Thank you for signing up! To complete your registration, please enter the following activation code on the website:</p>
+
+        <p style="font-size: 18px; font-weight: bold;">Activation Code: <span style="color: #28a745;">{{ user.code }}</span></p>
+
+        <p>You can activate your account by visiting the following link:</p>
+
+        <p>
+            <a href="{{ activation_link }}" class="btn">Activate My Account</a>
+        </p>
+
+        <p>If the button doesn't work, copy and paste the following URL into your browser:</p>
+        <p><a href="{{ activation_link }}">{{ activation_link }}</a></p>
+
+        <p>If you did not sign up for an account, please ignore this email.</p>
+
+        <p>Best regards,</p>
+        <p>The {{ site_name }} Team</p>
+
+        <div class="footer">
+            <p>{{ site_name }} | {{ site_address }} | {{ site_contact_email }}</p>
+            <p>&copy; {{ current_year }} {{ site_name }}. All rights reserved.</p>
+        </div>
+    </div>
+{% endblock body %}

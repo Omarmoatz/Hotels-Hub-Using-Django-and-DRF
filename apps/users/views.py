@@ -14,6 +14,10 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 
 from apps.users.forms import LoginForm
 from apps.users.forms import ProfileForm
@@ -33,14 +37,21 @@ def sign_up(request):
             user_form.save()
 
             user = User.objects.get(username=username)
-            send_mail(
-                "Your Activation Mail",  # subject
-                f"Use this code {user.code} to activate your account",  # body
-                settings.EMAIL_BACKEND,  # from
-                [email],  # to
-            )
+            activation_link = f"http://0.0.0.0:8000/users/activate/{username}"
+            html_content = render_to_string("email/activation_code.html", {"user": user, "activation_link":activation_link})
+            text_content = strip_tags(html_content)  # Create a plain-text version by stripping HTML tags
 
-            return redirect(f"/users/activate/{username}")
+            # Sending the email
+            email = EmailMultiAlternatives(
+                subject="Activation Code",
+                body=text_content,  # Fallback plain-text body
+                from_email=settings.EMAIL_HOST_USER,
+                to=[user.email]
+            )
+            email.attach_alternative(html_content, "text/html")  # Attach the HTML version
+            email.send()
+
+            return redirect(activation_link)
 
     else:
         form = UserForm()
