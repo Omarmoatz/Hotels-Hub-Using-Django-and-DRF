@@ -23,7 +23,7 @@ l7 = [1, 3, 5] # invalid False
 #             print(i, y, index)
 #             print(elements, start_index)
 #             if i == y:
-#                 start_index = index              
+#                 start_index = index
 #                 print(elements, start_index)
 #                 break
 #             # return False
@@ -50,7 +50,7 @@ l7 = [1, 3, 5] # invalid False
 #         # print(elements[i:i + m])
 #         if elements[i:i + m] == sub_elements:
 #             return True
-    
+
 #     return False
 
 def is_part_of(elements, sub_elements) -> bool:
@@ -64,7 +64,7 @@ def is_part_of(elements, sub_elements) -> bool:
                 break
         if match:
             return True
-    
+
     return False
 
 
