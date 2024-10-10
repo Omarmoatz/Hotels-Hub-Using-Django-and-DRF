@@ -17,7 +17,6 @@ class UserForm(UserCreationForm):
             },
         ),
     )
-
     email = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -26,7 +25,14 @@ class UserForm(UserCreationForm):
             },
         ),
     )
-
+    user_type = forms.ChoiceField(
+        choices=User.UserType.choices,
+        widget=forms.Select(
+            attrs={
+                "class": "form-control-lg w-100 border border-1",
+            },
+        ),
+    )
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -35,7 +41,6 @@ class UserForm(UserCreationForm):
             },
         ),
     )
-
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
@@ -44,7 +49,6 @@ class UserForm(UserCreationForm):
             },
         ),
     )
-
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]

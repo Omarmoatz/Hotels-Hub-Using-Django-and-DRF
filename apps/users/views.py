@@ -31,8 +31,11 @@ def sign_up(request):
         if form.is_valid():
             username = form.cleaned_data["username"]
             email = form.cleaned_data["email"]  # to send him the activation mail
+            user_type = form.cleaned_data["user_type"]  # to send him the activation mail
 
+            print(user_type, '='*100)
             user_form = form.save(commit=False)
+            user_form.user_type = user_type
             user_form.is_active = False
             user_form.save()
 

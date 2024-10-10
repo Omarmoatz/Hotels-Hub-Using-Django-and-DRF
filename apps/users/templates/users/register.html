@@ -21,6 +21,7 @@
             </div>
           {% endif %}
           {% csrf_token %}
+          <div class="mb-3">{{ form.user_type }}</div>
           <div class="mb-3">{{ form.username }}</div>
           <div class="mb-3">{{ form.email }}</div>
           <div class="mb-3">{{ form.password1 }}</div>
