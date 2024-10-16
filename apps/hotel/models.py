@@ -59,7 +59,7 @@ class Hotel(TimeStampedModel):
 
     def get_api_url(self):
         localhost = "http://127.0.0.1:8000"
-        return f"{localhost}{reverse('hotel:hotel-detail', kwargs={'slug': self.slug})}"
+        return f"{localhost}{reverse('hotel:hotel-detail', kwargs={'pk': self.pk})}"
 
     @property
     def avg_rating(self):
