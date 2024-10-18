@@ -42,7 +42,7 @@ attrs==24.2.0
 billiard==4.2.0
 binaryornot==0.4.4
 bleach==6.1.0
-boto3==1.35.22
+boto3==1.35.43
 botocore==1.35.22
 celery==5.4.0
 certifi==2024.8.30
