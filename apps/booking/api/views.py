@@ -16,13 +16,9 @@ class BookingViewSet(
         user=self.request.user
         if user.is_staff or user.is_superuser:
             return super().get_queryset()
-        
+
         if user.user_type == user.UserType.USER:
             return super().get_queryset().filter(user=user)
-        
+
         if user.user_type == user.UserType.SELLER:
             return super().get_queryset().filter(hotel__user=user)
-        
-
-        
-        
