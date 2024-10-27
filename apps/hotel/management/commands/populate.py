@@ -5,12 +5,14 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from faker import Faker
 
-from apps.hotel.models import Hotel
-from apps.hotel.models import HotelFeatures
-from apps.hotel.models import HotelGallery
-from apps.hotel.models import Review
-from apps.hotel.models import Room
-from apps.hotel.models import RoomType
+from apps.hotel.models import (
+    Hotel,
+    HotelFeatures,
+    HotelGallery,
+    Review,
+    Room,
+    RoomType,
+)
 
 fake = Faker()
 User = get_user_model()
@@ -106,7 +108,7 @@ class Command(BaseCommand):
                     hotel=hotel,
                     user=user,
                     content=fake.paragraph(),
-                    rate=choice([rate[0] for rate in Review.RATE.choices]),
+                    rate=randint(0,5),
                 )
                 review.save()
 

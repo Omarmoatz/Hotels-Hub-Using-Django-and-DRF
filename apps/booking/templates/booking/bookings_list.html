@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Booking History</h1>
+
+    {% if bookings %}
+        <!-- Separate Active and Ended Bookings -->
+        <h2 class="text-success mb-3">Active Bookings</h2>
+        <div class="row">
+            {% for booking in bookings %}
+                {% if booking.check_out_date >= today_date %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm border-success">
+                            <div class="card-header bg-success text-white">
+                                <strong>Booking ID:</strong> {{ booking.id }}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-building"></i> Hotel: {{ booking.hotel.name }}
+                                </h5>
+                                <p class="card-text">
+                                    <strong>User:</strong> {{ booking.user.username }}<br>
+                                    <strong>Check-in:</strong> {{ booking.check_in_date|date:"M d, Y" }}<br>
+                                    <strong>Check-out:</strong> {{ booking.check_out_date|date:"M d, Y" }}<br>
+                                    <strong>Total Price:</strong> ${{ booking.total }}
+                                </p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#bookingDetailsModal{{ booking.id }}">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <h2 class="text-secondary mt-5 mb-3">Ended Bookings</h2>
+        <div class="row">
+            {% for booking in bookings %}
+                {% if booking.check_out_date < today_date %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm border-secondary bg-light">
+                            <div class="card-header bg-secondary text-white">
+                                <strong>Booking ID:</strong> {{ booking.id }} <span class="badge bg-dark">Ended</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-building"></i> Hotel: {{ booking.hotel.name }}
+                                </h5>
+                                <p class="card-text">
+                                    <strong>User:</strong> {{ booking.user.username }}<br>
+                                    <strong>Check-in:</strong> {{ booking.check_in_date|date:"M d, Y" }}<br>
+                                    <strong>Check-out:</strong> {{ booking.check_out_date|date:"M d, Y" }}<br>
+                                    <strong>Total Price:</strong> ${{ booking.total }}
+                                </p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#bookingDetailsModal{{ booking.id }}">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">You have no booking history at this time.</p>
+    {% endif %}
+</div>
+<!-- Modals for booking details -->
+{% for booking in bookings %}
+    <div class="modal fade" id="bookingDetailsModal{{ booking.id }}" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="detailsModalLabel">Booking Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <p><strong>Booking ID:</strong> <span class="badge bg-info">{{ booking.id }}</span></p>
+                        <p><strong>Hotel:</strong> <span class="text-primary fw-bold">{{ booking.hotel.name }}</span></p>
+                        <p><strong>User:</strong> <span class="text-primary fw-bold">{{ booking.user.username }}</span></p>
+                        <p><strong>Check-in:</strong> <span class="text-muted">{{ booking.check_in_date|date:"M d, Y" }}</span></p>
+                        <p><strong>Check-out:</strong> <span class="text-muted">{{ booking.check_out_date|date:"M d, Y" }}</span></p>
+                        <p><strong>Total Price:</strong> <span class="text-success fw-bold">${{ booking.total }}</span></p>
+                        <p><strong>Adults:</strong> {{ booking.num_adults }}</p>
+                        <p><strong>Children:</strong> {{ booking.num_children }}</p>
+                        
+                        <!-- Room Details -->
+                        <p><strong>Room Type:</strong></p>
+                        <ul>
+                            {% for room_type in booking.room_type.all %}
+                                <li>{{ room_type.title }}</li>
+                            {% empty %}
+                                <li>No rooms assigned to this booking.</li>
+                            {% endfor %}
+                        </ul>
+                        
+                        <!-- Room Types (Directly related to Booking) -->
+                        <p><strong>Direct Rooms:</strong></p>
+                        <ul>
+                            {% for room in booking.room.all %}
+                                <li>Room Number: {{ room.room_num }}</li>
+                            {% empty %}
+                                <li>No room types assigned to this booking.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    {% comment %} <button type="button" class="btn btn-primary">Save Changes</button> <!-- Optional button for actions --> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+{% endblock body %}

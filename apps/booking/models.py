@@ -4,12 +4,9 @@ from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
-from model_utils.models import TimeFramedModel
-from model_utils.models import TimeStampedModel
+from model_utils.models import TimeStampedModel, TimeFramedModel
 
-from apps.hotel.models import Hotel
-from apps.hotel.models import Room
-from apps.hotel.models import RoomType
+from apps.hotel.models import Hotel, Room, RoomType
 from apps.users.models import User
 
 
