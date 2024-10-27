@@ -89,7 +89,7 @@ def selected_rooms(request):
     if "room_selection_obj" not in request.session or not request.session["room_selection_obj"]:
         messages.warning(request, "You don't have any booked rooms yet!")
         return redirect("/")
-    
+
     manager = RoomSelectionManager(request.session["room_selection_obj"])
     rooms_list, rooms_price = manager.get_selected_rooms()
     hotel = manager.get_hotel()
