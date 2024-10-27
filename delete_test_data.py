@@ -1,24 +1,24 @@
-# import os
+import os
 
-# import django
+import django
 
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-# django.setup()
-# from random import choice
-# from random import randint
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
+django.setup()
+from random import choice
+from random import randint
 
-# from django.contrib.auth import get_user_model
-# from faker import Faker
+from django.contrib.auth import get_user_model
+from faker import Faker
 
-# from apps.hotel.models import Hotel
-# from apps.hotel.models import HotelFeatures
-# from apps.hotel.models import HotelGallery
-# from apps.hotel.models import Review
-# from apps.hotel.models import Room
-# from apps.hotel.models import RoomType
+from apps.hotel.models import Hotel
+from apps.hotel.models import HotelFeatures
+from apps.hotel.models import HotelGallery
+from apps.hotel.models import Review
+from apps.hotel.models import Room
+from apps.hotel.models import RoomType
 
-# fake = Faker()
-# User = get_user_model()
+fake = Faker()
+User = get_user_model()
 
 
 # # Create a user
@@ -110,12 +110,12 @@
 
 # # Running Command: python manage.py populate 10
 
-# # Delete all test data
-# # HotelGallery.objects.all().delete()
-# # HotelFeatures.objects.all().delete()
-# # Room.objects.all().delete()
-# # RoomType.objects.all().delete()
-# # Review.objects.all().delete()
-# # Hotel.objects.all().delete()
+# Delete all test data
+HotelGallery.objects.all().delete()
+HotelFeatures.objects.all().delete()
+Room.objects.all().delete()
+RoomType.objects.all().delete()
+Review.objects.all().delete()
+Hotel.objects.all().delete()
 
-# # print("All test data deleted successfully!")
+print("All test data deleted successfully!")

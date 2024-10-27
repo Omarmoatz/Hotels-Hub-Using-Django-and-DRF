@@ -1,58 +1,44 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.contrib.auth import logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.db.models import QuerySet
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView
-from django.views.generic import RedirectView
-from django.views.generic import UpdateView
+from django.views.generic import DetailView, RedirectView, UpdateView
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
-from apps.users.forms import LoginForm
-from apps.users.forms import ProfileForm
-from apps.users.forms import UserForm
+from apps.users.forms import LoginForm, ProfileForm, UserForm
 from apps.users.models import User
-
+from apps.users.tasks import send_email
 
 def sign_up(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data["username"]
-            email = form.cleaned_data["email"]  # to send him the activation mail
+            email = form.cleaned_data["email"]
+            user_type = form.cleaned_data["user_type"]
 
             user_form = form.save(commit=False)
+            user_form.user_type = user_type
             user_form.is_active = False
             user_form.save()
 
             user = User.objects.get(username=username)
             activation_link = f"http://0.0.0.0:8000/users/activate/{username}"
-            html_content = render_to_string("email/activation_code.html", {"user": user, "activation_link":activation_link})
-            text_content = strip_tags(html_content)  # Create a plain-text version by stripping HTML tags
 
-            # Sending the email
-            email = EmailMultiAlternatives(
-                subject="Activation Code",
-                body=text_content,  # Fallback plain-text body
-                from_email=settings.EMAIL_HOST_USER,
-                to=[user.email]
-            )
-            email.attach_alternative(html_content, "text/html")  # Attach the HTML version
-            email.send()
-
+            html_content = render_to_string("email/activation_code.html", {
+                "user": user, "activation_link": activation_link
+            })
+            subject="Activation Code",
+            send_email.delay(subject, email, html_content)
             return redirect(activation_link)
-
     else:
         form = UserForm()
     return render(request, "users/register.html", {"form": form})

@@ -20,7 +20,7 @@ class Hotel(TimeStampedModel):
 
     user = models.ForeignKey(User, related_name="user_hotel", on_delete=models.CASCADE)
     name = models.CharField(max_length=200, default="", blank=True)
-    img = models.ImageField(upload_to="hotel/")
+    img = models.ImageField(upload_to="hotel/", blank=True, null=True)
     subtitle = models.TextField(max_length=400, blank=True, null=True)
     description = models.TextField(max_length=5000, blank=True, null=True)
     min_price = models.DecimalField(
@@ -59,7 +59,7 @@ class Hotel(TimeStampedModel):
 
     def get_api_url(self):
         localhost = "http://127.0.0.1:8000"
-        return f"{localhost}{reverse('hotel:hotel-detail', kwargs={'slug': self.slug})}"
+        return f"{localhost}{reverse('hotel:hotel-detail', kwargs={'pk': self.pk})}"
 
     @property
     def avg_rating(self):

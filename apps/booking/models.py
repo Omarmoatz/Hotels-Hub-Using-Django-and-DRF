@@ -15,9 +15,9 @@ from apps.users.models import User
 
 class Booking(TimeStampedModel):
     class PaymentStatus(models.TextChoices):
-        Proccing = "Proccing", _("Proccing")
-        Paid = "Paid", _("Paid")
-        Failed = "Failed", _("Failed")
+        Processing = 'processing', _('Processing')
+        Paid = "paid", _("Paid")
+        Failed = "failed", _("Failed")
 
 
     user = models.ForeignKey(User, related_name="booked_user", on_delete=models.CASCADE)

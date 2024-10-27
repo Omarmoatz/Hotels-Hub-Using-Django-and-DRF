@@ -31,7 +31,7 @@ class HotelSeriaLizer(serializers.ModelSerializer):
     # detail_url = serializers.SerializerMethodField()
     detail_url = serializers.HyperlinkedIdentityField(
         view_name="hotel:hotel-detail",
-        lookup_field="slug",
+        lookup_field="pk",
     )
 
     class Meta:
@@ -56,7 +56,7 @@ class HotelSeriaLizer(serializers.ModelSerializer):
         if request is None:
             return None
 
-        return reverse("hotel:hotel-detail", kwargs={"slug": obj.slug}, request=request)
+        return reverse("hotel:hotel-detail", kwargs={"pk": obj.pk}, request=request)
 
 
 class RoomTypeListSeriaLizer(serializers.ModelSerializer):
