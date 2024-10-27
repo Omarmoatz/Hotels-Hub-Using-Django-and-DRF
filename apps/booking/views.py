@@ -1,6 +1,5 @@
 from datetime import datetime
 from decimal import Decimal
-from zoneinfo import ZoneInfo
 
 import pytz
 from django.contrib import messages
@@ -14,10 +13,10 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth.decorators import login_required
-from django.utils.html import strip_tags
 
-from .models import Booking, Coupon, Hotel, Room, RoomType
 from apps.users.tasks import send_email
+from apps.booking.services import RoomSelectionManager
+from apps.booking.models import Booking, Coupon, Hotel, Room, RoomType
 
 
 def check_avilability(request, slug):
@@ -85,103 +84,58 @@ def room_selection_view(request):
 
     return JsonResponse(json_data)
 
-
 @login_required
 def selected_rooms(request):
-    rooms_price = 0
-    rooms_list = []
-    if "room_selection_obj" in request.session:
-        if len(request.session["room_selection_obj"]) == 0:
-            messages.warning(request, "You deleted all your booked rooms!")
-            return redirect("/")
+    if "room_selection_obj" not in request.session or not request.session["room_selection_obj"]:
+        messages.warning(request, "You don't have any booked rooms yet!")
+        return redirect("/")
+    
+    manager = RoomSelectionManager(request.session["room_selection_obj"])
+    rooms_list, rooms_price = manager.get_selected_rooms()
+    hotel = manager.get_hotel()
 
-        for item in request.session["room_selection_obj"].values():
-            hotel_id = int(item["hotel_id"])
-            room_id = int(item["room_id"])
-            checkin = item["checkin"]
-            checkout = item["checkout"]
-            adults = int(item["adults"])
-            children = int(item["children"])
+    # Access the first item in the dictionary safely
+    first_item = next(iter(request.session["room_selection_obj"].values()))
+    checkin = first_item["checkin"]
+    checkout = first_item["checkout"]
+    total_days = manager.calculate_total_days(checkin, checkout)
+    total_cost = manager.calculate_total_cost(rooms_price, checkin, checkout)
 
-            room = get_object_or_404(Room, id=room_id)
-            rooms_list.append(room)
-            rooms_price += float(room.price)
-
-        hotel = Hotel.objects.get(id=hotel_id)
-
-        date_format = "%Y-%m-%d"
-        timezone = ZoneInfo(
-            "UTC",
-        )
-
-        checkin_date = datetime.strptime(checkin, date_format).replace(tzinfo=timezone)
-        checkout_date = datetime.strptime(checkout, date_format).replace(
-            tzinfo=timezone,
-        )
-        total_days = (checkout_date - checkin_date).days
-
-        total_cost = float(rooms_price * total_days)
-
-        context = {
-            "user": request.user,
-            "selected_rooms": request.session["room_selection_obj"],
-            "hotel": hotel,
-            "rooms_list": rooms_list,
-            "checkin": checkin,
-            "checkout": checkout,
-            "total_days": total_days,
-            "adults": adults,
-            "children": children,
-            "total_cost": round(total_cost, 2),
-        }
-
-        return render(request, "booking/rooms_selected.html", context)
-
-    messages.warning(request, "You Dont Have Any Booked Rooms Yet!")
-    return redirect("/")
+    context = {
+        "user": request.user,
+        "selected_rooms": request.session["room_selection_obj"],
+        "hotel": hotel,
+        "rooms_list": rooms_list,
+        "checkin": checkin,
+        "checkout": checkout,
+        "total_days": total_days,
+        "adults": first_item["adults"],
+        "children": first_item["children"],
+        "total_cost": round(total_cost, 2),
+    }
+    return render(request, "booking/rooms_selected.html", context)
 
 
-# it tooks its data from jQuery, AJAX
 def delete_room_from_session(request):
-    room_id = "room-selection" + str(request.GET["room_id"])
-    rooms_price = 0
-    rooms_list = []
+    room_id = f"room-selection{request.GET['room_id']}"
     if "room_selection_obj" in request.session:
         if room_id in request.session["room_selection_obj"]:
-            existing_data = request.session["room_selection_obj"]
             del request.session["room_selection_obj"][room_id]
-            request.session["room_selection_obj"] = existing_data
+            request.session.modified = True
 
-        if len(request.session["room_selection_obj"]) == 0:
-            return JsonResponse(
-                {"rooms_len": len(request.session["room_selection_obj"])},
-            )
+        if not request.session["room_selection_obj"]:
+            return JsonResponse({"rooms_len": 0})
 
-        for item in request.session["room_selection_obj"].values():
-            hotel_id = int(item["hotel_id"])
-            room_id = int(item["room_id"])
-            checkin = item["checkin"]
-            checkout = item["checkout"]
-            adults = int(item["adults"])
-            children = int(item["children"])
+        manager = RoomSelectionManager(request.session["room_selection_obj"])
+        rooms_list, rooms_price = manager.get_selected_rooms()
+        hotel = manager.get_hotel()
 
-            room = Room.objects.get(id=room_id)
-            rooms_list.append(room)
-            rooms_price += float(room.price)
-
-        hotel = Hotel.objects.get(id=hotel_id)
-
-        date_format = "%Y-%m-%d"
-        timezone = pytz.UTC
-        checkin_date = datetime.strptime(checkin, date_format).replace(tzinfo=timezone)
-        checkout_date = datetime.strptime(checkout, date_format).replace(
-            tzinfo=timezone,
-        )
-
-        # Calculate total days
-        total_days = (checkout_date - checkin_date).days
-
-        total_cost = float(rooms_price * total_days)
+        # Safely access the first item
+        first_item = next(iter(request.session["room_selection_obj"].values()))
+        checkin = first_item["checkin"]
+        checkout = first_item["checkout"]
+        total_days = manager.calculate_total_days(checkin, checkout)
+        total_cost = manager.calculate_total_cost(rooms_price, checkin, checkout)
 
         rendered_data = render_to_string(
             "includes/rooms.html",
@@ -193,81 +147,65 @@ def delete_room_from_session(request):
                 "checkin": checkin,
                 "checkout": checkout,
                 "total_days": total_days,
-                "adults": adults,
-                "children": children,
+                "adults": first_item["adults"],
+                "children": first_item["children"],
                 "total_cost": round(total_cost, 2),
             },
         )
-        return JsonResponse(
-            {
-                "rendered_data": rendered_data,
-                "rooms_len": len(request.session["room_selection_obj"]),
-            },
-        )
+        return JsonResponse({
+            "rendered_data": rendered_data,
+            "rooms_len": len(request.session["room_selection_obj"]),
+        })
 
     messages.warning(request, "You deleted all your booked rooms!")
     return redirect("/")
 
 
 def checkout(request, booking_code):
-    booking = Booking.objects.get(booking_code=booking_code)
+    booking = get_object_or_404(Booking, booking_code=booking_code)
     return render(request, "booking/checkout.html", {"booking": booking})
 
 
 @csrf_exempt
 def create_booking(request):
-    total_rooms_price = 0
-    rooms_obj = []
-    if "room_selection_obj" in request.session:
-        if request.method == "POST":
-            for item in request.session["room_selection_obj"].values():
-                hotel_id = item["hotel_id"]
-                room_id = item["room_id"]
-                checkin = item["checkin"]
-                checkout = item["checkout"]
-                adults = item["adults"]
-                children = item["children"]
+    if "room_selection_obj" not in request.session or request.method != "POST":
+        return redirect("/")
 
-                room = Room.objects.get(id=room_id)
-                total_rooms_price += room.price
-                rooms_obj.append(room)
+    manager = RoomSelectionManager(request.session["room_selection_obj"])
+    rooms_list, rooms_price = manager.get_selected_rooms()
+    hotel = manager.get_hotel()
 
-            hotel = Hotel.objects.get(id=hotel_id)
+    # Access the first item in the dictionary safely
+    first_item = next(iter(request.session["room_selection_obj"].values()))
+    checkin = first_item["checkin"]
+    checkout = first_item["checkout"]
+    total_days = manager.calculate_total_days(checkin, checkout)
+    total_cost = manager.calculate_total_cost(rooms_price, checkin, checkout)
 
-            date_format = "%Y-%m-%d"
-            checkin_date = datetime.strptime(checkin, date_format).replace(
-                tzinfo=pytz.UTC,
-            )
-            checkout_date = datetime.strptime(checkout, date_format).replace(
-                tzinfo=pytz.UTC,
-            )
-            total_days = (checkout_date - checkin_date).days
-            total_price = total_rooms_price * total_days
+    booking = Booking.objects.create(
+        user=request.user,
+        full_name=request.POST["full_name"],
+        phone=request.POST["phone"],
+        email=request.POST["email"],
+        hotel=hotel,
+        total=total_cost,
+        before_discount=total_cost,
+        check_in_date=checkin,
+        check_out_date=checkout,
+        total_days=total_days,
+        num_adults=first_item["adults"],
+        num_children=first_item["children"],
+        payment_method=Booking.PaymentStatus.Processing,
+    )
 
-            booking = Booking.objects.create(
-                user=request.user,
-                full_name=request.POST["full_name"],
-                phone=request.POST["phone"],
-                email=request.POST["email"],
-                hotel=hotel,
-                total=total_price,
-                before_discount=total_price,
-                check_in_date=checkin,
-                check_out_date=checkout,
-                total_days=total_days,
-                num_adults=adults,
-                num_children=children,
-                payment_method= Booking.PaymentStatus.Proccing,
-            )
+    # Add rooms and room types to the booking
+    for room in rooms_list:
+        booking.room.add(room)
+        booking.room_type.add(room.room_type)
 
-            for item in rooms_obj:
-                room_type = item.room_type
-
-                booking.room.add(item)
-                booking.room_type.add(room_type)
-
-            messages.success(request, "You Booked Sucesfully")
+    messages.success(request, "You booked successfully!")
     return redirect("booking:checkout", booking.booking_code)
+
 
 
 @csrf_exempt

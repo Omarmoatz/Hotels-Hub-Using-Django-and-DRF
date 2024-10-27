@@ -46,7 +46,7 @@ $(document).ready(function(){
                     button.html('<i class="fa fa-check "></i> Added');
                     console.log(res.rooms_len);
                     $('.rooms-len').html(res.rooms_len)
-                 }, 300);
+                 }, 1000);
 
             }
         })
