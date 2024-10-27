@@ -27,10 +27,10 @@ def calculate_total_cost(rooms_price, checkin, checkout):
     timezone = ZoneInfo("UTC")
     checkin_date = datetime.strptime(checkin, date_format).replace(tzinfo=timezone)
     checkout_date = datetime.strptime(checkout, date_format).replace(tzinfo=timezone)
-    
+
     total_days = (checkout_date - checkin_date).days
     total_cost = float(rooms_price * total_days)
-    
+
     return total_cost, total_days
 
 # Helper function to check room selection in session

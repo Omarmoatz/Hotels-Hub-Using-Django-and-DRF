@@ -64,6 +64,7 @@ extend-exclude = [
 ]
 line-length = 95
 exclude = ["templates/*"]
+ignore = ["F401"]
 
 [tool.ruff.lint]
 select = [

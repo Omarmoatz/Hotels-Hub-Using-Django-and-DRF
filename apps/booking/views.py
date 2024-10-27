@@ -332,24 +332,20 @@ def check_coupun(request):
 
 def success_payment(request, booking_id):
     booking = Booking.objects.get(id=booking_id)
-
     booking.payment_method = Booking.PaymentStatus.Paid
     booking.room.is_available = False
     booking.save()
 
     html_content = render_to_string("email/booking_confirmation.html", {"booking": booking})
-    text_content = strip_tags(html_content)  # Create a plain-text version by stripping HTML tags
+    text_content = strip_tags(html_content)
 
-    # Sending the email
-    email = EmailMultiAlternatives(
+    send_mail(
         subject="Hotel Booking Confirmation",
-        body=text_content,  # Fallback plain-text body
+        message=text_content,
         from_email=booking.hotel.email,
-        to=[booking.email]
+        recipient_list=[booking.email],
+        html_message=html_content
     )
-    email.attach_alternative(html_content, "text/html")  # Attach the HTML version
-    email.send()
-
     if "room_selection_obj" in request.session:
         del request.session["room_selection_obj"]
 
