@@ -21,4 +21,3 @@ def send_email(subject, email, html_content):
         recipient_list=[email],
         html_message=html_content
     )
-
