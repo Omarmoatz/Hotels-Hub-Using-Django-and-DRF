@@ -15,6 +15,7 @@ from django.conf import settings
 
 from apps.users.forms import LoginForm, ProfileForm, UserForm
 from apps.users.models import User
+from apps.users.tasks import send_email
 
 def sign_up(request):
     if request.method == "POST":
@@ -32,16 +33,11 @@ def sign_up(request):
             user = User.objects.get(username=username)
             activation_link = f"http://0.0.0.0:8000/users/activate/{username}"
 
-            html_content = render_to_string("email/activation_code.html", {"user": user, "activation_link": activation_link})
-            text_content = strip_tags(html_content)
-
-            send_mail(
-                subject="Activation Code",
-                message=text_content,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[email],
-                html_message=html_content
-            )
+            html_content = render_to_string("email/activation_code.html", {
+                "user": user, "activation_link": activation_link
+            })
+            subject="Activation Code",
+            send_email.delay(subject, email, html_content)
             return redirect(activation_link)
     else:
         form = UserForm()

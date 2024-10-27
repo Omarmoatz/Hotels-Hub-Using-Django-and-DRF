@@ -13,16 +13,11 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 
-from .models import Booking
-from .models import Coupon
-from .models import Hotel
-from .models import Room
-from .models import RoomType
+from .models import Booking, Coupon, Hotel, Room, RoomType
+from apps.users.tasks import send_email
 
 
 def check_avilability(request, slug):
@@ -337,15 +332,10 @@ def success_payment(request, booking_id):
     booking.save()
 
     html_content = render_to_string("email/booking_confirmation.html", {"booking": booking})
-    text_content = strip_tags(html_content)
 
-    send_mail(
-        subject="Hotel Booking Confirmation",
-        message=text_content,
-        from_email=booking.hotel.email,
-        recipient_list=[booking.email],
-        html_message=html_content
-    )
+    subject="Hotel Booking Confirmation",
+    send_email.delay(subject, booking.email, html_content)
+
     if "room_selection_obj" in request.session:
         del request.session["room_selection_obj"]
 
