@@ -193,6 +193,7 @@ def delete_room_from_session(request):
             {
                 "selected_rooms": request.session["room_selection_obj"],
                 "hotel": hotel,
+                "user": request.user,
                 "rooms_list": rooms_list,
                 "checkin": checkin,
                 "checkout": checkout,

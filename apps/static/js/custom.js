@@ -180,10 +180,9 @@ $(document).on('submit', '#check-coupun', function(e){
 
                         onApprove: function(data, actions) {
                           return actions.order.capture().then(function(Detail) {
-                            console.log(Detail);
-
                             if (Detail.status == 'COMPLETED') {
-                              window.location.href = `/booking/success/${booking_id}/?total_cost=${rounded_total_cost}&status=${Detail.status}`
+                              console.log("completed");                         
+                              window.location.href = `/booking/success/${booking_id}/?total_cost=${new_total_cost}&status=${Detail.status}`
 
                             } else {
                               Swal.fire({

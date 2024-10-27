@@ -1,6 +1,8 @@
-
+<div class="container-xxl py-5 rooms-booked">
+  <div class="row mx-5 g-2">
+    <div class="col-lg-8">
       <!-- Pricing Start-->
-      <div class="tab-class rooms-booked">
+      <div class="tab-class wow fadeInUp " data-wow-delay="0.1s">
         <div class="my-5 ">
           <ul class="list-group w-100 ">
             <li class="list-group-item py-3 ">
@@ -34,3 +36,126 @@
         </div>
       </div>
       <!-- Pricing End-->
+
+      <!-- Payment Start -->
+      <div class="bg-white p-4 border border-1 wow fadeInUp"
+           data-wow-delay="0.2s">
+        <div class="my-3 mb-4">
+          <i class=""></i>
+          <i class="fa-solid fa-file-invoice-dollar fa-2xl text-primary me-3"></i>
+          <span class="my-3 fw-light fs-5 ">Billing Information</span>
+        </div>
+        <form method='post' action='{% url "booking:create_booking" %}'>
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-md-12">
+              <div class="form-floating">
+                <input type="text"
+                       class="form-control bg-light"
+                       name="full_name"
+                       id="name"
+                       placeholder="Your Name"
+                       value="{{ user.username }}"
+                       required />
+                <label for="name">Your Full Name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="email"
+                       class="form-control bg-light"
+                       name="email"
+                       id="email"
+                       placeholder="Your Email"
+                       value="{{ user.email }}"
+                       required />
+                <label for="email">Your Email</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input type="text"
+                       class="form-control bg-light"
+                       name="phone"
+                       placeholder="Your Phone"
+                       value="{{ user.phone }}"
+                       required />
+                <label for="checkin">Your Phone</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary p-2 my-2" type="submit">Continue To Checkout</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Payment End -->
+    </div>
+    <div class="col-lg-4">
+      <!-- booking Summery -->
+      <div class="container">
+        <div class="bg-white my-5 mx-3 border border-1 rounded rounded-3  wow fadeInUp"
+             data-wow-delay="0.1s">
+          <div class="card ">
+            <img src="{{ hotel.img.url }}"
+                 class="card-img "
+                 width="370px"
+                 height="320px"
+                 alt="..." />
+            <div class="card-img-overlay text-white page-header-inner"
+                 style="padding-top: 200px">
+              <h5 class="text-white">{{ hotel.name }}</h5>
+              <div class="d-flex ms-2 fw-bold ">
+                <p class="me-3 ">
+                  <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ hotel.address|slice:":15" }}...
+                </p>
+                <p class="">
+                  <i class="fa fa-phone text-primary me-2"></i> {{ hotel.phone|slice:":15" }}
+                </p>
+              </div>
+              <div class="d-flex ms-2">
+                <i class="{% if hotel.avg_rating > 0 %} fa fa-star text-primary {% endif %}"></i>
+                <i class="{% if hotel.avg_rating > 1 %} fa fa-star text-primary {% endif %}"></i>
+                <i class="{% if hotel.avg_rating > 2 %} fa fa-star text-primary {% endif %}"></i>
+                <i class="{% if hotel.avg_rating > 3 %} fa fa-star text-primary {% endif %}"></i>
+                <i class="{% if hotel.avg_rating > 4 %} fa fa-star text-primary {% endif %}"></i>
+              </div>
+            </div>
+          </div>
+          <div class="border-bottom  text-start text-dark p-3  mb-3">
+            <i class="fa-regular fa-calendar-check fa-2xl text-primary me-3"></i>
+            <span class=" fs-5 fw-light">Booking Summery</span>
+          </div>
+          <div class=" pe-4 wow fadeInUp pt-1" data-wow-delay="0.2s">
+            <div class="row">
+              <div class="col-6">
+                <ul type="none" class="text-start">
+                  <li class="mb-3">Checkin</li>
+                  <li class="mb-3">Checkout</li>
+                  <li class="mb-3">Total Days</li>
+                  <li class="mb-3">Adults</li>
+                  <li class="mb-3">Childern</li>
+                  <li class="mb-3">V.A.T</li>
+                  <hr />
+                  <li class="mb-4 fs-5 text-primary">Total Cost</li>
+                </ul>
+              </div>
+              <div class="col-6 fs-6 text-end ">
+                <ul type="none">
+                  <li class="mb-3">{{ checkin }}</li>
+                  <li class="mb-3">{{ checkout }}</li>
+                  <li class="mb-3">{{ total_days }} Days</li>
+                  <li class="mb-3">{{ adults }} Adults</li>
+                  <li class="mb-3">{{ children }} Childern</li>
+                  <li class="mb-3">$ 0.00</li>
+                  <hr />
+                  <li class="mb-4 fs-5 text-primary">$ {{ total_cost }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
