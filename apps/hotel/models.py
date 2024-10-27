@@ -174,7 +174,6 @@ class Review(models.Model):
     user = models.ForeignKey(User, related_name="user_review", on_delete=models.CASCADE)
     content = models.TextField(max_length=1000, blank=True, null=True)
     rate = models.IntegerField(
-        max_length=50,
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         blank=True,
         help_text="Rate should be between 0 and 5",

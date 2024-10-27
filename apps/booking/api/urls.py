@@ -9,4 +9,4 @@ router.register("booking", BookingViewSet)
 
 urlpatterns = router.urls
 
-app_name = "booking"
+app_name = "api"

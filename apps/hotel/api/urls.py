@@ -18,4 +18,4 @@ router.register(
 
 urlpatterns = router.urls
 
-app_name = "hotel"
+app_name = "api"
