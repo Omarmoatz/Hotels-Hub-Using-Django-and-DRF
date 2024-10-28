@@ -1,125 +1,270 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block style %}
+<style>
+    .booking-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-icon {
+        width: 90px;
+        height: 40px;
+        display: inline-block;
+        border-radius: 10%;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        line-height: 40px;
+    }
+
+    /* Payment status color mapping */
+    .status-icon.processing {
+        background-color: #ffc107;
+    }
+
+    /* Yellow */
+    .status-icon.paid {
+        background-color: #28a745;
+    }
+
+    /* Green */
+    .status-icon.failed {
+        background-color: #dc3545;
+    }
+
+    /* Red */
+</style>
+{% endblock style %}
+
 
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Booking History</h1>
-
-    {% if bookings %}
-        <!-- Separate Active and Ended Bookings -->
-        <h2 class="text-success mb-3">Active Bookings</h2>
-        <div class="row">
-            {% for booking in bookings %}
-                {% if booking.check_out_date >= today_date %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm border-success">
-                            <div class="card-header bg-success text-white">
-                                <strong>Booking ID:</strong> {{ booking.id }}
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <i class="bi bi-building"></i> Hotel: {{ booking.hotel.name }}
-                                </h5>
-                                <p class="card-text">
-                                    <strong>User:</strong> {{ booking.user.username }}<br>
-                                    <strong>Check-in:</strong> {{ booking.check_in_date|date:"M d, Y" }}<br>
-                                    <strong>Check-out:</strong> {{ booking.check_out_date|date:"M d, Y" }}<br>
-                                    <strong>Total Price:</strong> ${{ booking.total }}
-                                </p>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#bookingDetailsModal{{ booking.id }}">
-                                    View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+<div class="container-fluid page-header mb-5 p-0" style="background-image: url({% static 'img/carousel-1.jpg' %})">
+    <div class="container-fluid page-header-inner py-5">
+        <div class="container text-center pb-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Bookings</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center text-uppercase">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                    </li>
+                    <!-- <li class="breadcrumb-item"><a href="#">Pages</a></li> -->
+                    <li class="breadcrumb-item text-white active" aria-current="page">Booking List</li>
+                </ol>
+            </nav>
         </div>
-
-        <h2 class="text-secondary mt-5 mb-3">Ended Bookings</h2>
-        <div class="row">
-            {% for booking in bookings %}
-                {% if booking.check_out_date < today_date %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm border-secondary bg-light">
-                            <div class="card-header bg-secondary text-white">
-                                <strong>Booking ID:</strong> {{ booking.id }} <span class="badge bg-dark">Ended</span>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <i class="bi bi-building"></i> Hotel: {{ booking.hotel.name }}
-                                </h5>
-                                <p class="card-text">
-                                    <strong>User:</strong> {{ booking.user.username }}<br>
-                                    <strong>Check-in:</strong> {{ booking.check_in_date|date:"M d, Y" }}<br>
-                                    <strong>Check-out:</strong> {{ booking.check_out_date|date:"M d, Y" }}<br>
-                                    <strong>Total Price:</strong> ${{ booking.total }}
-                                </p>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#bookingDetailsModal{{ booking.id }}">
-                                    View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-center text-muted">You have no booking history at this time.</p>
-    {% endif %}
+    </div>
 </div>
-<!-- Modals for booking details -->
-{% for booking in bookings %}
-    <div class="modal fade" id="bookingDetailsModal{{ booking.id }}" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="detailsModalLabel">Booking Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <p><strong>Booking ID:</strong> <span class="badge bg-info">{{ booking.id }}</span></p>
-                        <p><strong>Hotel:</strong> <span class="text-primary fw-bold">{{ booking.hotel.name }}</span></p>
-                        <p><strong>User:</strong> <span class="text-primary fw-bold">{{ booking.user.username }}</span></p>
-                        <p><strong>Check-in:</strong> <span class="text-muted">{{ booking.check_in_date|date:"M d, Y" }}</span></p>
-                        <p><strong>Check-out:</strong> <span class="text-muted">{{ booking.check_out_date|date:"M d, Y" }}</span></p>
-                        <p><strong>Total Price:</strong> <span class="text-success fw-bold">${{ booking.total }}</span></p>
-                        <p><strong>Adults:</strong> {{ booking.num_adults }}</p>
-                        <p><strong>Children:</strong> {{ booking.num_children }}</p>
-
-                        <!-- Room Details -->
-                        <p><strong>Room Type:</strong></p>
-                        <ul>
-                            {% for room_type in booking.room_type.all %}
-                                <li>{{ room_type.title }}</li>
-                            {% empty %}
-                                <li>No rooms assigned to this booking.</li>
-                            {% endfor %}
-                        </ul>
-
-                        <!-- Room Types (Directly related to Booking) -->
-                        <p><strong>Direct Rooms:</strong></p>
-                        <ul>
-                            {% for room in booking.room.all %}
-                                <li>Room Number: {{ room.room_num }}</li>
-                            {% empty %}
-                                <li>No room types assigned to this booking.</li>
-                            {% endfor %}
-                        </ul>
+<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="bg-white shadow" style="padding: 35px;">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <select class="form-select">
+                                <option selected>Booking Code</option>
+                                <option value="1">Adult 1</option>
+                                <option value="2">Adult 2</option>
+                                <option value="3">Adult 3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select">
+                                <option selected>Hotel</option>
+                                <option value="1">Child 1</option>
+                                <option value="2">Child 2</option>
+                                <option value="3">Child 3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="date" id="date1" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" placeholder="Check in"
+                                    data-target="#date1" data-toggle="datetimepicker" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="date" id="date2" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" placeholder="Check out"
+                                    data-target="#date2" data-toggle="datetimepicker" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    {% comment %} <button type="button" class="btn btn-primary">Save Changes</button> <!-- Optional button for actions --> {% endcomment %}
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100">Search</button>
                 </div>
             </div>
         </div>
     </div>
-{% endfor %}
+</div>
 
+
+<div class="container mt-5" style="margin-bottom:200px">
+    <div class="bg-white px-5 py-2 mb-2 d-flex align-items-center justify-content-between">
+        <div class="gap-4 d-flex align-items-center">
+            <!-- Payment Status Icon -->
+            <div class="text-start">
+                <p class="m-0 "><strong>Pay Status</strong></p>
+            </div>
+
+            <!-- Booking Information -->
+            <div class="ms-5">
+                <p class="m-0"><strong>Code</strong></p>
+            </div>
+
+            <!-- Check-in & Check-out Status -->
+            <div class="ps-5 ms-5">
+                <strong>User</strong>
+            </div>
+        </div>
+
+        <div class="gap-3 d-flex align-items-center">
+            <!-- Room & Hotel Information -->
+            <div class="text-start pe-5 me-5">
+                <strong>Hotel</strong><br>
+            </div>
+
+            <!-- Check-in & Check-out Status -->
+            <div class="text-center me-5">
+                <div class="text-"><strong>Check Dates</strong></div>
+            </div>
+
+            <!-- Check-in & Check-out Status -->
+            <div class="text-center me-5">
+                <div class="text-"><strong>people</strong></div>
+            </div>
+
+            <!-- Payment & Total Amount -->
+            <div class="text-end me-5">
+                <p class="m-0 "><strong>Money Saved</strong></p>
+            </div>
+
+            <!-- Payment & Total Amount -->
+            <div class="text-end me-5">
+                <p class="m-0 "><strong>Total</strong></p>
+            </div>
+            
+            <!-- Payment & Total Amount -->
+            <div class="text-end me-2">
+                <p class="m-0 "><strong>Status</strong></p>
+            </div>
+        </div>
+    </div>
+    {% for booking in bookings %}
+    <div class="booking-card d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <!-- Payment Status Icon -->
+            <div class="status-icon {{ booking.payment_method }}">{{ booking.payment_method }}</div>
+
+            <!-- Booking Information -->
+            <div class="ms-3">
+                <p class="m-0 fs-4"> <strong>{{ booking.booking_code }}</strong></p>
+            </div>
+
+            <!-- Check-in & Check-out Status -->
+            <div class="text-center ms-5">
+                <span> {{ booking.full_name }}</span><br>
+                <span> {{ booking.phone }}</span><br>
+                <span> {{ booking.email }}</span>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <!-- Room & Hotel Information -->
+            <div class="text-center me-5">
+                <span>{{ booking.hotel.name }} hotel</span><br>
+                <small class="text-muted">rooms nums:
+                    {% for room in booking.room.all %}
+                    {{ room.room_num }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </small>
+            </div>
+
+            <!-- Check-in & Check-out Status -->
+            <div class="text-center me-5">
+                <div class="text-primary">{{ booking.check_in_date }}</div>
+                <div class="text-danger">{{ booking.check_out_date }}</div>
+                <!-- <span>Checked In: {{ booking.check_in|yesno:"Yes,No" }}</span><br>
+                <span>Checked Out: {{ booking.check_out|yesno:"Yes,No" }}</span> -->
+            </div>
+            
+            <div class="text-center me-5">
+                <div class="">{{ booking.num_adults }} Adults</div>
+                <div class="">{{ booking.num_children }} Children</div>
+            </div>
+
+            <div class="text-end me-4 ">
+                <p class="m-0 text-warning fs-5"><strong>{{ booking.money_saved }} $</strong></p>
+            </div>
+
+            <!-- Payment & Total Amount -->
+            <div class="text-end">
+                <p class="m-0 text-success fs-3"><strong>{{ booking.total }} $</strong></p>
+            </div>
+            
+            
+            {% if booking.ended %}
+                <div class="btn btn-outline-danger ms-3">Ended</div>
+            {% else %}
+                <div class="btn btn-outline-success ms-3">Active</div>
+            {% endif %}
+                
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row wow fadeInUp" data-wow-delay="0.1s">
+    <div class="col-12">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center m-0">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link rounded-0"
+                 href="?page={{ page_obj.previous_page_number }}"
+                 aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link rounded-0" href="#" aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-arrow-left"></i></span>
+              </a>
+            </li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link rounded-0"
+                 href="?page={{ page_obj.next_page_number }}"
+                 aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <a class="page-link rounded-0" href="#" aria-label="Next">
+                <span aria-hidden="true"><i class="fa fa-arrow-right"></i></span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
 
 {% endblock body %}

@@ -280,6 +280,7 @@ def success_payment(request, booking_id):
 
 class BookingListView(LoginRequiredMixin, ListView):
     model = Booking
+    queryset = Booking.objects.all().order_by("-check_out_date")
     template_name = "booking/bookings_list.html"
     context_object_name = "bookings"
 
@@ -294,9 +295,6 @@ class BookingListView(LoginRequiredMixin, ListView):
 
         if user.user_type == user.UserType.SELLER:
             return super().get_queryset().filter(hotel__user=user)
-        return super().get_queryset()
+        
+        return super().get_queryset().none()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['today_date'] = timezone.now().date()
-        return context

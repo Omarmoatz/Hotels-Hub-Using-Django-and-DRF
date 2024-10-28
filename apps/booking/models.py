@@ -77,6 +77,9 @@ class Booking(TimeStampedModel):
     class Meta:
         ordering = ["-created"]
 
+    def ended(self):
+        return self.check_out_date < timezone.now().date()
+
 
 class Coupon(TimeFramedModel):
     code = models.CharField(max_length=100, blank=True)
