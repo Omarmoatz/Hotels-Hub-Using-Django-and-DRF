@@ -147,7 +147,7 @@
             <div class="text-end me-5">
                 <p class="m-0 "><strong>Total</strong></p>
             </div>
-            
+
             <!-- Payment & Total Amount -->
             <div class="text-end me-2">
                 <p class="m-0 "><strong>Status</strong></p>
@@ -191,7 +191,7 @@
                 <!-- <span>Checked In: {{ booking.check_in|yesno:"Yes,No" }}</span><br>
                 <span>Checked Out: {{ booking.check_out|yesno:"Yes,No" }}</span> -->
             </div>
-            
+
             <div class="text-center me-5">
                 <div class="">{{ booking.num_adults }} Adults</div>
                 <div class="">{{ booking.num_children }} Children</div>
@@ -205,14 +205,14 @@
             <div class="text-end">
                 <p class="m-0 text-success fs-3"><strong>{{ booking.total }} $</strong></p>
             </div>
-            
-            
+
+
             {% if booking.ended %}
                 <div class="btn btn-outline-danger ms-3">Ended</div>
             {% else %}
                 <div class="btn btn-outline-success ms-3">Active</div>
             {% endif %}
-                
+
         </div>
     </div>
     {% endfor %}

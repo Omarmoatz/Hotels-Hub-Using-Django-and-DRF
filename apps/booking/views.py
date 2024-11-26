@@ -295,6 +295,5 @@ class BookingListView(LoginRequiredMixin, ListView):
 
         if user.user_type == user.UserType.SELLER:
             return super().get_queryset().filter(hotel__user=user)
-        
-        return super().get_queryset().none()
 
+        return super().get_queryset().none()
