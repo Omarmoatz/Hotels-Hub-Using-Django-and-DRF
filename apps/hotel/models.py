@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
 
 from apps.users.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Hotel(TimeStampedModel):
@@ -139,7 +140,7 @@ class Room(models.Model):
     )
     room_type = models.ForeignKey(
         RoomType,
-        related_name="room_type",
+        related_name="rooms",
         on_delete=models.CASCADE,
     )
     room_num = models.PositiveIntegerField()
@@ -164,12 +165,6 @@ class Room(models.Model):
 
 
 class Review(models.Model):
-    class RATE(models.IntegerChoices):
-        ONE = 1
-        TWO = 2
-        THREE = 3
-        FOUR = 4
-        FIVE = 5
 
     hotel = models.ForeignKey(
         Hotel,
@@ -178,7 +173,11 @@ class Review(models.Model):
     )
     user = models.ForeignKey(User, related_name="user_review", on_delete=models.CASCADE)
     content = models.TextField(max_length=1000, blank=True, null=True)
-    rate = models.CharField(max_length=50, choices=RATE.choices, blank=True)
+    rate = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        blank=True,
+        help_text="Rate should be between 0 and 5",
+    )
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

@@ -1,13 +1,13 @@
 from datetime import datetime
 from decimal import Decimal
+from django.utils import timezone
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 import pytz
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -40,7 +40,7 @@ def check_avilability(request, slug):
     return messages.error(request, "something Happened")
 
 
-# it tooks its data from jQuery, AJAX
+# it take its data from jQuery, AJAX
 def room_selection_view(request):
     data = request.GET
     room_selection = {}
@@ -94,7 +94,6 @@ def selected_rooms(request):
     rooms_list, rooms_price = manager.get_selected_rooms()
     hotel = manager.get_hotel()
 
-    # Access the first item in the dictionary safely
     first_item = next(iter(request.session["room_selection_obj"].values()))
     checkin = first_item["checkin"]
     checkout = first_item["checkout"]
@@ -116,6 +115,7 @@ def selected_rooms(request):
     return render(request, "booking/rooms_selected.html", context)
 
 
+# it take its data from jQuery, AJAX
 def delete_room_from_session(request):
     room_id = f"room-selection{request.GET['room_id']}"
     if "room_selection_obj" in request.session:
@@ -130,7 +130,6 @@ def delete_room_from_session(request):
         rooms_list, rooms_price = manager.get_selected_rooms()
         hotel = manager.get_hotel()
 
-        # Safely access the first item
         first_item = next(iter(request.session["room_selection_obj"].values()))
         checkin = first_item["checkin"]
         checkout = first_item["checkout"]
@@ -175,7 +174,6 @@ def create_booking(request):
     rooms_list, rooms_price = manager.get_selected_rooms()
     hotel = manager.get_hotel()
 
-    # Access the first item in the dictionary safely
     first_item = next(iter(request.session["room_selection_obj"].values()))
     checkin = first_item["checkin"]
     checkout = first_item["checkout"]
@@ -207,7 +205,7 @@ def create_booking(request):
     return redirect("booking:checkout", booking.booking_code)
 
 
-
+# it take its data from jQuery, AJAX
 @csrf_exempt
 def check_coupun(request):
     if request.method == "POST":
@@ -280,37 +278,22 @@ def success_payment(request, booking_id):
     return render(request, "booking/success.html", {"booking": booking})
 
 
+class BookingListView(LoginRequiredMixin, ListView):
+    model = Booking
+    queryset = Booking.objects.all().order_by("-check_out_date")
+    template_name = "booking/bookings_list.html"
+    context_object_name = "bookings"
 
-# class CheckAvilability(generic.CreateView):
-#     model = Booking
-#     form_class = BokingForm
-#     template_name = 'hotel/check_availability.html'
-#     success_url = 'hotel/'
+    def get_queryset(self):
+        user = self.request.user
 
-#     # def get_context_data(self, **kwargs):
-#     #     context = super().get_context_data(**kwargs)
-#     #     context["room_type"] = models.RoomType.objects.filter(hotel =self.get_object())
-#     #     return context
+        if user.is_staff or user.is_superuser:
+            return super().get_queryset()
 
+        if user.user_type == user.UserType.USER:
+            return super().get_queryset().filter(user=user)
 
-#     def form_valid(self, form):
-#         slug = self.kwargs['slug']
-#         room_type = self.kwargs['room_type']
-#         user = self.request.user
+        if user.user_type == user.UserType.SELLER:
+            return super().get_queryset().filter(hotel__user=user)
 
-#         hotel = get_object_or_404(Hotel, slug=slug)
-#         # room_type = models.RoomType.objects.filter(hotel=hotel)
-#         room = Room.objects.filter(hotel=hotel, room_type=room_type)
-
-#         print( hotel, room, room_type,'-------------------')
-
-#         form.instance.hotel = hotel
-#         form.instance.room = room
-#         form.instance.room_type = room_type
-
-
-#         if user.is_authenticated:
-#             form.instance.user = user
-
-#         # self.success_url = f'/hotels/{slug}/ckeck_avilability/'
-#         return super().form_valid(form)
+        return super().get_queryset().none()

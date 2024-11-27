@@ -1,12 +1,9 @@
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
-from django.contrib import messages
-from django.utils import timezone
-from django.views.decorators.csrf import csrf_exempt
-from .models import Room, Hotel, Booking
-from datetime import datetime
 import pytz
+from datetime import datetime
+from django.shortcuts import get_object_or_404
+
+from apps.hotel.models import Room, Hotel
 
 class RoomSelectionManager:
     def __init__(self, session_data):

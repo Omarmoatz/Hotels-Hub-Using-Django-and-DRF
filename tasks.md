@@ -10,3 +10,5 @@
     - each seller can change the availability of a room
 
 3- use celery at sending emails [x]
+
+4- create ERD file
