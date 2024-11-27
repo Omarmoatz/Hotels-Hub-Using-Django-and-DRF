@@ -32,6 +32,11 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
     <!-- font awesome -->
     <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+
+    {% block style %}
+
+    {% endblock style %}
+
   </head>
   <body>
     <!-- Spinner Start -->
@@ -91,7 +96,7 @@
               <div class="navbar-nav mr-auto py-0 text-start">
                 <a href="/" class="nav-item nav-link active">Home</a>
                 <a href="{% url 'hotel:hotel_list' %}" class="nav-item nav-link">Hotels</a>
-                <a href="" class="nav-item nav-link">Booking</a>
+                <a href="{% url 'booking:bookings_list' %}" class="nav-item nav-link">Booking</a>
                 <a href="" class="nav-item nav-link">Contact</a>
               </div>
               <div class="text-end d-flex">

@@ -3,22 +3,26 @@
 {% load static %}
 
 {% block body %}
-    <div class="container mt-5">
+    <div class="container my-5">
         <div class="row">
-            <div class="col-md-12 ">
-                <h1>Booking Success</h1>
-                <p>Your booking has been successfully submitted. You will receive an email confirmation shortly.</p>
+            <div class="col-md-12 text-center">
+                <h1 class="my-5">
+                    <i class="fa-solid fa-circle-check fa-2xl" style="color: #FFD43B;"></i>
+                    Booking Success
+                </h1>
+                <p>Your booking has been successfully submitted. You will receive an email confirmation shortly at {{booking.email}}.</p>
+                <p>it will has your booking summery too</p>
                 {% comment %} <a href="{% url 'booking:booking_list' %}" class="btn btn-primary">View Bookings</a> {% endcomment %}
                 <a href="{% url 'home:main' %}" class="btn btn-primary">Home Page</a>
             </div>
         </div>
     </div>
 
-    <div class="container mt-5">
+    {% comment %} <div class="container my-5 ">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 p-4 bg-white">
                 <h2>Booking Details</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered my-5 bg-light">
                     <thead>
                         <tr>
                             <th>Hotel Name</th>
@@ -33,7 +37,7 @@
                             <td>{{ booking.hotel }}</td>
                             <td>{{ booking.check_in_date }}</td>
                             <td>{{ booking.check_out_date }}</td>
-                            <td>{{ booking.room_type }}</td>
+                            <td>{{ booking.room_type.name }}</td>
                             <td>{{ booking.total }}</td>
                         </tr>
                     </tbody>
@@ -42,11 +46,11 @@
         </div>
     </div>
     {% if booking.coupon %}
-    <div class="container mt-5">
+    <div class="container my-5">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 p-4 bg-white">
                 <h2>Discount Details</h2>
-                <table class="table table-bordered">
+                <table class="table table-bordered my-5 bg-light">
                     <thead>
                         <tr>
                             <th>Discount Code</th>
@@ -57,15 +61,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ discount.code }}</td>
-                            <td>{{ discount.discount }}%</td>
-                            <td>{{ discount.start }}</td>
-                            <td>{{ discount.end }}</td>
+                            <td>{{ booking.coupon.code }}</td>
+                            <td>{{ booking.coupon.discount }}%</td>
+                            <td>{{ booking.coupon.start }}</td>
+                            <td>{{ booking.coupon.end }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
 {% endblock body %}

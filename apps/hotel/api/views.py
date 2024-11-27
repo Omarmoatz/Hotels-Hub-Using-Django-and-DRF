@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 
 from apps.hotel.api.serializers import HotelDetailSeriaLizer
 from apps.hotel.api.serializers import HotelSeriaLizer
@@ -8,10 +8,13 @@ from apps.hotel.models import Hotel
 from apps.hotel.models import RoomType
 
 
-class HotelApiView(viewsets.ModelViewSet):
+class HotelApiView(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet):
     queryset = Hotel.objects.all()
     serializer_class = HotelDetailSeriaLizer
-    lookup_field = "slug"
 
     def get_serializer_class(self):
         if self.action == "list":

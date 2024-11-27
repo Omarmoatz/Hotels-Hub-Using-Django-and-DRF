@@ -4,26 +4,23 @@ from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
-from model_utils.models import TimeFramedModel
-from model_utils.models import TimeStampedModel
+from model_utils.models import TimeStampedModel, TimeFramedModel
 
-from apps.hotel.models import Hotel
-from apps.hotel.models import Room
-from apps.hotel.models import RoomType
+from apps.hotel.models import Hotel, Room, RoomType
 from apps.users.models import User
 
 
 class Booking(TimeStampedModel):
-    class PaymentMethod(models.TextChoices):
-        CASH = "cash", _("Cash")
-        VISA = "visa", _("Visa")
-        STRIPE = "stripe", _("Stripe")
-        PAYPAL = "paypal", _("Paypal")
+    class PaymentStatus(models.TextChoices):
+        Processing = 'processing', _('Processing')
+        Paid = "paid", _("Paid")
+        Failed = "failed", _("Failed")
+
 
     user = models.ForeignKey(User, related_name="booked_user", on_delete=models.CASCADE)
     payment_method = models.CharField(
         max_length=10,
-        choices=PaymentMethod.choices,
+        choices=PaymentStatus.choices,
         blank=True,
     )
 
@@ -73,11 +70,15 @@ class Booking(TimeStampedModel):
         return f"booking{self.id} for {self.user!s}"
 
     def save(self, *args, **kwargs):
-        self.booking_code = get_random_string(10)
+        if not self.booking_code:
+            self.booking_code = get_random_string(10)
         return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["-created"]
+
+    def ended(self):
+        return self.check_out_date < timezone.now().date()
 
 
 class Coupon(TimeFramedModel):

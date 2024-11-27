@@ -1,0 +1,146 @@
+{% extends 'auth_base.html' %}
+
+{% load static %}
+
+{% block style %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            margin: 20px auto;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .booking-details {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .booking-details th, .booking-details td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .booking-details th {
+            background-color: #2c3e50;
+            color: white;
+            text-align: left;
+        }
+        .booking-details td {
+            background-color: #f9f9f9;
+        }
+        .text-primary {
+            color: #3498db;
+        }
+        .text-success {
+            color: #27ae60;
+        }
+        .footer {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+{% endblock style %}
+
+{% block body %}
+    <div class="container">
+        <h1>Booking Confirmation</h1>
+
+        <p>Dear <strong>{{ booking.user.username }}</strong>,</p>
+
+        <p class="text-success">
+            Thank you for booking with us! We are pleased to confirm your reservation for the following rooms:
+        </p>
+
+        <table class="booking-details">
+            <tr>
+                <th>Room Types</th>
+                <td>
+                    <ul style="padding-left: 15px; margin: 0;">
+                        {% for room_type in booking.room_type.all %}
+                            <li>{{ room_type.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Rooms</th>
+                <td>
+                    <ul style="padding-left: 15px; margin: 0;">
+                        {% for room in booking.room.all %}
+                            <li>Room Number: {{ room.room_num }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Check-in Date</th>
+                <td>{{ booking.check_in_date }}</td>
+            </tr>
+            <tr>
+                <th>Check-out Date</th>
+                <td>{{ booking.check_out_date }}</td>
+            </tr>
+            <tr>
+                <th>Total Price</th>
+                <td>${{ booking.before_discount }}</td>
+            </tr>
+
+            {% if booking.coupon %}
+            <tr>
+                <th>Coupon Applied</th>
+                <td>{{ booking.coupon.code }}</td>
+            </tr>
+            <tr>
+                <th>Discount</th>
+                <td>${{ booking.coupon.discount }}</td>
+            </tr>
+            <tr>
+                <th>Final Price After Discount</th>
+                <td>${{ booking.total }}</td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <p>If you have any questions or need further assistance, please contact us at
+            <strong class="text-primary">{{ booking.hotel.email }}</strong> or call us at
+            <strong class="text-primary">{{ booking.hotel.phone }}</strong>.
+        </p>
+
+        <a href="#" class="btn">Manage Your Booking</a>
+
+        <div class="footer">
+            <p>{{ booking.hotel.name }} | {{ booking.hotel.address }} | {{ booking.hotel.phone }}</p>
+            <p>&copy; {{ current_year }} {{ booking.hotel.name }}. All rights reserved.</p>
+        </div>
+    </div>
+{% endblock body %}

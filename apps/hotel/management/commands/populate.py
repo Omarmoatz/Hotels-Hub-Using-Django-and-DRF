@@ -5,12 +5,14 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from faker import Faker
 
-from apps.hotel.models import Hotel
-from apps.hotel.models import HotelFeatures
-from apps.hotel.models import HotelGallery
-from apps.hotel.models import Review
-from apps.hotel.models import Room
-from apps.hotel.models import RoomType
+from apps.hotel.models import (
+    Hotel,
+    HotelFeatures,
+    HotelGallery,
+    Review,
+    Room,
+    RoomType,
+)
 
 fake = Faker()
 User = get_user_model()
@@ -44,11 +46,11 @@ class Command(BaseCommand):
             hotel = Hotel(
                 user=user,
                 name=fake.company(),
-                img=f"hotel/hotel{randint(1,12)}.jpeg",
+                img=f"test/hotel{randint(1,12)}.jpeg",
                 subtitle=fake.sentence(),
                 description=fake.text(max_nb_chars=500),
-                min_price=fake.random_number(digits=4),
-                max_price=fake.random_number(digits=4),
+                min_price=fake.random_number(digits=2),
+                max_price=fake.random_number(digits=2),
                 phone=fake.phone_number(),
                 address=fake.address(),
                 email=fake.email(),
@@ -60,7 +62,7 @@ class Command(BaseCommand):
             for _ in range(5):
                 hotel_gallery = HotelGallery(
                     hotel=hotel,
-                    img=f"hotel/hotel{randint(1,12)}.jpeg",
+                    img=f"test/hotel{randint(1,12)}.jpeg",
                 )
                 hotel_gallery.save()
 
@@ -81,8 +83,8 @@ class Command(BaseCommand):
                 room_type = RoomType(
                     hotel=hotel,
                     title=fake.word(),
-                    price_start=fake.random_number(digits=3),
-                    price_end=fake.random_number(digits=3),
+                    price_start=fake.random_number(digits=2),
+                    price_end=fake.random_number(digits=2),
                     beds_num=fake.random_int(min=1, max=5),
                     room_size=fake.random_int(min=100, max=500),
                 )
@@ -95,7 +97,7 @@ class Command(BaseCommand):
                         room_type=room_type,
                         room_num=randint(1, 100),
                         view=fake.word(),
-                        price=fake.random_number(digits=3),
+                        price=fake.random_number(digits=2),
                         is_available=fake.boolean(),
                     )
                     room.save()
@@ -106,7 +108,7 @@ class Command(BaseCommand):
                     hotel=hotel,
                     user=user,
                     content=fake.paragraph(),
-                    rate=choice([rate[0] for rate in Review.RATE.choices]),
+                    rate=randint(0,5),
                 )
                 review.save()
 

@@ -6,6 +6,7 @@ from apps.hotel.models import HotelGallery
 from apps.hotel.models import Review
 from apps.hotel.models import Room
 from apps.hotel.models import RoomType
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # from utils import random_numbers
 
@@ -15,7 +16,7 @@ class HotelList(generic.ListView):
     paginate_by = 7
 
 
-class HotelDetail(generic.DetailView):
+class HotelDetail(LoginRequiredMixin, generic.DetailView):
     model = Hotel
 
     def get_context_data(self, **kwargs):
@@ -24,11 +25,12 @@ class HotelDetail(generic.DetailView):
         context["room_type"] = RoomType.objects.filter(hotel=self.get_object())
         context["review"] = Review.objects.filter(hotel=self.get_object())
         context["related_hotels"] = Hotel.objects.all()[:6]
+        context["user"] = self.request.user
         # context['related_hotels'] = Hotel.objects.all()[:random_numbers]
         return context
 
 
-class RoomTypeDetail(generic.DetailView):
+class RoomTypeDetail(LoginRequiredMixin, generic.DetailView):
     model = RoomType
     context_object_name = "room_type"
 

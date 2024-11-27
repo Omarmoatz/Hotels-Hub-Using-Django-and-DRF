@@ -1,18 +1,20 @@
 from django.urls import path
 
-from apps.booking.views import check_avilability
-from apps.booking.views import check_coupun
-from apps.booking.views import checkout
-from apps.booking.views import create_booking
-from apps.booking.views import delete_room_from_session
-from apps.booking.views import room_selection_view
-from apps.booking.views import selected_rooms
-from apps.booking.views import success_payment
-
-app_name = "booking"
-
+from apps.booking.views import (
+    check_avilability,
+    check_coupun,
+    checkout,
+    create_booking,
+    delete_room_from_session,
+    room_selection_view,
+    selected_rooms,
+    success_payment,
+    BookingListView,
+)
 #   booking/
 urlpatterns = [
+    path('bookings/', BookingListView.as_view(), name='bookings_list'),
+
     path("selected_rooms/", selected_rooms, name="selected_rooms"),
     path(
         "delete_room_from_session/",
@@ -26,3 +28,5 @@ urlpatterns = [
     path("checkout/<booking_code>", checkout, name="checkout"),
     path("success/<booking_id>/", success_payment, name="success_payment"),
 ]
+
+app_name = "booking"

@@ -7,16 +7,14 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser, TimeStampedModel):
-    """
-    Default custom user model for hotel-resrvation-system.
-    If adding fields that need to be filled at user signup,
-    check forms.SignupForm and forms.SocialSignupForms accordingly.
-    """
-
     GENDER = (
         ("Male", "Male"),
         ("Female", "Female"),
     )
+    class UserType(models.TextChoices):
+        SELLER = "seller", _("Seller")
+        USER = "user", _("User")
+
     username = models.CharField(
         _("username"),
         max_length=150,
@@ -28,6 +26,11 @@ class User(AbstractUser, TimeStampedModel):
         error_messages={
             "unique": _("A user with that email already exists."),
         },
+    )
+    user_type = models.CharField(
+        max_length=10,
+        choices=UserType.choices,
+        default=UserType.USER,
     )
     gender = models.CharField(max_length=200, choices=GENDER, blank=True)
     phone = models.CharField(max_length=200, blank=True)

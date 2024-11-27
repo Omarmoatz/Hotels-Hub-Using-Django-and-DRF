@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block body %}
+
   <!-- Page Header Start -->
   <div class="container-fluid page-header mb-5 p-0"
        style="background-image: url({% static 'img/carousel-1.jpg' %})">
@@ -24,11 +25,11 @@
     </div>
   </div>
   <!-- Page Header End -->
-  <div class="container-xxl py-5 rooms-booked ">
+  <div class="container-xxl py-5 rooms-booked">
     <div class="row mx-5 g-2">
       <div class="col-lg-8">
         <!-- Pricing Start-->
-        <div class="tab-class wow fadeInUp" data-wow-delay="0.1s">
+        <div class="tab-class wow fadeInUp " data-wow-delay="0.1s">
           <div class="my-5 ">
             <ul class="list-group w-100 ">
               <li class="list-group-item py-3 ">
@@ -62,6 +63,7 @@
           </div>
         </div>
         <!-- Pricing End-->
+
         <!-- Payment Start -->
         <div class="bg-white p-4 border border-1 wow fadeInUp"
              data-wow-delay="0.2s">
@@ -80,6 +82,7 @@
                          name="full_name"
                          id="name"
                          placeholder="Your Name"
+                         value="{{ user.username }}"
                          required />
                   <label for="name">Your Full Name</label>
                 </div>
@@ -91,6 +94,7 @@
                          name="email"
                          id="email"
                          placeholder="Your Email"
+                         value="{{ user.email }}"
                          required />
                   <label for="email">Your Email</label>
                 </div>
@@ -101,6 +105,7 @@
                          class="form-control bg-light"
                          name="phone"
                          placeholder="Your Phone"
+                         value="{{ user.phone }}"
                          required />
                   <label for="checkin">Your Phone</label>
                 </div>
@@ -144,16 +149,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="p-5 text-body" style="background-image: url({% static 'img/room-1.jpg' %}); background-repeat: no-repeat; width: 367px; height: 320px;">
-                                    <div class="mt-5">
-                                        <h6>primum hotel</h6>
-                                        <div class="d-flex">
-                                            <p>addres: asdscdsv</p>
-                                            <p>phone: 01011093980</p>
-                                        </div>
-                                    </div>
-
-</div>-->
             <div class="border-bottom  text-start text-dark p-3  mb-3">
               <i class="fa-regular fa-calendar-check fa-2xl text-primary me-3"></i>
               <span class=" fs-5 fw-light">Booking Summery</span>

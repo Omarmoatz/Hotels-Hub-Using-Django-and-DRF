@@ -113,9 +113,6 @@
                   <label for="checkin">Your Phone</label>
                 </div>
               </div>
-              <div class="col-12">
-                <button class="btn btn-primary p-2 my-2" type="submit">Continue To Checkout</button>
-              </div>
             </div>
           </form>
         </div>
@@ -199,16 +196,21 @@
               </div>
               <form method="post" class="d-flex ps-4 mb-4" id="check-coupun">
                 {% csrf_token %}
+                {% if not booking.coupon %}
                 <input type="text"
                        class="form-control bg-light"
                        placeholder="Have a coupon? Enter here...."
                        id="coupon-code"
                        required />
+
                 <button type='submit'
                         class="btn btn-primary py-2 px-4 ms-2"
                         id="apply-coupon">
                   <small>Apply</small>
                 </button>
+                {% endif %}
+
+
                 <input type="hidden" value="{{ booking.id }}" id="booking-id" />
               </form>
               <div class="bg-info d-block py-1 rounded rounded-3 mb-3 ms-4 text-center">
@@ -228,8 +230,8 @@
 {% endblock body %}
 {% block script %}
   <script src="https://www.paypal.com/sdk/js?client-id=AYd-JfkzKhhRe6djVxAc8obRQAxYpQWBaOjC4stHOaNdWov7ooeVbALd3mHm0Oor5U8bq3O4fRwSIy2b&currency=USD"></script>
-  // client id i broughth it from making an app in a real paypal bussines account from developers page
   <script>
+    // client id i broughth it from making an app in a real paypal bussines account from developers page
     let total_cost = '{{booking.total}}'
     let booking_id = '{{booking.id}}'
 
@@ -251,12 +253,12 @@
           console.log(Detail);
 
           if (Detail.status == 'COMPLETED') {
-            window.location.href = `/booking/success/${booking_id}/?payer_id=${Detail.payer_id}&total_cost=${total_cost}&status=${Detail.status}`
+            window.location.href = `/booking/success/${booking_id}/?total_cost=${total_cost}&status=${Detail.status}`
 
           } else {
             Swal.fire({
               icon: "error",
-              title: "Somethig Went Wrong",
+              title: "Something Went Wrong",
               timer: 2000,
             });
           }

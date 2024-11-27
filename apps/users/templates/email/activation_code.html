@@ -1,0 +1,78 @@
+{% extends 'auth_base.html' %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        color: #333333;
+        line-height: 1.6;
+        background-color: #f7f7f7;
+        padding: 20px;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border: 1px solid #e1e1e1;
+        border-radius: 10px;
+    }
+    h1 {
+        color: #2C3E50;
+        font-size: 24px;
+    }
+    p {
+        font-size: 16px;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+    .btn:hover {
+        background-color: #0056b3;
+    }
+    .footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #999999;
+    }
+</style>
+{% endblock style %}
+
+
+{% block body %}
+
+    <div class="container">
+        <h1>Activate Your Account</h1>
+
+        <p>Dear {{ user.username }},</p>
+
+        <p>Thank you for signing up! To complete your registration, please enter the following activation code on the website:</p>
+
+        <p style="font-size: 18px; font-weight: bold;">Activation Code: <span style="color: #28a745;">{{ user.code }}</span></p>
+
+        <p>You can activate your account by visiting the following link:</p>
+
+        <p>
+            <a href="{{ activation_link }}" class="btn">Activate My Account</a>
+        </p>
+
+        <p>If the button doesn't work, copy and paste the following URL into your browser:</p>
+        <p><a href="{{ activation_link }}">{{ activation_link }}</a></p>
+
+        <p>If you did not sign up for an account, please ignore this email.</p>
+
+        <p>Best regards,</p>
+        <p>The {{ data.name }} Team</p>
+
+        <div class="footer">
+            <p>{{ data.name }} | {{ data.phone }} | {{ data.email }}</p>
+            <p>&copy; 2024 {{ data.name }}. All rights reserved.</p>
+        </div>
+    </div>
+{% endblock body %}
