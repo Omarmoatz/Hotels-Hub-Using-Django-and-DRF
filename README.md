@@ -1,101 +1,109 @@
-# hotels_hub
+# Hotels Hub
 
-Behold My Awesome Project!
+Hotels Hub is a Django-based web application built using the Django Rest Framework (DRF) to manage hotels, bookings, and user profiles efficiently. It provides APIs for hotel management, user authentication, and booking functionalities.
 
-[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+## Features
 
-License: BSD
+- **Hotel Management:**
+  - Add, update, and delete hotels with essential details like name, location, and amenities.
+  - Filter and search hotels based on specific criteria (e.g., location, price).
 
-## Settings
+- **Booking System:**
+  - Create and manage hotel bookings.
+  - Check room availability and validate booking dates.
 
-Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings.html).
+- **User Authentication and Profiles:**
+  - User registration and login system with secure authentication.
+  - Role-based access for customers and administrators.
 
-## Basic Commands
+- **Email Notifications:**
+  - Automated email notifications for booking confirmations and other events using **Mailpit** and Celery.
 
-### Setting Up Your Users
+- **Task Queue and Background Processing:**
+  - Efficient task handling with **Celery** for sending emails and other asynchronous processes.
+  - **Redis** is used as the message broker for Celery.
 
-- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+- **Advanced API Features:**
+  - Pagination for handling large datasets.
+  - Custom error handling for improved user experience.
 
-- To create a **superuser account**, use this command:
+- **Scalable Design:**
+  - Designed to handle multiple hotels, bookings, and users efficiently.
+  - Integration-ready with third-party APIs for payment or external booking platforms.
 
-      $ python manage.py createsuperuser
+## Tech Stack
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+- **Backend:**
+  - Python
+  - Django
+  - Django Rest Framework
 
-### Type checks
+- **Database:**
+  - PostgreSQL (or any compatible database supported by Django).
 
-Running type checks with mypy:
+- **Task Queue:**
+  - Celery (asynchronous task queue).
+  - Redis (message broker).
 
-    $ mypy hotels_hub
+- **Email Testing:**
+  - Mailpit (for email notifications during development).
 
-### Test coverage
+- **Deployment:**
+  - Docker (for containerization).
+  - Gunicorn (for running the application).
 
-To run the tests, check your test coverage, and generate an HTML coverage report:
+- **Development and Testing Tools:**
+  - Postman (API testing).
+  - Pytest (for unit testing).
 
-    $ coverage run -m pytest
-    $ coverage html
-    $ open htmlcov/index.html
+## Installation
 
-#### Running tests with pytest
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Omarmoatz/Hotels-Hub-Using-Django-and-DRF.git
+   cd Hotels-Hub-Using-Django-and-DRF
 
-    $ pytest
+2. Create a virtual environment and activate it:
+      ```bash
+      python -m venv venv
+      source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-### Live reloading and Sass CSS compilation
 
-Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/developing-locally.html#sass-compilation-live-reloading).
+3. Install the dependencies:
+      ```bash
+      pip install -r requirements.txt
 
-### Celery
 
-This app comes with Celery.
+4. Apply migrations:
 
-To run a celery worker:
+      ```bash
+      python manage.py migrate
+5. Start Redis server:
 
-```bash
-cd hotels_hub
-celery -A config.celery_app worker -l info
-```
+      ```bash
+      redis-server
 
-Please note: For Celery's import magic to work, it is important _where_ the celery commands are run. If you are in the same folder with _manage.py_, you should be right.
 
-To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service. You can start it as a standalone process:
+6. Start Celery worker:
+      ```bash
+      celery -A your_project_name worker --loglevel=info
 
-```bash
-cd hotels_hub
-celery -A config.celery_app beat
-```
 
-or you can embed the beat service inside a worker with the `-B` option (not recommended for production use):
+7. Run Mailpit (for email testing during development):
+      ```bash  
+      mailpit
 
-```bash
-cd hotels_hub
-celery -A config.celery_app worker -B -l info
-```
 
-### Email Server
+8. Run the development server:
+      ```bash   
+      python manage.py runserver
 
-In development, it is often nice to be able to see emails that are being sent from your application. For that reason local SMTP server [Mailpit](https://github.com/axllent/mailpit) with a web interface is available as docker container.
 
-Container mailpit will start automatically when you will run all docker containers.
-Please check [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html) for more details how to start all containers.
+Access the application at http://localhost:8000.
 
-With Mailpit running, to view messages that are sent by your application, open your browser and go to `http://127.0.0.1:8025`
+## Contributing
+- Contributions are welcome! Feel free to fork this repository, submit issues, or create pull requests.
 
-### Sentry
-
-Sentry is an error logging aggregator service. You can sign up for a free account at <https://sentry.io/signup/?code=cookiecutter> or download and host it yourself.
-The system is set up with reasonable defaults, including 404 logging and integration with the WSGI application.
-
-You must set the DSN url in production.
-
-## Deployment
-
-The following details how to deploy this application.
-
-### Heroku
-
-See detailed [cookiecutter-django Heroku documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-on-heroku.html).
-
-### Docker
-
-See detailed [cookiecutter-django Docker documentation](http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html).
+## License
+- This project is licensed under the MIT License. See the LICENSE file for more details.
+- This version includes **Celery**, **Redis**, and **Mailpit** in the features, tech stack, and install
